@@ -16,7 +16,8 @@ Example (with [lazy.nvim][lazy]):
         require("luasnip.loaders.from_lua").lazy_load({
             paths = vim.fn.stdpath("data") .. "/lazy/mySnippets/snippets",
         })
-    }
+    end,
+}
 ```
 
 ## mathematics
