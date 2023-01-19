@@ -1,6 +1,6 @@
 local autosnips = {}
 
-local tex = require("util.latex")
+local tex = require("mySnippets.latex")
 
 autosnips = {
 	s({ trig = "rmap", name = "rational map arrow", wordTrig = false, hidden = true }, {

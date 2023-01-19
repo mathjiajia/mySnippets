@@ -1,8 +1,8 @@
 local autosnips = {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
-local tex = require("util.latex")
-local position = require("util.position")
+local tex = require("mySnippets.latex")
+local pos = require("mySnippets.position")
 
 local rec_ls
 rec_ls = function()
@@ -18,66 +18,66 @@ autosnips = {
 	s(
 		{ trig = "beg", name = "begin{} end{}" },
 		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
-		{ condition = conds_expand.line_begin, show_condition = position.line_begin }
+		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
 	s(
 		{ trig = "beq", name = "Equation Environment", dscr = "Create an equation environment." },
 		{ t({ "\\begin{equation}", "\t" }), i(1), t({ "", "\\end{equation}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "bseq", name = "Equation Environment without number", dscr = "Create a star equation environment." },
 		{ t({ "\\begin{equation*}", "\t" }), i(1), t({ "", "\\end{equation*}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "proof", name = "Proof Environment", dscr = "Create a proof environment." },
 		{ t({ "\\begin{proof}", "\t" }), i(0), t({ "", "\\end{proof}" }) },
 		{
 			condition = conds_expand.line_begin * tex.in_text,
-			show_condition = position.line_begin * tex.in_text,
+			show_condition = pos.line_begin * tex.in_text,
 		}
 	),
 	s(
 		{ trig = "thm", name = "Theorem Environment", dscr = "Create a theorem environment." },
 		{ t({ "\\begin{theorem}", "\t" }), i(0), t({ "", "\\end{theorem}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "lem", name = "Lemma Environment", dscr = "Create a lemma environment." },
 		{ t({ "\\begin{lemma}", "\t" }), i(0), t({ "", "\\end{lemma}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "def", name = "Definition Environment", dscr = "Create a definition environment." },
 		{ t({ "\\begin{definition}", "\t" }), i(0), t({ "", "\\end{definition}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "prop", name = "Proposition Environment", dscr = "Create a proposition environment." },
 		{ t({ "\\begin{proposition}", "\t" }), i(0), t({ "", "\\end{proposition}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "cor", name = "Corollary Environment", dscr = "Create a corollary environment." },
 		{ t({ "\\begin{corollary}", "\t" }), i(0), t({ "", "\\end{corollary}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "rem", name = "Remark Environment", dscr = "Create a remark environment." },
 		{ t({ "\\begin{remark}", "\t" }), i(0), t({ "", "\\end{remark}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
 		{ trig = "conj", name = "Conjecture Environment", dscr = "Create a conjecture environment." },
 		{ t({ "\\begin{conjecture}", "\t" }), i(0), t({ "", "\\end{conjecture}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 
 	s(
 		{ trig = "lprf", name = "Titled Proof", dscr = "Create a titled proof environment." },
 		{ t("\\begin{proof}[Proof of \\cref{"), i(1), t({ "}]", "\t" }), i(0), t({ "", "\\end{proof}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 
 	s({ trig = "lthm", name = "labled Theorem Environment", dscr = "Create a labled theorem environment." }, {
@@ -88,7 +88,7 @@ autosnips = {
 		t({ "}", "\t" }),
 		i(0),
 		t({ "", "\\end{theorem}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s({ trig = "llem", name = "labled Lemma Environment", dscr = "Create a labled lemma environment." }, {
 		t({ "\\begin{lemma}[" }),
@@ -98,7 +98,7 @@ autosnips = {
 		t({ "}", "\t" }),
 		i(0),
 		t({ "", "\\end{lemma}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s({ trig = "ldef", name = "labled Definition Environment", dscr = "Create a labled definition environment." }, {
 		t({ "\\begin{definition}[" }),
@@ -108,7 +108,7 @@ autosnips = {
 		t({ "}", "\t" }),
 		i(0),
 		t({ "", "\\end{definition}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s({ trig = "lprop", name = "labled Proposition Environment", dscr = "Create a labled proposition environment." }, {
 		t({ "\\begin{proposition}[" }),
@@ -118,7 +118,7 @@ autosnips = {
 		t({ "}", "\t" }),
 		i(0),
 		t({ "", "\\end{proposition}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s({ trig = "lcor", name = "labled Corollary Environment", dscr = "Create a labled corollary environment." }, {
 		t({ "\\begin{corollary}[" }),
@@ -128,7 +128,7 @@ autosnips = {
 		t({ "}", "\t" }),
 		i(0),
 		t({ "", "\\end{corollary}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s({ trig = "lrem", name = "labled Remark Environment", dscr = "labled Create a remark environment." }, {
 		t({ "\\begin{remark}[" }),
@@ -138,7 +138,7 @@ autosnips = {
 		t({ "}", "\t" }),
 		i(0),
 		t({ "", "\\end{remark}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s({ trig = "lconj", name = "labled Conjecture Environment", dscr = "Create a labled conjecture environment." }, {
 		t({ "\\begin{conjecture}[" }),
@@ -205,7 +205,7 @@ autosnips = {
 		t(") = "),
 		i(0),
 		t({ "", "\\end{equation*}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 }
 
 return nil, autosnips

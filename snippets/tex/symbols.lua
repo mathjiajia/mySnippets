@@ -1,6 +1,6 @@
 local snips, autosnips = {}, {}
 
-local tex = require("util.latex")
+local tex = require("mySnippets.latex")
 
 snips = {
 	s(

@@ -1,6 +1,6 @@
 local autosnips = {}
 
-local tex = require("util.latex")
+local tex = require("mySnippets.latex")
 
 autosnips = {
 	s({ trig = "([hH])_(%d)(%u)", name = "cohomology-d", regTrig = true, hidden = true }, {

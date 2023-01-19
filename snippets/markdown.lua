@@ -1,14 +1,14 @@
 local snips, autosnips = {}, {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
-local position = require("util.position")
+local pos = require("mySnippets.position")
 
 snips = {
 	s({ trig = "#([2-6])", name = "Heading", dscr = "Add Heading", regTrig = true, hidden = true }, {
 		f(function(_, snip)
 			return string.rep("#", tonumber(snip.captures[1], 10)) .. " "
 		end, {}),
-	}, { condition = conds_expand.line_begin, show_condition = position.line_begin }),
+	}, { condition = conds_expand.line_begin, show_condition = pos.line_begin }),
 
 	s(
 		{ trig = "code", name = "Insert fenced code block" },
@@ -29,14 +29,14 @@ snips = {
 		t({ '"]', "---", "", "" }),
 		i(0),
 	}, {
-		condition = position.on_top * conds_expand.line_begin,
-		show_condition = position.on_top * position.line_begin,
+		condition = pos.on_top * conds_expand.line_begin,
+		show_condition = pos.on_top * pos.line_begin,
 	}),
 
 	s(
 		{ trig = "td", name = "too long, do not read" },
 		{ t("tl;dr: ") },
-		{ condition = conds_expand.line_begin, show_condition = position.line_begin }
+		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
 
 	s(

@@ -1,8 +1,8 @@
 local snips, autosnips = {}, {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
-local tex = require("util.latex")
-local position = require("util.position")
+local tex = require("mySnippets.latex")
+local pos = require("mySnippets.position")
 
 snips = {
 	s({ trig = "cite", name = "cross refrence" }, {
@@ -150,14 +150,14 @@ autosnips = {
 	s(
 		{ trig = "Tfae", name = "The following are equivalent" },
 		{ t("The following are equivalent") },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 
 	s({ trig = "([wW])log", name = "without loss of generality", regTrig = true }, {
 		f(function(_, snip)
 			return snip.captures[1] .. "ithout loss of generality"
 		end, {}),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = position.line_begin * tex.in_text }),
+	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
 	s(
 		{ trig = "cref", name = "\\cref{}" },

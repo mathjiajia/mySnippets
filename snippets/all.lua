@@ -1,6 +1,6 @@
 local snips = {}
 
-local context = require("util.context")
+local context = require("mySnippets.context")
 
 snips = {
 	s({ trig = "fix", name = "FIX", dscr = "FIX:" }, {
