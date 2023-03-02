@@ -5,7 +5,7 @@ local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
 
 snips = {
-	s({ trig = "cite", name = "cross refrence" }, {
+	s({ trig = "cf", name = "cross refrence" }, {
 		t("\\cite["),
 		i(1),
 		t("]{"),
@@ -25,11 +25,11 @@ snips = {
 		},
 	}),
 
-	s(
-		{ trig = "cf", name = "confer/conferatur" },
-		{ t("cf.~") },
-		{ condition = tex.in_text, show_condition = tex.in_text }
-	),
+	-- s(
+	-- 	{ trig = "cf", name = "confer/conferatur" },
+	-- 	{ t("cf.~") },
+	-- 	{ condition = tex.in_text, show_condition = tex.in_text }
+	-- ),
 	s(
 		{ trig = "ses", name = "short exact sequence", dscr = "text: short exact sequence." },
 		{ t("short exact sequence") },

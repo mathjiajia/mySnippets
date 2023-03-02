@@ -21,25 +21,11 @@ local ALIGN_ENVIRONMENTS = {
 	["{flalign}"] = true,
 }
 
+---get node under the cursor in insert mode (after trigger) for latex
+---@return TSNode|nil
 local function get_node_at_cursor()
-	local buf = api.nvim_get_current_buf()
-	local row, col = unpack(api.nvim_win_get_cursor(0))
-	row = row - 1
-	col = col - 1
-
-	local parser = ts.get_parser(buf, "latex")
-	if not parser then
-		return
-	end
-
-	local root_tree = parser:parse()[1]
-	local root = root_tree and root_tree:root()
-
-	if not root then
-		return
-	end
-
-	return root:named_descendant_for_range(row, col, row, col)
+	local cursor = api.nvim_win_get_cursor(0)
+	return ts.get_node({ bufnr = 0, pos = { cursor[1] - 1, cursor[2] - 1 } })
 end
 
 ---Check if cursor is in treesitter node of 'math_environment': 'tikzcd'
@@ -94,14 +80,14 @@ end
 ---Check if cursor is in treesitter node of 'math_environment': 'align'
 ---@return boolean
 local function in_align()
-	local buf = api.nvim_get_current_buf()
+	local bufnr = api.nvim_get_current_buf()
 	local node = get_node_at_cursor()
 	while node do
 		if node:type() == "math_environment" then
 			local begin = node:child(0)
 			local names = begin and begin:field("name")
 
-			if names and names[1] and ALIGN_ENVIRONMENTS[ts.query.get_node_text(names[1], buf):gsub("%*", "")] then
+			if names and names[1] and ALIGN_ENVIRONMENTS[ts.query.get_node_text(names[1], bufnr):gsub("%*", "")] then
 				return true
 			end
 		end
@@ -113,12 +99,12 @@ end
 ---Check if cursor is in treesitter node of 'generic_command': '\xymatrix'
 ---@return boolean
 local function in_xymatrix()
-	local buf = api.nvim_get_current_buf()
+	local bufnr = api.nvim_get_current_buf()
 	local node = get_node_at_cursor()
 	while node do
 		if node:type() == "generic_command" then
 			local names = node:child(0)
-			if names and ts.query.get_node_text(names, buf) == "\\xymatrix" then
+			if names and ts.query.get_node_text(names, bufnr) == "\\xymatrix" then
 				return true
 			end
 		end

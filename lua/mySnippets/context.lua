@@ -8,12 +8,10 @@ local cond_obj = require("luasnip.extras.conditions")
 ---@param capture string
 ---@return boolean
 local function in_ts_capture(capture)
-	local buf = api.nvim_get_current_buf()
-	local row, col = unpack(api.nvim_win_get_cursor(0))
-	row = row - 1
-	col = col - 1
+	local bufnr = api.nvim_get_current_buf()
+	local cursor = api.nvim_win_get_cursor(0)
 
-	local captures = ts.get_captures_at_pos(buf, row, col)
+	local captures = ts.get_captures_at_pos(bufnr, cursor[1] - 1, cursor[2] - 1)
 
 	for _, c in ipairs(captures) do
 		if c.capture == capture then
