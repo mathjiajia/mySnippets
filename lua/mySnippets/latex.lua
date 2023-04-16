@@ -87,7 +87,7 @@ local function in_align()
 			local begin = node:child(0)
 			local names = begin and begin:field("name")
 
-			if names and names[1] and ALIGN_ENVIRONMENTS[ts.query.get_node_text(names[1], bufnr):gsub("%*", "")] then
+			if names and names[1] and ALIGN_ENVIRONMENTS[ts.get_node_text(names[1], bufnr):gsub("%*", "")] then
 				return true
 			end
 		end
@@ -104,7 +104,7 @@ local function in_xymatrix()
 	while node do
 		if node:type() == "generic_command" then
 			local names = node:child(0)
-			if names and ts.query.get_node_text(names, bufnr) == "\\xymatrix" then
+			if names and ts.get_node_text(names, bufnr) == "\\xymatrix" then
 				return true
 			end
 		end
