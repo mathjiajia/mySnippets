@@ -1,61 +1,35 @@
 local snips = {}
 
 local context = require("mySnippets.context")
+local username = os.getenv("USERNAME"):gsub("^%l", string.upper)
 
 snips = {
+	s({ trig = "todo", name = "TODO", dscr = "TODO:" }, {
+		t("TODO(" .. username .. "): "),
+	}, { condition = context.in_comments, show_condition = context.in_comments }),
+
 	s({ trig = "fix", name = "FIX", dscr = "FIX:" }, {
 		c(1, {
-			t("FIX: "),
-			t("FIXME: "),
-			t("BUG: "),
-			t("FIXIT: "),
-			t("ISSUE: "),
+			t("FIXME"),
+			t("BUG"),
 		}),
+		t("(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 
-	s(
-		{ trig = "todo", name = "TODO", dscr = "TODO:" },
-		{ t("TODO: ") },
-		{ condition = context.in_comments, show_condition = context.in_comments }
-	),
-
-	s(
-		{ trig = "hack", name = "HACK", dscr = "HACK:" },
-		{ t("HACK: ") },
-		{ condition = context.in_comments, show_condition = context.in_comments }
-	),
-
-	s({ trig = "warn", name = "WARN", dscr = "WARN:" }, {
+	s({ trig = "hack", name = "HACK", dscr = "HACK:" }, {
 		c(1, {
-			t("WARN: "),
-			t("WARNING: "),
-			t("XXX: "),
+			t("HACK"),
+			t("WARNING"),
 		}),
-	}, { condition = context.in_comments, show_condition = context.in_comments }),
-
-	s({ trig = "perf", name = "PERF", dscr = "PERF:" }, {
-		c(1, {
-			t("PERF: "),
-			t("OPTIM: "),
-			t("PERFORMANCE: "),
-			t("OPTIMIZE: "),
-		}),
+		t("(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 
 	s({ trig = "note", name = "NOTE", dscr = "NOTE:" }, {
 		c(1, {
 			t("NOTE: "),
-			t("INFO: "),
+			t("XXX: "),
 		}),
-	}, { condition = context.in_comments, show_condition = context.in_comments }),
-
-	s({ trig = "test", name = "TEST", dscr = "TEST:" }, {
-		c(1, {
-			t("TEST: "),
-			t("TESTING: "),
-			t("PASSED: "),
-			t("FAILED: "),
-		}),
+		t("(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 }
 
