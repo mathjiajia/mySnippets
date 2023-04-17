@@ -1,7 +1,7 @@
 local snips = {}
 
 local context = require("mySnippets.context")
-local username = os.getenv("USERNAME"):gsub("^%l", string.upper)
+local username = vim.env.USER:gsub("^%l", string.upper)
 
 snips = {
 	s({ trig = "todo", name = "TODO", dscr = "TODO:" }, {
