@@ -16,7 +16,7 @@ end
 
 autosnips = {
 	s(
-		{ trig = "beg", name = "begin{} end{}" },
+		{ trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
 		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
 		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
@@ -166,17 +166,17 @@ autosnips = {
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }
 	),
 	s(
-		{ trig = "bit", name = "Itemize Environment", dscr = "Create an itemize environment" },
+		{ trig = "bit", name = "itemize", dscr = "bullet points (itemize)" },
 		{ t({ "\\begin{itemize}", "\t\\item " }), i(1), d(2, rec_ls, {}), t({ "", "\\end{itemize}" }) },
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }
 	),
 	s(
-		{ trig = "ben", name = "Enumerate Environment" },
+		{ trig = "ben", name = "enumerate", dscr = "numbered list (enumerate)" },
 		{ t({ "\\begin{enumerate}", "\t\\item " }), i(1), d(2, rec_ls, {}), t({ "", "\\end{enumerate}" }) },
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }
 	),
 
-	s({ trig = "lben", name = "Enumerate with labels" }, {
+	s({ trig = "lben", name = "labeled enumerate", dscr = "numbered list (enumerate)" }, {
 		t({ "\\begin{enumerate}[label=(\\" }),
 		c(1, {
 			t("alph"),

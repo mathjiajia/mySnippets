@@ -58,16 +58,17 @@ snips = {
 }
 
 autosnips = {
-	s(
-		{ trig = "bpm", name = "pmatrix Environment", hidden = true },
-		{ t({ "\\begin{pmatrix}", "\t" }), i(1), t({ "", "\\end{pmatrix}" }) },
-		{ condition = tex.in_mathzone }
-	),
-	s(
-		{ trig = "bbm", name = "bmatrix Environment", hidden = true },
-		{ t({ "\\begin{bmatrix}", "\t" }), i(1), t({ "", "\\end{bmatrix}" }) },
-		{ condition = tex.in_mathzone }
-	),
+	s({ trig = "b[bBpvV]m", name = "[bBpvV]matrix", dscr = "matrices", regTrig = true, hidden = true }, {
+		f(function(_, snip)
+			return "\\begin{" .. snip.captures[1] .. "matrix}"
+		end),
+		t({ "", "\t" }),
+		i(1),
+		t(""),
+		f(function(_, snip)
+			return "\\end{" .. snip.captures[1] .. "matrix}"
+		end),
+	}, { condition = tex.in_mathzone }),
 	s(
 		{ trig = "lra", name = "leftangle rightangle", hidden = true },
 		{ t({ "\\langle " }), i(1), t({ "\\rangle" }) },
