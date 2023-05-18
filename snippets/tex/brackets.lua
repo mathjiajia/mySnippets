@@ -58,7 +58,7 @@ snips = {
 }
 
 autosnips = {
-	s({ trig = "b[bBpvV]m", name = "[bBpvV]matrix", dscr = "matrices", regTrig = true, hidden = true }, {
+	s({ trig = "b([bBpvV])m", name = "[bBpvV]matrix", dscr = "matrices", regTrig = true, hidden = true }, {
 		f(function(_, snip)
 			return "\\begin{" .. snip.captures[1] .. "matrix}"
 		end, {}),
