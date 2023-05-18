@@ -64,7 +64,7 @@ autosnips = {
 		end, {}),
 		t({ "", "\t" }),
 		i(1),
-		t(""),
+		t({ "", "" }),
 		f(function(_, snip)
 			return "\\end{" .. snip.captures[1] .. "matrix}"
 		end, {}),
