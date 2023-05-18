@@ -61,13 +61,13 @@ autosnips = {
 	s({ trig = "b[bBpvV]m", name = "[bBpvV]matrix", dscr = "matrices", regTrig = true, hidden = true }, {
 		f(function(_, snip)
 			return "\\begin{" .. snip.captures[1] .. "matrix}"
-		end),
+		end, {}),
 		t({ "", "\t" }),
 		i(1),
 		t(""),
 		f(function(_, snip)
 			return "\\end{" .. snip.captures[1] .. "matrix}"
-		end),
+		end, {}),
 	}, { condition = tex.in_mathzone }),
 	s(
 		{ trig = "lra", name = "leftangle rightangle", hidden = true },
