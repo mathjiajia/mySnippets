@@ -8,28 +8,16 @@ snips = {
 		t("TODO(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 
-	s({ trig = "fix", name = "FIX", dscr = "FIX:" }, {
-		c(1, {
-			t("FIXME"),
-			t("BUG"),
-		}),
-		t("(" .. username .. "): "),
+	s({ trig = "fix", name = "FIXME", dscr = "FIXME:" }, {
+		t("FIXME(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 
 	s({ trig = "hack", name = "HACK", dscr = "HACK:" }, {
-		c(1, {
-			t("HACK"),
-			t("WARNING"),
-		}),
-		t("(" .. username .. "): "),
+		t("HACK(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 
 	s({ trig = "note", name = "NOTE", dscr = "NOTE:" }, {
-		c(1, {
-			t("NOTE: "),
-			t("XXX: "),
-		}),
-		t("(" .. username .. "): "),
+		t("NOTE(" .. username .. "): "),
 	}, { condition = context.in_comments, show_condition = context.in_comments }),
 }
 
