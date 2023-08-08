@@ -50,6 +50,7 @@ autosnips = {
 	s({ trig = "max", name = "max", hidden = true }, { t("\\max") }, { condition = tex.in_mathzone }),
 	s({ trig = "min", name = "min", hidden = true }, { t("\\min") }, { condition = tex.in_mathzone }),
 	s({ trig = "ker", name = "ker", hidden = true }, { t("\\ker") }, { condition = tex.in_mathzone }),
+	s({ trig = "log", name = "log", hidden = true }, { t("\\log") }, { condition = tex.in_mathzone }),
 	-- s({ trig = "sup", name = "sup", hidden = true }, { t("\\sup") }, { condition = tex.in_mathzone }),
 
 	s({ trig = "(%w)//", name = "fraction with a single numerator", regTrig = true, hidden = true }, {
