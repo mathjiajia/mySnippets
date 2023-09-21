@@ -102,7 +102,7 @@ autosnips = {
 	s(
 		{ trig = "ses", name = "short exact sequence", hidden = true },
 		fmta(
-			[[<>\\longrightarrow <>\\longrightarrow <>\\longrightarrow <>]],
+			[[<>\\longrightarrow <>\\longrightarrow <>\\longrightarrow <>\\longrightarrow <>]],
 			{ c(1, { t("0"), t("1") }), i(2), i(3), i(4), rep(1) }
 		),
 		{ condition = tex.in_math }
@@ -175,4 +175,4 @@ for _, v in ipairs(operator_specs) do
 end
 vim.list_extend(autosnips, operator_snippets)
 
-return snips
+return snips, autosnips

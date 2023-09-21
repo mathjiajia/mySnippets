@@ -5,7 +5,7 @@ local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
 
 snips = {
-	s({ trig = "cf", name = "cross refrence" }, fmta([[\cite[<>]{<>}]], i(1), i(2)), {
+	s({ trig = "cf", name = "cross refrence" }, fmta([[\cite[<>]{<>}]], { i(1), i(2) }), {
 		condition = tex.in_text,
 		show_condition = tex.in_text,
 		callbacks = {
@@ -56,7 +56,7 @@ autosnips = {
 
 	s(
 		{ trig = "cref", name = "\\cref{}" },
-		fmta([[\cref{<>}]], i(1)),
+		fmta([[\cref{<>}]], { i(1) }),
 		{ condition = tex.in_text, show_condition = tex.in_text }
 	),
 }
@@ -87,9 +87,9 @@ local auto_phrase_specs = {
 	tfae = "the following are equivalent",
 }
 
-local phrase_snippet = function(trig, context)
-	context.dscr = trig.trig
-	return s(context, t(context), { condition = tex.in_text, show_condition = tex.in_text })
+local phrase_snippet = function(context, body)
+	context.dscr = context.trig
+	return s(context, t(body), { condition = tex.in_text, show_condition = tex.in_text })
 end
 
 for k, v in pairs(phrase_specs) do
