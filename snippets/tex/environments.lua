@@ -40,82 +40,11 @@ autosnips = {
 		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
 		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
-
 	s(
 		{ trig = "lprf", name = "Titled Proof", dscr = "Create a titled proof environment." },
 		{ t("\\begin{proof}[Proof of \\cref{"), i(1), t({ "}]", "\t" }), i(0), t({ "", "\\end{proof}" }) },
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
-
-	s({ trig = "lthm", name = "labled Theorem Environment", dscr = "Create a labled theorem environment." }, {
-		t({ "\\begin{theorem}[" }),
-		i(1),
-		t({ "]\\label{thm:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{theorem}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "llem", name = "labled Lemma Environment", dscr = "Create a labled lemma environment." }, {
-		t({ "\\begin{lemma}[" }),
-		i(1),
-		t({ "]\\label{lem:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{lemma}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "ldef", name = "labled Definition Environment", dscr = "Create a labled definition environment." }, {
-		t({ "\\begin{definition}[" }),
-		i(1),
-		t({ "]\\label{def:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{definition}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "lprop", name = "labled Proposition Environment", dscr = "Create a labled proposition environment." }, {
-		t({ "\\begin{proposition}[" }),
-		i(1),
-		t({ "]\\label{prop:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{proposition}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "lcor", name = "labled Corollary Environment", dscr = "Create a labled corollary environment." }, {
-		t({ "\\begin{corollary}[" }),
-		i(1),
-		t({ "]\\label{cor:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{corollary}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "lrem", name = "labled Remark Environment", dscr = "labled Create a remark environment." }, {
-		t({ "\\begin{remark}[" }),
-		i(1),
-		t({ "]\\label{rem:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{remark}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "lconj", name = "labled Conjecture Environment", dscr = "Create a labled conjecture environment." }, {
-		t({ "\\begin{conjecture}[" }),
-		i(1),
-		t({ "]\\label{conj:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{conjecture}" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }),
 
 	s(
 		{ trig = "(%d?)cases", name = "cases", dscr = "cases", regTrig = true, hidden = true },
@@ -133,16 +62,6 @@ autosnips = {
 	s(
 		{ trig = "xym", name = "xymatrix Environment", dscr = "Create a xymatrix environment." },
 		{ t({ "\\[", "\t\\xymatrix{", "\t\t" }), i(1), t({ " \\\\", "\t}", "\\]" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }
-	),
-	s(
-		{ trig = "bal", name = "Align Environment", dscr = "Create an align environment" },
-		{ t({ "\\begin{align}", "\t" }), i(1), t({ "", "\\end{align}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }
-	),
-	s(
-		{ trig = "bsal", name = "Align without a number", dscr = "Create an align environment without number" },
-		{ t({ "\\begin{align*}", "\t" }), i(1), t({ "", "\\end{align*}" }) },
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }
 	),
 	s(
@@ -189,9 +108,13 @@ autosnips = {
 }
 
 local env_specs = {
+	bal = "align",
+	bsal = "align*",
 	beq = "equation",
 	bseq = "equation*",
 	proof = "proof",
+}
+local labeled_env_specs = {
 	thm = "theorem",
 	lem = "lemma",
 	def = "definition",
@@ -200,10 +123,11 @@ local env_specs = {
 	rem = "remark",
 	conj = "conjecture",
 }
+env_specs = vim.tbl_extend("keep", env_specs, labeled_env_specs)
 
 local env_snippet = function(context, env, opts)
 	context.name = context.trig
-	context.dscr = context.trig .. " with automatic backslash"
+	context.dscr = context.trig .. " Environment"
 	context.docstring = [[\]] .. context.trig
 	return s(
 		context,
@@ -219,7 +143,26 @@ local env_snippet = function(context, env, opts)
 	)
 end
 
+local labeled_env_snippet = function(context, env, opts)
+	context.name = context.trig
+	context.dscr = "Labeled" .. context.trig .. " Environment"
+	context.docstring = [[\]] .. context.trig
+	return s(
+		context,
+		fmta(
+			[[
+			\begin{<>}[<>]\label{<>:<>}
+				<>
+			\end{<>}
+			]],
+			{ t(env), i(1), t(context.trig), l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1), i(0), t(env) }
+		),
+		opts
+	)
+end
+
 local env_snippets = {}
+
 for k, v in pairs(env_specs) do
 	table.insert(
 		env_snippets,
@@ -230,6 +173,17 @@ for k, v in pairs(env_specs) do
 		)
 	)
 end
+for k, v in pairs(labeled_env_specs) do
+	table.insert(
+		env_snippets,
+		labeled_env_snippet(
+			{ trig = k },
+			v,
+			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+		)
+	)
+end
+
 vim.list_extend(autosnips, env_snippets)
 
 return nil, autosnips
