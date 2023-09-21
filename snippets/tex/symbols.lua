@@ -81,34 +81,38 @@ autosnips = {
 
 	s(
 		{ trig = "^-", name = "negative exponents", wordTrig = false, hidden = true },
-		fmta([[^{-<>}]], i(1)),
+		fmta([[^{-<>}]], { i(1) }),
 		{ condition = tex.in_math }
 	),
-	s({ trig = "sq", name = "square root", hidden = true }, fmta([[\\sqrt{<>}]], i(1)), { condition = tex.in_math }),
+	s(
+		{ trig = "sq", name = "square root", hidden = true },
+		fmta([[\\sqrt{<>}]], { i(1) }),
+		{ condition = tex.in_math }
+	),
 	s(
 		{ trig = "__", name = "subscript", wordTrig = false, hidden = true },
-		fmta([[_{<>}]], i(1)),
+		fmta([[_{<>}]], { i(1) }),
 		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "^^", name = "supscript", wordTrig = false, hidden = true },
-		fmta([[^{<>}]], i(1)),
+		fmta([[^{<>}]], { i(1) }),
 		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "rup", name = "round up", wordTrig = false, hidden = true },
-		fmta([[\rup{<>}]], i(1)),
+		fmta([[\rup{<>}]], { i(1) }),
 		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "rwn", name = "round down", wordTrig = false, hidden = true },
-		fmta([[\rdown{<>}]], i(1)),
+		fmta([[\rdown{<>}]], { i(1) }),
 		{ condition = tex.in_math }
 	),
 
 	s(
 		{ trig = "srt", name = "square root", wordTrig = false, hidden = true },
-		fmta([[\sqrt{<>}]], i(1)),
+		fmta([[\sqrt{<>}]], { i(1) }),
 		{ condition = tex.in_math }
 	),
 	s(

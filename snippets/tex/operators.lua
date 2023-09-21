@@ -65,17 +65,17 @@ autosnips = {
 	),
 	s(
 		{ trig = "sum", name = "summation", dscr = "summation" },
-		fmta([[\sum<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i = 0"), i(2, "\\infty") }), t("") }), i(0) }),
+		fmta([[\sum<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
 		{ trig = "prod", name = "product", dscr = "product" },
-		fmta([[\prod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i = 0"), i(2, "\\infty") }), t("") }), i(0) }),
+		fmta([[\prod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
 		{ trig = "cprod", name = "coproduct", dscr = "coproduct" },
-		fmta([[\coprod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i = 0"), i(2, "\\infty") }), t("") }), i(0) }),
+		fmta([[\coprod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
@@ -175,4 +175,4 @@ for _, v in ipairs(operator_specs) do
 end
 vim.list_extend(autosnips, operator_snippets)
 
-return snips, autosnips
+return snips

@@ -56,7 +56,7 @@ autosnips = {
 
 	s(
 		{ trig = "mk", name = "inline math", dscr = "Insert inline Math Environment.", hidden = true },
-		fmta([[\(<>\)]], i(1)),
+		fmta([[\(<>\)]], { i(1) }),
 		{
 			condition = tex.in_text,
 			callbacks = {
@@ -72,7 +72,7 @@ autosnips = {
 				<>
 			\]
 			]],
-			i(1)
+			{ i(1) }
 		),
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),

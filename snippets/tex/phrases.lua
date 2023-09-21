@@ -31,6 +31,11 @@ autosnips = {
 		{ t("base point free") },
 		{ condition = tex.in_text, show_condition = tex.in_text }
 	),
+	s(
+		{ trig = "Tfae", name = "The following are equivalent" },
+		{ t("The following are equivalent") },
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+	),
 
 	s({ trig = "([qr])c", name = "Cartier", regTrig = true }, {
 		f(function(_, snip)
@@ -43,12 +48,6 @@ autosnips = {
 			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-divisor"
 		end, {}),
 	}, { condition = tex.in_text, show_condition = tex.in_text }),
-	s(
-		{ trig = "Tfae", name = "The following are equivalent" },
-		{ t("The following are equivalent") },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-
 	s({ trig = "([wW])log", name = "without loss of generality", regTrig = true }, {
 		f(function(_, snip)
 			return snip.captures[1] .. "ithout loss of generality"
