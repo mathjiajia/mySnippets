@@ -34,58 +34,6 @@ local generate_cases = function(_, snip)
 	return sn(nil, nodes)
 end
 
-local auto_env_snippet = function(context, opts)
-	opts = opts or {}
-	context.dscr = context.dscr or (context.trig .. "with automatic backslash")
-	context.name = context.name or context.trig
-	context.docstring = context.docstring or ([[\]] .. context.trig)
-	return s(context, t([[\]] .. context.trig), opts)
-end
-
-local env_specs = {
-	beq = "equation",
-	bseq = "equation*",
-	proof = "proof",
-	thm = "theorem",
-	lem = "lemma",
-	def = "definition",
-	prop = "equation",
-	cor = "corollary",
-	rem = "remark",
-	conj = "conjecture",
-}
-
-local env_snippet = function(context, env, opts)
-	context.name = context.trig
-	context.dscr = context.trig .. " with automatic backslash"
-	context.docstring = [[\]] .. context.trig
-	return s(
-		context,
-		fmta(
-			[[
-			\begin{<>}
-				<>
-			\end{<>}
-			]],
-			{ env, i(0), env }
-		),
-		opts
-	)
-end
-
-local env_snippets = {}
-for k, v in ipairs(env_specs) do
-	table.insert(
-		env_snippets,
-		env_snippet(
-			{ trig = k },
-			v,
-			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-		)
-	)
-end
-vim.list_extend(autosnips, env_snippets)
-
 autosnips = {
 	s(
 		{ trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
@@ -239,5 +187,49 @@ autosnips = {
 		t({ "", "\\end{equation*}" }),
 	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 }
+
+local env_specs = {
+	beq = "equation",
+	bseq = "equation*",
+	proof = "proof",
+	thm = "theorem",
+	lem = "lemma",
+	def = "definition",
+	prop = "equation",
+	cor = "corollary",
+	rem = "remark",
+	conj = "conjecture",
+}
+
+local env_snippet = function(context, env, opts)
+	context.name = context.trig
+	context.dscr = context.trig .. " with automatic backslash"
+	context.docstring = [[\]] .. context.trig
+	return s(
+		context,
+		fmta(
+			[[
+			\begin{<>}
+				<>
+			\end{<>}
+			]],
+			{ t(env), i(0), t(env) }
+		),
+		opts
+	)
+end
+
+local env_snippets = {}
+for k, v in pairs(env_specs) do
+	table.insert(
+		env_snippets,
+		env_snippet(
+			{ trig = k },
+			v,
+			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+		)
+	)
+end
+vim.list_extend(autosnips, env_snippets)
 
 return nil, autosnips
