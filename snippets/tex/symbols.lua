@@ -57,11 +57,7 @@ snips = {
 
 autosnips = {
 	s({ trig = "\\varpii", name = "\\varpi_i", hidden = true }, { t("\\varpi_{i}") }, { condition = tex.in_math }),
-	s(
-		{ trig = "\\varphii", name = "\\varphi_i", hidden = true },
-		{ t("\\varphi_{i}") },
-		{ condition = tex.in_math }
-	),
+	s({ trig = "\\varphii", name = "\\varphi_i", hidden = true }, { t("\\varphi_{i}") }, { condition = tex.in_math }),
 	s(
 		{ trig = "\\([xX])ii", name = "\\xi_{i}", regTrig = true, hidden = true },
 		{ f(function(_, snip)
@@ -137,56 +133,6 @@ autosnips = {
 	}, { condition = tex.in_math }),
 
 	s(
-		{ trig = "inn", name = "belongs to ∈", wordTrig = false, hidden = true },
-		{ t("\\in ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "!in", name = "does not belong to ∉", wordTrig = false, hidden = true },
-		{ t("\\notin ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "!=", name = "not equal ≠", wordTrig = false, hidden = true },
-		{ t("\\neq ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "<=", name = "less than or equal to ≤", wordTrig = false, hidden = true },
-		{ t("\\leq ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = ">=", name = "greater than or equal to ≥", wordTrig = false, hidden = true },
-		{ t("\\geq ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "<<", name = "much less than ≪", wordTrig = false, hidden = true },
-		{ t("\\ll ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = ">>", name = "much greater than ≫", wordTrig = false, hidden = true },
-		{ t("\\gg ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "~~", name = "similar ~", wordTrig = false, hidden = true },
-		{ t("\\sim ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "~=", name = "is isomorphic to ≃", wordTrig = false, hidden = true },
-		{ t("\\simeq ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "nvs", name = "inverse", wordTrig = false, hidden = true },
-		{ t("^{-1}") },
-		{ condition = tex.in_math }
-	),
-	s(
 		{ trig = "^-", name = "negative exponents", wordTrig = false, hidden = true },
 		{ t("^{-"), i(1), t("}") },
 		{ condition = tex.in_math }
@@ -209,31 +155,6 @@ autosnips = {
 		-- { condition = tex.in_math }
 	),
 	s(
-		{ trig = "**", name = "upper star *", wordTrig = false, hidden = true },
-		{ t("^{*}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "...", name = "dots ...", wordTrig = false, hidden = true },
-		{ t("\\dots") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "||", name = "mid |", wordTrig = false, hidden = true },
-		{ t("\\mid ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "::", name = "colon :", wordTrig = false, hidden = true },
-		{ t("\\colon ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = ":=", name = "coloneqq :=", wordTrig = false, hidden = true },
-		{ t("\\coloneqq ") },
-		{ condition = tex.in_math }
-	),
-	s(
 		{ trig = "rup", name = "round up", wordTrig = false, hidden = true },
 		{ t("\\rup{"), i(1), t("}") },
 		{ condition = tex.in_math }
@@ -245,126 +166,11 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "lll", name = "ell ℓ", wordTrig = false, hidden = true },
-		{ t("\\ell") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "xx", name = "times ×", wordTrig = false, hidden = true },
-		{ t("\\times") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "nabl", name = "nabla ∇", wordTrig = false, hidden = true },
-		{ t("\\nabla") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "AA", name = "affine 𝔸", wordTrig = false, hidden = true },
-		{ t("\\mathbb{A}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "CC", name = "complex ℂ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{C}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "DD", name = "disc 𝔻", wordTrig = false, hidden = true },
-		{ t("\\mathbb{D}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "FF", name = "Hirzebruch 𝔽", wordTrig = false, hidden = true },
-		{ t("\\mathbb{F}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "GG", name = "algebraic group 𝔾", wordTrig = false, hidden = true },
-		{ t("\\mathbb{G}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "HH", name = "half plane ℍ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{H}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "NN", name = "natural ℕ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{N}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "OO", name = "mathcal{O}", wordTrig = false, hidden = true },
-		{ t("\\mathcal{O}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "PP", name = "projective ℙ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{P}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "QQ", name = "rational ℚ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{Q}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "RR", name = "real ℝ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{R}") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "ZZ", name = "integer ℤ", wordTrig = false, hidden = true },
-		{ t("\\mathbb{Z}") },
-		{ condition = tex.in_math }
-	),
-	s(
 		{ trig = "srt", name = "square root", wordTrig = false, hidden = true },
 		{ t("\\sqrt{"), i(1), t("}") },
 		{ condition = tex.in_math }
 	),
 	s({ trig = "set", name = "set", hidden = true }, { t("\\{"), i(1), t("\\}") }, { condition = tex.in_math }),
-	s(
-		{ trig = "o+", name = "oplus", wordTrig = false, hidden = true },
-		{ t("\\oplus ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "ox", name = "otimes", wordTrig = false, hidden = true },
-		{ t("\\otimes") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "cap", name = "cap", wordTrig = false, hidden = true },
-		{ t("\\cap ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "cup", name = "cup", wordTrig = false, hidden = true },
-		{ t("\\cup ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "nnn", name = "bigcup", wordTrig = false, hidden = true },
-		{ t("\\bigcap ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "uuu", name = "bigcap", wordTrig = false, hidden = true },
-		{ t("\\bigcup ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = "sub", name = "subseteq ⊆", wordTrig = false, hidden = true },
-		{ t("\\subseteq ") },
-		{ condition = tex.in_math }
-	),
-	-- s(
-	-- 	{ trig = 'sup', name = 'supseteq ⊇', wordTrig = false, hidden = true },
-	-- 	{ t('\\supseteq') },
-	-- 	{ condition = tex.in_math }
-	-- ),
 
 	-- s(
 	-- 	{ trig = '<|', name = 'triangleleft <|', wordTrig = false, hidden = true },
@@ -428,26 +234,6 @@ autosnips = {
 		end, {}),
 	}, { condition = tex.in_math }),
 
-	s(
-		{ trig = ";=", name = "equiv ≡", wordTrig = false, hidden = true },
-		{ t("\\equiv ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = ";-", name = "setminus \\", wordTrig = false, hidden = true },
-		{ t("\\setminus ") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = ";A", name = "forall ∀", wordTrig = false, hidden = true },
-		{ t("\\forall") },
-		{ condition = tex.in_math }
-	),
-	s(
-		{ trig = ";E", name = "exists ∃", wordTrig = false, hidden = true },
-		{ t("\\exists") },
-		{ condition = tex.in_math }
-	),
 	-- s(
 	-- 	{ trig = 'xmm', name = 'x_m', wordTrig = false, hidden = true },
 	-- 	{ t('x_{m}') },
@@ -469,5 +255,90 @@ autosnips = {
 	-- 	{ condition = tex.in_math }
 	-- ),
 }
+
+local symbol_specs = {
+	-- quantifiers and logic stuffs
+	inn = { context = { name = "∈" }, command = [[\in]] },
+	["!in"] = { context = { name = "∉" }, command = [[\not\in]] },
+	["=>"] = { context = { name = "⇒" }, command = [[\implies]] },
+	["=<"] = { context = { name = "⇐" }, command = [[\impliedby]] },
+	iff = { context = { name = "⟺" }, command = [[\iff]] },
+	["->"] = { context = { name = "→", priority = 250 }, command = [[\to]] },
+	["!>"] = { context = { name = "↦" }, command = [[\mapsto]] },
+	["<-"] = { context = { name = "↦", priority = 250 }, command = [[\gets]] },
+
+	-- operators
+	["!="] = { context = { name = "!=" }, command = [[\neq]] },
+	["<="] = { context = { name = "≤" }, command = [[\leq]] },
+	[">="] = { context = { name = "≥" }, command = [[\geq]] },
+	["<<"] = { context = { name = "<<" }, command = [[\ll]] },
+	[">>"] = { context = { name = ">>" }, command = [[\gg]] },
+	["~~"] = { context = { name = "~" }, command = [[\sim]] },
+	["~="] = { context = { name = "≃" }, command = [[\simeq]] },
+	["=~"] = { context = { name = "≅" }, command = [[\cong]] },
+	["::"] = { context = { name = ":" }, command = [[\colon ]] },
+	[":="] = { context = { name = "≔" }, command = [[\coloneqq ]] },
+	["**"] = { context = { name = "*" }, command = [[^{*}]] },
+	["..."] = { context = { name = "·" }, command = [[\dots]] },
+	["||"] = { context = { name = "|" }, command = [[\mid ]] },
+	xx = { context = { name = "×" }, command = [[\times]] },
+	["o+"] = { context = { name = "⊕" }, command = [[\oplus ]] },
+	ox = { context = { name = "⊗" }, command = [[\otimes]] },
+	nvs = { context = { name = "-1" }, command = [[^{-1}]] },
+	nabl = { context = { name = "∇" }, command = [[\\nabla]] },
+	-- sets
+	AA = { context = { name = "𝔸" }, command = [[\mathbb{A}]] },
+	CC = { context = { name = "ℂ" }, command = [[\mathbb{C}]] },
+	DD = { context = { name = "𝔻" }, command = [[\mathbb{D}]] },
+	FF = { context = { name = "𝔽" }, command = [[\mathbb{F}]] },
+	GG = { context = { name = "𝔾" }, command = [[\mathbb{G}]] },
+	HH = { context = { name = "ℍ" }, command = [[\mathbb{H}]] },
+	NN = { context = { name = "ℕ" }, command = [[\mathbb{N}]] },
+	OO = { context = { name = "O" }, command = [[\mathcal{O}]] },
+	PP = { context = { name = "ℙ" }, command = [[\mathbb{P}]] },
+	QQ = { context = { name = "ℚ" }, command = [[\mathbb{Q}]] },
+	RR = { context = { name = "ℝ" }, command = [[\mathbb{R}]] },
+	ZZ = { context = { name = "ℤ" }, command = [[\mathbb{Z}]] },
+	cc = { context = { name = "⊂" }, command = [[\subset]] },
+	cq = { context = { name = "⊆" }, command = [[\subseteq]] },
+	qq = { context = { name = "⊃" }, command = [[\supset]] },
+	qc = { context = { name = "⊇" }, command = [[\supseteq]] },
+	Nn = { context = { name = "∩" }, command = [[\cap ]] },
+	UU = { context = { name = "∪" }, command = [[\cup]] },
+	nnn = { context = { name = "∩" }, command = [[\bigcap ]] },
+	uuu = { context = { name = "∩" }, command = [[\bigcup ]] },
+	[";="] = { context = { name = "≡" }, command = [[\equiv]] },
+	[";-"] = { context = { name = "\\" }, command = [[\setminus]] },
+	[";A"] = { context = { name = "∀" }, command = [[\forall]] },
+	[";E"] = { context = { name = "∃" }, command = [[\exists]] },
+	-- arrows
+	["-->"] = { context = { name = "⟶", priority = 500 }, command = [[\longrightarrow]] },
+	["<->"] = { context = { name = "↔", priority = 500 }, command = [[\leftrightarrow]] },
+	["2>"] = { context = { name = "⇉", priority = 400 }, command = [[\rightrightarrows]] },
+	upar = { context = { name = "↑" }, command = [[\uparrow]] },
+	dnar = { context = { name = "↓" }, command = [[\downarrow]] },
+	-- etc
+	lll = { context = { name = "ℓ" }, command = [[\ell]] },
+	dag = { context = { name = "†" }, command = [[\dagger]] },
+}
+
+local symbol_snippet = function(context, command, opts)
+	opts = opts or {}
+	context.dscr = command
+	context.name = context.name or command:gsub([[\]], "")
+	context.docstring = command .. [[{0}]]
+	context.wordTrig = context.wordTrig or false
+	context.hidden = context.wordTrig or true
+	return s(context, t(command), opts)
+end
+
+local symbol_snippets = {}
+for k, v in pairs(symbol_specs) do
+	table.insert(
+		symbol_snippets,
+		symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command, { condition = tex.in_math })
+	)
+end
+vim.list_extend(autosnips, symbol_snippets)
 
 return snips, autosnips
