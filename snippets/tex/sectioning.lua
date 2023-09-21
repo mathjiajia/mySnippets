@@ -4,46 +4,43 @@ local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
 
-snips = {
-	s({ trig = "cha", name = "Chapter", dscr = "Insert a new chapter." }, {
-		t({ "\\chapter{" }),
-		i(1),
-		t({ "}\\label{cha:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_*$", ""):lower(), 1),
-		t({ "}", "", "" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "sec", name = "Section", dscr = "Insert a new section.", regTrig = true }, {
-		t({ "\\section{" }),
-		i(1),
-		t({ "}\\label{sec:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_*$", ""):lower(), 1),
-		t({ "}", "", "" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "ssec", name = "star Section", dscr = "Insert a section without index.", regTrig = true }, {
-		t({ "\\section*{" }),
-		i(1),
-		t({ "}\\label{sec:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_*$", ""):lower(), 1),
-		t({ "}", "", "" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "sub", name = "subSection", dscr = "Insert a new subsection.", regTrig = true }, {
-		t({ "\\subsection{" }),
-		i(1),
-		t({ "}\\label{sub:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_*$", ""):lower(), 1),
-		t({ "}", "", "" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
-
-	s({ trig = "ssub", name = "star subSection", dscr = "Insert a subsection without index.", regTrig = true }, {
-		t({ "\\subsection*{" }),
-		i(1),
-		t({ "}\\label{sub:" }),
-		l(l._1:gsub("[^%w]+", "_"):gsub("_*$", ""):lower(), 1),
-		t({ "}", "", "" }),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
+local sec_specs = {
+	cha = "chapter",
+	sec = "section",
+	ssec = "section*",
+	sub = "subsection",
+	ssub = "subsection*",
 }
+
+local sec_snippet = function(context, sec, opts)
+	context.name = sec
+	context.dscr = sec
+	return s(
+		context,
+		fmta(
+			[[
+			\<>{<>}\label{<>:<>}
+			<>
+			]],
+			{ t(sec), i(1), t(context.trig), l(l._1:gsub("[^%w]+", "_"):gsub("_*$", ""):lower(), 1), i(0) }
+		),
+		opts
+	)
+end
+
+local env_snippets = {}
+
+for k, v in pairs(sec_specs) do
+	table.insert(
+		env_snippets,
+		sec_snippet(
+			{ trig = k },
+			v,
+			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+		)
+	)
+end
+
+vim.list_extend(snips, env_snippets)
 
 return snips
