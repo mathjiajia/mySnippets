@@ -11,7 +11,7 @@ autosnips = {
 				return sn(nil, { t("\\dashrightarrow ") })
 			end
 		end),
-	}, { condition = tex.in_mathzone }),
+	}, { condition = tex.in_math }),
 
 	s({ trig = "emb", name = "embeddeing map arrow", wordTrig = false, hidden = true }, {
 		d(1, function()
@@ -21,37 +21,37 @@ autosnips = {
 				return sn(nil, { t("\\hookrightarrow ") })
 			end
 		end),
-	}, { condition = tex.in_mathzone }),
+	}, { condition = tex.in_math }),
 
 	s(
 		{ trig = "<->", wordTrig = false, name = "leftrightarrow <->", hidden = true },
 		{ t("\\leftrightarrow ") },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "->", wordTrig = false, name = "rightarrow ->", hidden = true },
 		{ t("\\to ") },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "!>", wordTrig = false, name = "mapsto |->", hidden = true },
 		{ t("\\mapsto ") },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "=>", name = "implies =>", wordTrig = false, hidden = true },
 		{ t("\\implies ") },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "=<", name = "impliedby", wordTrig = false, hidden = true },
 		{ t("\\impliedby ") },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "iff", name = "if and only if <=>", wordTrig = false, hidden = true },
 		{ t("\\iff ") },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 }
 

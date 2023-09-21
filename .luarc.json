@@ -14,7 +14,8 @@
     "sn",
     "t",
     "events",
-    "vim"
+    "vim",
+        "fmta"
   ],
   "runtime.version": "LuaJIT",
   "workspace.checkThirdParty": false,

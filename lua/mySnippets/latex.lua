@@ -64,7 +64,7 @@ end
 
 ---Check if cursor is in treesitter node of 'math'
 ---@return boolean
-local function in_mathzone()
+local function in_math()
 	local node = get_node_at_cursor()
 	while node do
 		if node:type() == "text_mode" then
@@ -113,7 +113,7 @@ local function in_xymatrix()
 	return false
 end
 
-M.in_mathzone = cond_obj.make_condition(in_mathzone)
+M.in_math = cond_obj.make_condition(in_math)
 M.in_text = cond_obj.make_condition(in_text)
 M.in_align = cond_obj.make_condition(in_align)
 M.in_xymatrix = cond_obj.make_condition(in_xymatrix)

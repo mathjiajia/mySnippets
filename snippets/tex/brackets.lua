@@ -33,27 +33,27 @@ snips = {
 	s(
 		{ trig = "lr(", name = "left( right)", hidden = true },
 		{ t({ "\\left( " }), i(1), t({ "\\right)" }) },
-		{ condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
 		{ trig = "lr|", name = "leftvert rightvert", hidden = true },
 		{ t({ "\\left\\lvert " }), i(1), t({ "\\right\\lvert" }) },
-		{ condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
 		{ trig = "lr{", name = "left\\{ right\\}", hidden = true },
 		{ t({ "\\left\\{ " }), i(1), t({ "\\right\\}" }) },
-		{ condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
 		{ trig = "lrb", name = "left\\{ right\\}", hidden = true },
 		{ t({ "\\left\\{ " }), i(1), t({ "\\right\\}" }) },
-		{ condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
 		{ trig = "lr[", name = "left[ right]", hidden = true },
 		{ t({ "\\left[ " }), i(1), t({ "\\right]" }) },
-		{ condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 }
 
@@ -68,11 +68,11 @@ autosnips = {
 		f(function(_, snip)
 			return "\\end{" .. snip.captures[1] .. "matrix}"
 		end, {}),
-	}, { condition = tex.in_mathzone }),
+	}, { condition = tex.in_math }),
 	s(
 		{ trig = "lra", name = "leftangle rightangle", hidden = true },
 		{ t({ "\\langle " }), i(1), t({ "\\rangle" }) },
-		{ condition = tex.in_mathzone }
+		{ condition = tex.in_math }
 	),
 
 	s({ trig = "cvec", name = "column vector", hidden = true }, {
@@ -85,7 +85,7 @@ autosnips = {
 		t("_"),
 		i(3, "n"),
 		t({ "", "\\end{pmatrix}" }),
-	}, { condition = tex.in_mathzone }),
+	}, { condition = tex.in_math }),
 }
 
 return snips, autosnips

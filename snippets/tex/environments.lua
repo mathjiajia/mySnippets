@@ -14,6 +14,26 @@ rec_ls = function()
 	})
 end
 
+local generate_cases = function(_, snip)
+	local rows = tonumber(snip.captures[1]) or 2
+	local cols = 2
+	local nodes = {}
+	local ins_indx = 1
+	for j = 1, rows do
+		table.insert(nodes, r(ins_indx, tostring(j) .. "x1", i(1)))
+		ins_indx = ins_indx + 1
+		for k = 2, cols do
+			table.insert(nodes, t(" & "))
+			table.insert(nodes, r(ins_indx, tostring(j) .. "x" .. tostring(k), i(1)))
+			ins_indx = ins_indx + 1
+		end
+		table.insert(nodes, t({ "\\\\", "" }))
+	end
+
+	table.remove(nodes, #nodes)
+	return sn(nil, nodes)
+end
+
 autosnips = {
 	s(
 		{ trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
@@ -149,6 +169,19 @@ autosnips = {
 		i(0),
 		t({ "", "\\end{conjecture}" }),
 	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = tex.in_text }),
+
+	s(
+		{ trig = "(%d?)cases", name = "cases", dscr = "cases", regTrig = true, hidden = true },
+		fmta(
+			[[
+			\begin{cases}
+				<>
+			.\end{cases}
+			]],
+			{ d(1, generate_cases) }
+		),
+		{ condition = conds_expand.line_begin * tex.in_math, show_condition = tex.in_math }
+	),
 
 	s(
 		{ trig = "xym", name = "xymatrix Environment", dscr = "Create a xymatrix environment." },
