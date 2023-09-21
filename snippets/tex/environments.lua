@@ -34,64 +34,63 @@ local generate_cases = function(_, snip)
 	return sn(nil, nodes)
 end
 
+local auto_env_snippet = function(context, opts)
+	opts = opts or {}
+	context.dscr = context.dscr or (context.trig .. "with automatic backslash")
+	context.name = context.name or context.trig
+	context.docstring = context.docstring or ([[\]] .. context.trig)
+	return s(context, t([[\]] .. context.trig), opts)
+end
+
+local env_specs = {
+	beq = "equation",
+	bseq = "equation*",
+	proof = "proof",
+	thm = "theorem",
+	lem = "lemma",
+	def = "definition",
+	prop = "equation",
+	cor = "corollary",
+	rem = "remark",
+	conj = "conjecture",
+}
+
+local env_snippet = function(context, env, opts)
+	context.name = context.trig
+	context.dscr = context.trig .. " with automatic backslash"
+	context.docstring = [[\]] .. context.trig
+	return s(
+		context,
+		fmta(
+			[[
+			\begin{<>}
+				<>
+			\end{<>}
+			]],
+			{ env, i(0), env }
+		),
+		opts
+	)
+end
+
+local env_snippets = {}
+for k, v in ipairs(env_specs) do
+	table.insert(
+		env_snippets,
+		env_snippet(
+			{ trig = k },
+			v,
+			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+		)
+	)
+end
+vim.list_extend(autosnips, env_snippets)
+
 autosnips = {
 	s(
 		{ trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
 		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
 		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
-	),
-	s(
-		{ trig = "beq", name = "Equation Environment", dscr = "Create an equation environment." },
-		{ t({ "\\begin{equation}", "\t" }), i(1), t({ "", "\\end{equation}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "bseq", name = "Equation Environment without number", dscr = "Create a star equation environment." },
-		{ t({ "\\begin{equation*}", "\t" }), i(1), t({ "", "\\end{equation*}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "proof", name = "Proof Environment", dscr = "Create a proof environment." },
-		{ t({ "\\begin{proof}", "\t" }), i(0), t({ "", "\\end{proof}" }) },
-		{
-			condition = conds_expand.line_begin * tex.in_text,
-			show_condition = pos.line_begin * tex.in_text,
-		}
-	),
-	s(
-		{ trig = "thm", name = "Theorem Environment", dscr = "Create a theorem environment." },
-		{ t({ "\\begin{theorem}", "\t" }), i(0), t({ "", "\\end{theorem}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "lem", name = "Lemma Environment", dscr = "Create a lemma environment." },
-		{ t({ "\\begin{lemma}", "\t" }), i(0), t({ "", "\\end{lemma}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "def", name = "Definition Environment", dscr = "Create a definition environment." },
-		{ t({ "\\begin{definition}", "\t" }), i(0), t({ "", "\\end{definition}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "prop", name = "Proposition Environment", dscr = "Create a proposition environment." },
-		{ t({ "\\begin{proposition}", "\t" }), i(0), t({ "", "\\end{proposition}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "cor", name = "Corollary Environment", dscr = "Create a corollary environment." },
-		{ t({ "\\begin{corollary}", "\t" }), i(0), t({ "", "\\end{corollary}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "rem", name = "Remark Environment", dscr = "Create a remark environment." },
-		{ t({ "\\begin{remark}", "\t" }), i(0), t({ "", "\\end{remark}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s(
-		{ trig = "conj", name = "Conjecture Environment", dscr = "Create a conjecture environment." },
-		{ t({ "\\begin{conjecture}", "\t" }), i(0), t({ "", "\\end{conjecture}" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 
 	s(

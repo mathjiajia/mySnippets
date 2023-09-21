@@ -114,9 +114,8 @@ local operator_specs = {
 }
 
 local operator_snippet = function(context, opts)
-	opts = opts or {}
-	context.dscr = context.trig .. " with automatic backslash"
 	context.name = context.trig
+	context.dscr = context.trig .. " with automatic backslash"
 	context.docstring = [[\]] .. context.trig
 	return s(context, t([[\]] .. context.trig), opts)
 end
