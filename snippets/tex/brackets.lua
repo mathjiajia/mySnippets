@@ -78,7 +78,7 @@ snips = {
 
 	s(
 		{
-			trig = "([bBpvV])mat(%d+)x(%d+)([ar])",
+			trig = "([bBpvV])mat_(%d+)x_(%d+)([ar])",
 			name = "[bBpvV]matrix",
 			dscr = "matrices",
 			regTrig = true,
