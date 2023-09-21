@@ -125,10 +125,9 @@ local labeled_env_specs = {
 }
 env_specs = vim.tbl_extend("keep", env_specs, labeled_env_specs)
 
-local env_snippet = function(context, env, opts)
+local env_snippet = function(context, env)
 	context.name = context.trig
 	context.dscr = context.trig .. " Environment"
-	context.docstring = [[\]] .. context.trig
 	return s(
 		context,
 		fmta(
@@ -139,14 +138,13 @@ local env_snippet = function(context, env, opts)
 			]],
 			{ t(env), i(0), t(env) }
 		),
-		opts
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	)
 end
 
-local labeled_env_snippet = function(context, env, opts)
+local labeled_env_snippet = function(context, env)
 	context.name = context.trig
 	context.dscr = "Labeled" .. context.trig .. " Environment"
-	context.docstring = [[\]] .. context.trig
 	return s(
 		context,
 		fmta(
@@ -157,31 +155,17 @@ local labeled_env_snippet = function(context, env, opts)
 			]],
 			{ t(env), i(1), t(context.trig), l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1), i(0), t(env) }
 		),
-		opts
+		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	)
 end
 
 local env_snippets = {}
 
 for k, v in pairs(env_specs) do
-	table.insert(
-		env_snippets,
-		env_snippet(
-			{ trig = k },
-			v,
-			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-		)
-	)
+	table.insert(env_snippets, env_snippet({ trig = k }, v))
 end
 for k, v in pairs(labeled_env_specs) do
-	table.insert(
-		env_snippets,
-		labeled_env_snippet(
-			{ trig = k },
-			v,
-			{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-		)
-	)
+	table.insert(env_snippets, labeled_env_snippet({ trig = k }, v))
 end
 
 vim.list_extend(autosnips, env_snippets)

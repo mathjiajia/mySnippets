@@ -1,59 +1,6 @@
-local snips, autosnips = {}, {}
+local autosnips = {}
 
 local tex = require("mySnippets.latex")
-
-snips = {
-	s(
-		{ trig = "c(%u)", name = "mathcal", wordTrig = false, regTrig = true, hidden = true },
-		{ f(function(_, snip)
-			return "\\mathcal{" .. snip.captures[1] .. "}"
-		end, {}) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-
-	s(
-		{ trig = "f(%a)", name = "mathfrak", wordTrig = false, regTrig = true, hidden = true },
-		{ f(function(_, snip)
-			return "\\mathfrak{" .. snip.captures[1] .. "}"
-		end, {}) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-
-	s(
-		{ trig = "s(%u)", name = "mathscr", wordTrig = false, regTrig = true, hidden = true },
-		{ f(function(_, snip)
-			return "\\mathscr{" .. snip.captures[1] .. "}"
-		end, {}) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-
-	s(
-		{ trig = "/", name = "fraction", dscr = "Insert a fraction notation.", wordTrig = false, hidden = true },
-		{ t("\\frac{"), i(1), t("}{"), i(2), t("}") },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-
-	s(
-		{ trig = "sum", name = "sum", dscr = "Insert a sum notation.", hidden = true },
-		{ t("\\sum_{"), i(1), t("}^{"), i(2), t("}") },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "lim", name = "limit", dscr = "Insert a limit notation.", hidden = true },
-		{ t("\\lim_{"), i(1, "n"), t("\\to "), i(2, "\\infty"), t("}") },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "limsup", name = "limsup", dscr = "Insert a limit superior notation.", hidden = true },
-		{ t("\\limsup_{"), i(1, "n"), t("\\to "), i(2, "\\infty"), t("}") },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "prod", name = "product", dscr = "Insert a product notation.", hidden = true },
-		{ t("\\prod_{"), i(1, "n"), t("="), i(2, "1"), t("}^{"), i(3, "\\infty"), t("}") },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-}
 
 autosnips = {
 	s({ trig = "\\varpii", name = "\\varpi_i", hidden = true }, { t("\\varpi_{i}") }, { condition = tex.in_math }),
@@ -134,44 +81,52 @@ autosnips = {
 
 	s(
 		{ trig = "^-", name = "negative exponents", wordTrig = false, hidden = true },
-		{ t("^{-"), i(1), t("}") },
+		fmta([[^{-<>}]], i(1)),
 		{ condition = tex.in_math }
 	),
-	s(
-		{ trig = "sq", name = "square root", hidden = true },
-		{ t("\\sqrt{"), i(1), t("}") },
-		{ condition = tex.in_math }
-	),
+	s({ trig = "sq", name = "square root", hidden = true }, fmta([[\\sqrt{<>}]], i(1)), { condition = tex.in_math }),
 	s(
 		{ trig = "__", name = "subscript", wordTrig = false, hidden = true },
-		{ t("_{"), i(1), t("}") },
-		{}
-		-- { condition = tex.in_math }
+		fmta([[_{<>}]], i(1)),
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "^^", name = "supscript", wordTrig = false, hidden = true },
-		{ t("^{"), i(1), t("}") },
-		{}
-		-- { condition = tex.in_math }
+		fmta([[^{<>}]], i(1)),
+		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "rup", name = "round up", wordTrig = false, hidden = true },
-		{ t("\\rup{"), i(1), t("}") },
+		fmta([[\rup{<>}]], i(1)),
 		{ condition = tex.in_math }
 	),
 	s(
 		{ trig = "rwn", name = "round down", wordTrig = false, hidden = true },
-		{ t("\\rdown{"), i(1), t("}") },
+		fmta([[\rdown{<>}]], i(1)),
 		{ condition = tex.in_math }
 	),
 
 	s(
 		{ trig = "srt", name = "square root", wordTrig = false, hidden = true },
-		{ t("\\sqrt{"), i(1), t("}") },
+		fmta([[\sqrt{<>}]], i(1)),
 		{ condition = tex.in_math }
 	),
-	s({ trig = "set", name = "set", hidden = true }, { t("\\{"), i(1), t("\\}") }, { condition = tex.in_math }),
+	s(
+		{ trig = "set", name = "set", dscr = "set" },
+		fmta([[\{<>\}<>]], { c(1, { r(1, ""), sn(nil, { r(1, ""), t(" \\mid "), i(2) }) }), i(0) }),
+		{ condition = tex.in_math, show_condition = tex.in_math }
+	),
+	s(
+		{ trig = "nnn", name = "bigcap", dscr = "bigcap" },
+		fmta([[\bigcap<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
+		{ condition = tex.in_math, show_condition = tex.in_math }
+	),
 
+	s(
+		{ trig = "uuu", name = "bigcup", dscr = "bigcup" },
+		fmta([[\bigcup<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
+		{ condition = tex.in_math, show_condition = tex.in_math }
+	),
 	-- s(
 	-- 	{ trig = '<|', name = 'triangleleft <|', wordTrig = false, hidden = true },
 	-- 	{ t('\\triangleleft ') },
@@ -277,8 +232,6 @@ local symbol_specs = {
 	qc = { context = { name = "⊇" }, command = [[\supseteq]] },
 	Nn = { context = { name = "∩" }, command = [[\cap ]] },
 	UU = { context = { name = "∪" }, command = [[\cup]] },
-	nnn = { context = { name = "∩" }, command = [[\bigcap ]] },
-	uuu = { context = { name = "∩" }, command = [[\bigcup ]] },
 	[";="] = { context = { name = "≡" }, command = [[\equiv]] },
 	[";-"] = { context = { name = "\\" }, command = [[\setminus]] },
 	[";A"] = { context = { name = "∀" }, command = [[\forall]] },
@@ -297,29 +250,26 @@ local symbol_specs = {
 	-- etc
 	dag = { context = { name = "†" }, command = [[\dagger]] },
 	lll = { context = { name = "ℓ" }, command = [[\ell]] },
+	quad = { context = { name = " " }, command = [[\quad ]] },
 	-- xmm = { context = { name = "x_m" }, command = [[x_{m}]] },
 	-- xnn = { context = { name = "x_n" }, command = [[x_{n}]] },
 	-- ymm = { context = { name = "y_m" }, command = [[y_{m}]] },
 	-- ynn = { context = { name = "y_n" }, command = [[y_{n}]] },
 }
 
-local symbol_snippet = function(context, command, opts)
-	opts = opts or {}
+local symbol_snippet = function(context, command)
 	context.dscr = command
 	context.name = context.name or command:gsub([[\]], "")
 	context.docstring = command .. [[{0}]]
-	context.wordTrig = context.wordTrig or false
-	context.hidden = context.wordTrig or true
-	return s(context, t(command), opts)
+	context.wordTrig = false
+	context.hidden = true
+	return s(context, t(command), { condition = tex.in_math })
 end
 
 local symbol_snippets = {}
 for k, v in pairs(symbol_specs) do
-	table.insert(
-		symbol_snippets,
-		symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command, { condition = tex.in_math })
-	)
+	table.insert(symbol_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command))
 end
 vim.list_extend(autosnips, symbol_snippets)
 
-return snips, autosnips
+return nil, autosnips

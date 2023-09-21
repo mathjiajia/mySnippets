@@ -56,18 +56,24 @@ autosnips = {
 
 	s(
 		{ trig = "mk", name = "inline math", dscr = "Insert inline Math Environment.", hidden = true },
-		{ t("\\("), i(1), t("\\)") },
+		fmta([[\(<>\)]], i(1)),
 		{
 			condition = tex.in_text,
 			callbacks = {
-				-- index `-1` means the callback is on the snippet as a whole
 				[-1] = { [events.leave] = appended_space_after_insert },
 			},
 		}
 	),
 	s(
 		{ trig = "dm", name = "dispaly math", dscr = "Insert display Math Environment." },
-		{ t({ "\\[", "\t" }), i(1), t({ "", "\\]" }) },
+		fmta(
+			[[
+			\[
+				<>
+			\]
+			]],
+			i(1)
+		),
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
