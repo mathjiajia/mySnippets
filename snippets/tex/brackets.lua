@@ -2,26 +2,23 @@ local snips, autosnips = {}, {}
 
 local tex = require("mySnippets.latex")
 
--- local texpairs = {
--- 	{ "(", ")" },
--- 	{ "\\left(", "\\right)" },
--- 	{ "\\big(", "\\big)" },
--- 	{ "\\Big(", "\\Big)" },
--- 	{ "\\bigg(", "\\bigg)" },
--- 	{ "\\Bigg(", "\\Bigg)" },
--- }
+local brackets = {
+	a = { "\\langle", "\\rangle" },
+	A = { "Angle", "Angle" },
+	b = { "brack", "brack" },
+	B = { "Brack", "Brack" },
+	c = { "brace", "brace" },
+	m = { "|", "|" },
+	p = { "(", ")" },
+}
 
--- local function choices_from_pairlist(ji, list)
--- 	local choices = {}
--- 	for _, pair in ipairs(list) do
--- 		table.insert(choices, {
--- 			t(pair[1]),
--- 			r(1, "inside_pairs", dl(1, l.LS_SELECT_DEDENT)),
--- 			t(pair[2]),
--- 		})
--- 	end
--- 	return c(ji, choices)
--- end
+local get_visual = function(_, parent)
+	if #parent.snippet.env.SELECT_RAW > 0 then
+		return sn(nil, i(1, parent.snippet.env.SELECT_RAW))
+	else -- If SELECT_RAW is empty, return a blank insert node
+		return sn(nil, i(1))
+	end
+end
 
 local generate_matrix = function(_, snip)
 	local rows = tonumber(snip.captures[2])
@@ -44,35 +41,20 @@ local generate_matrix = function(_, snip)
 end
 
 snips = {
-	-- s(
-	-- 	{ trig = "(", name = "parenthesis", dscr = "Different kinds of parenthesis" },
-	-- 	{ choices_from_pairlist(1, texpairs) },
-	-- 	{ condition = tex.in_text }
-	-- ),
-
 	s(
-		{ trig = "lr(", name = "left( right)", hidden = true },
-		{ t({ "\\left( " }), i(1), t({ "\\right)" }) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "lr|", name = "leftvert rightvert", hidden = true },
-		{ t({ "\\left\\lvert " }), i(1), t({ "\\right\\lvert" }) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "lr{", name = "left\\{ right\\}", hidden = true },
-		{ t({ "\\left\\{ " }), i(1), t({ "\\right\\}" }) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "lrb", name = "left\\{ right\\}", hidden = true },
-		{ t({ "\\left\\{ " }), i(1), t({ "\\right\\}" }) },
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-	s(
-		{ trig = "lr[", name = "left[ right]", hidden = true },
-		{ t({ "\\left[ " }), i(1), t({ "\\right]" }) },
+		{ trig = "lr([aAbBcmp])", name = "left right", dscr = "left right delimiters", regTrig = true, hidden = true },
+		fmta([[\left<> <>\right<><>]], {
+			f(function(_, snip)
+				local cap = snip.captures[1] or "p"
+				return brackets[cap][1]
+			end),
+			d(1, get_visual),
+			f(function(_, snip)
+				local cap = snip.captures[1] or "p"
+				return brackets[cap][2]
+			end),
+			i(0),
+		}),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 

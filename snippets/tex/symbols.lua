@@ -233,40 +233,12 @@ autosnips = {
 			return snip.captures[1] .. "_{j}"
 		end, {}),
 	}, { condition = tex.in_math }),
-
-	-- s(
-	-- 	{ trig = 'xmm', name = 'x_m', wordTrig = false, hidden = true },
-	-- 	{ t('x_{m}') },
-	-- 	{ condition = tex.in_math }
-	-- ),
-	-- s(
-	-- 	{ trig = 'xnn', name = 'x_n', wordTrig = false, hidden = true },
-	-- 	{ t('x_{n}') },
-	-- 	{ condition = tex.in_math }
-	-- ),
-	-- s(
-	-- 	{ trig = 'ymm', name = 'y_m', wordTrig = false, hidden = true },
-	-- 	{ t('y_{m}') },
-	-- 	{ condition = tex.in_math }
-	-- ),
-	-- s(
-	-- 	{ trig = 'ynn', name = 'y_n', wordTrig = false, hidden = true },
-	-- 	{ t('y_{n}') },
-	-- 	{ condition = tex.in_math }
-	-- ),
 }
 
 local symbol_specs = {
-	-- quantifiers and logic stuffs
+	-- logic
 	inn = { context = { name = "∈" }, command = [[\in]] },
 	["!in"] = { context = { name = "∉" }, command = [[\not\in]] },
-	["=>"] = { context = { name = "⇒" }, command = [[\implies]] },
-	["=<"] = { context = { name = "⇐" }, command = [[\impliedby]] },
-	iff = { context = { name = "⟺" }, command = [[\iff]] },
-	["->"] = { context = { name = "→", priority = 250 }, command = [[\to]] },
-	["!>"] = { context = { name = "↦" }, command = [[\mapsto]] },
-	["<-"] = { context = { name = "↦", priority = 250 }, command = [[\gets]] },
-
 	-- operators
 	["!="] = { context = { name = "!=" }, command = [[\neq]] },
 	["<="] = { context = { name = "≤" }, command = [[\leq]] },
@@ -312,14 +284,23 @@ local symbol_specs = {
 	[";A"] = { context = { name = "∀" }, command = [[\forall]] },
 	[";E"] = { context = { name = "∃" }, command = [[\exists]] },
 	-- arrows
+	["=>"] = { context = { name = "⇒" }, command = [[\implies]] },
+	["=<"] = { context = { name = "⇐" }, command = [[\impliedby]] },
+	["->"] = { context = { name = "→", priority = 250 }, command = [[\to]] },
+	["!>"] = { context = { name = "↦" }, command = [[\mapsto]] },
 	["-->"] = { context = { name = "⟶", priority = 500 }, command = [[\longrightarrow]] },
 	["<->"] = { context = { name = "↔", priority = 500 }, command = [[\leftrightarrow]] },
 	["2>"] = { context = { name = "⇉", priority = 400 }, command = [[\rightrightarrows]] },
+	iff = { context = { name = "⟺" }, command = [[\iff]] },
 	upar = { context = { name = "↑" }, command = [[\uparrow]] },
 	dnar = { context = { name = "↓" }, command = [[\downarrow]] },
 	-- etc
-	lll = { context = { name = "ℓ" }, command = [[\ell]] },
 	dag = { context = { name = "†" }, command = [[\dagger]] },
+	lll = { context = { name = "ℓ" }, command = [[\ell]] },
+	-- xmm = { context = { name = "x_m" }, command = [[x_{m}]] },
+	-- xnn = { context = { name = "x_n" }, command = [[x_{n}]] },
+	-- ymm = { context = { name = "y_m" }, command = [[y_{m}]] },
+	-- ynn = { context = { name = "y_n" }, command = [[y_{n}]] },
 }
 
 local symbol_snippet = function(context, command, opts)
