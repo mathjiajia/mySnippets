@@ -42,23 +42,6 @@ end
 
 snips = {
 	s(
-		{ trig = "lr([aAbBcmp])", name = "left right", dscr = "left right delimiters", regTrig = true, hidden = true },
-		fmta([[\left<> <>\right<><>]], {
-			f(function(_, snip)
-				local cap = snip.captures[1] or "p"
-				return brackets[cap][1]
-			end),
-			d(1, get_visual),
-			f(function(_, snip)
-				local cap = snip.captures[1] or "p"
-				return brackets[cap][2]
-			end),
-			i(0),
-		}),
-		{ condition = tex.in_math, show_condition = tex.in_math }
-	),
-
-	s(
 		{
 			trig = "([bBpvV])mat_(%d+)x_(%d+)([ar])",
 			name = "[bBpvV]matrix",
@@ -95,9 +78,20 @@ snips = {
 
 autosnips = {
 	s(
-		{ trig = "lra", name = "leftangle rightangle", hidden = true },
-		{ t({ "\\langle " }), i(1), t({ "\\rangle" }) },
-		{ condition = tex.in_math }
+		{ trig = "lr([aAbBcmp])", name = "left right", dscr = "left right delimiters", regTrig = true, hidden = true },
+		fmta([[\left<> <>\right<><>]], {
+			f(function(_, snip)
+				local cap = snip.captures[1] or "p"
+				return brackets[cap][1]
+			end),
+			d(1, get_visual),
+			f(function(_, snip)
+				local cap = snip.captures[1] or "p"
+				return brackets[cap][2]
+			end),
+			i(0),
+		}),
+		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 
 	s({ trig = "cvec", name = "column vector", hidden = true }, {
