@@ -3,6 +3,35 @@ local snips, autosnips = {}, {}
 local postfix = require("luasnip.extras.postfix").postfix
 local tex = require("mySnippets.latex")
 
+local dynamic_postfix = function(_, parent, _, user_arg1, user_arg2)
+	local capture = parent.snippet.env.POSTFIX_MATCH
+	if #capture > 0 then
+		return sn(
+			nil,
+			fmta(
+				[[
+        <><><><>
+        ]],
+				{ t(user_arg1), t(capture), t(user_arg2), i(0) }
+			)
+		)
+	else
+		local visual_placeholder = ""
+		if #parent.snippet.env.SELECT_RAW > 0 then
+			visual_placeholder = parent.snippet.env.SELECT_RAW
+		end
+		return sn(
+			nil,
+			fmta(
+				[[
+        <><><><>
+        ]],
+				{ t(user_arg1), i(1, visual_placeholder), t(user_arg2), i(0) }
+			)
+		)
+	end
+end
+
 snips = {
 	s(
 		{ trig = "bf", name = "bold", dscr = "Insert bold text." },
@@ -24,22 +53,19 @@ snips = {
 autosnips = {
 	postfix(
 		{ trig = "bar", name = "post overline", hidden = true },
-		{ l("\\overline{" .. l.POSTFIX_MATCH .. "}") },
+		{ d(1, dynamic_postfix, {}, { user_args = { "\\overline{", "}" } }) },
 		{ condition = tex.in_math }
 	),
 	postfix(
 		{ trig = "hat", name = "post widehat", hidden = true },
-		{ l("\\widehat{" .. l.POSTFIX_MATCH .. "}") },
+		{ d(1, dynamic_postfix, {}, { user_args = { "\\widehat{", "}" } }) },
 		{ condition = tex.in_math }
 	),
 	postfix(
 		{ trig = "td", name = "post widetilde", hidden = true },
-		{ l("\\widetilde{" .. l.POSTFIX_MATCH .. "}") },
+		{ d(1, dynamic_postfix, {}, { user_args = { "\\widetilde{", "}" } }) },
 		{ condition = tex.in_math }
 	),
-	s({ trig = "bar", name = "overline" }, { t("\\overline{"), i(1), t("}") }, { condition = tex.in_math }),
-	s({ trig = "hat", name = "widehat" }, { t("\\widehat{"), i(1), t("}") }, { condition = tex.in_math }),
-	s({ trig = "td", name = "widetilde" }, { t("\\widetilde{"), i(1), t("}") }, { condition = tex.in_math }),
 
 	s({ trig = "quad", name = "quad", hidden = true }, { t("\\quad ") }, { condition = tex.in_math }),
 	s(
