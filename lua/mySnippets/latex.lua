@@ -102,16 +102,10 @@ local function in_align()
 end
 
 local function in_bullets()
-	local bufnr = api.nvim_get_current_buf()
 	local node = get_node_at_cursor()
 	while node do
-		if node:type() == "math_environment" then
-			local begin = node:child(0)
-			local names = begin and begin:field("name")
-
-			if names and names[1] and BULLET_ENVIRONMENTS[ts.get_node_text(names[1], bufnr):gsub("%*", "")] then
-				return true
-			end
+		if node:type() == "enum_item" then
+			return true
 		end
 		node = node:parent()
 	end

@@ -16,7 +16,6 @@ autosnips = {
 			[[
 			\begin{frame}
 				\frametitle{<>}
-
 				<>
 			\end{frame}
 			]],
@@ -26,7 +25,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "bbl", name = "Beamer block Environment" },
+		{ trig = "bbl", name = "Beamer Block Environment" },
 		fmta(
 			[[
 			\begin{block}{<>}

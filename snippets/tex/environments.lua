@@ -3,7 +3,6 @@ local snips, autosnips = {}, {}
 local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
-
 local env_snippet = require("mySnippets.utils").env_snippet
 local labeled_env_snippet = require("mySnippets.utils").labeled_env_snippet
 
@@ -91,11 +90,26 @@ autosnips = {
 	s(
 		{ trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
 		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
+		fmta(
+			[[
+			\begin{<>}
+				<>
+			\end{<>}
+			]],
+			{ i(1), i(0), rep(1) }
+		),
 		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
 	s(
 		{ trig = "lprf", name = "Titled Proof", dscr = "Create a titled proof environment." },
-		{ t("\\begin{proof}[Proof of \\cref{"), i(1), t({ "}]", "\t" }), i(0), t({ "", "\\end{proof}" }) },
+		fmta(
+			[[
+			\begin{proof}[Proof of \cref{<>}]
+				<>
+			\end{proof}
+			]],
+			{ i(1), i(0) }
+		),
 		opts
 	),
 
@@ -105,7 +119,7 @@ autosnips = {
 			[[
 			\begin{cases}
 				<>
-			.\end{cases}
+			\end{cases}
 			]],
 			{ d(1, generate_cases) }
 		),
@@ -145,7 +159,7 @@ autosnips = {
 			\begin{enumerate}<>
 				\item <>
 			\end{enumerate}
-    ]],
+			]],
 			{
 				c(1, {
 					t(""),
@@ -168,23 +182,18 @@ autosnips = {
 	),
 	s(
 		{ trig = "!-", name = "bullet point", dscr = "bullet point with custom text" },
-		fmta(
-			[[ 
-    \item [<>]<>
-    ]],
-			{ i(1), i(0) }
-		),
+		fmta([[\item [<>]<>]], { i(1), i(0) }),
 		{ condition = pos.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
 	),
 
 	s(
-		{ trig = "ali", name = "align(|*|ed)", dscr = "align math" },
+		{ trig = "bal", name = "align(|*|ed)", dscr = "align math" },
 		fmta(
 			[[
 			\begin{align<>}
 				<>
 			\end{align<>}
-    ]],
+			]],
 			{ c(1, { t("*"), t(""), t("ed") }), i(2), rep(1) }
 		),
 		{ condition = pos.line_begin, show_condition = pos.line_begin }
@@ -203,8 +212,6 @@ autosnips = {
 }
 
 local env_specs = {
-	bal = "align",
-	bsal = "align*",
 	beq = "equation",
 	bseq = "equation*",
 	proof = "proof",

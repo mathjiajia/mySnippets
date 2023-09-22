@@ -38,13 +38,10 @@ autosnips = {
 			\begin{pmatrix}
 				<>_<> \\
 				\vdots \\
-				<>_n
+				<>_<>
 			\end{pmatrix}
 			]],
-			{ i(1, "x") },
-			i(2, "1"),
-			rep(1),
-			i(3, "n")
+			{ i(1, "x"), i(2, "1"), rep(1), i(3, "n") }
 		),
 	}, { condition = pos.line_begin * tex.in_math }),
 }
