@@ -116,6 +116,7 @@ end
 M.labeled_env_snippet = function(context, env)
 	context.name = context.trig
 	context.dscr = "Labeled" .. context.trig .. " Environment"
+	context.trig = "l" .. context.trig
 	return s(
 		context,
 		fmta(
@@ -124,7 +125,7 @@ M.labeled_env_snippet = function(context, env)
 				<>
 			\end{<>}
 			]],
-			{ t(env), i(1), t(context.trig), l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1), i(0), t(env) }
+			{ t(env), i(1), t(context.name), l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1), i(0), t(env) }
 		),
 		env_opts
 	)
