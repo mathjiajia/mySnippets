@@ -1,8 +1,8 @@
 local autosnips = {}
 
 local tex = require("mySnippets.latex")
-local symbol_snippet = require("mySnippets.utils")
-local single_command_snippet = require("mySnippets.utils")
+local symbol_snippet = require("mySnippets.utils").symbol_snippet
+local single_command_snippet = require("mySnippets.utils").single_command_snippet
 
 autosnips = {
 	s({ trig = "\\varpii", name = "\\varpi_i", hidden = true }, { t("\\varpi_{i}") }, { condition = tex.in_math }),
