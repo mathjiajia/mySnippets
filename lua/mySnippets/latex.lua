@@ -17,7 +17,7 @@ local ALIGN_ENVIRONMENTS = {
 	["{array}"] = true,
 	["{split}"] = true,
 	["{alignat}"] = true,
-	["[gather]"] = true,
+	["{gather}"] = true,
 	["{flalign}"] = true,
 }
 
@@ -43,7 +43,7 @@ end
 -- 			local begin = node:child(0)
 -- 			local names = begin and begin:field("name")
 --
--- 			if names and names[1] and ts.query.get_node_text(names[1], buf) == "tikzcd" then
+-- 			if names and names[1] and ts.get_node_text(names[1], buf) == "tikzcd" then
 -- 				return true
 -- 			end
 -- 		end
@@ -90,6 +90,7 @@ local function in_align()
 	while node do
 		if node:type() == "math_environment" then
 			local begin = node:child(0)
+			---@diagnostic disable-next-line: undefined-field
 			local names = begin and begin:field("name")
 
 			if names and names[1] and ALIGN_ENVIRONMENTS[ts.get_node_text(names[1], bufnr):gsub("%*", "")] then
@@ -102,10 +103,17 @@ local function in_align()
 end
 
 local function in_bullets()
+	local bufnr = api.nvim_get_current_buf()
 	local node = get_node_at_cursor()
 	while node do
-		if node:type() == "enum_item" then
-			return true
+		if node:type() == "generic_environment" then
+			local begin = node:child(0)
+			---@diagnostic disable-next-line: undefined-field
+			local names = begin and begin:field("name")
+
+			if names and names[1] and BULLET_ENVIRONMENTS[ts.get_node_text(names[1], bufnr)] then
+				return true
+			end
 		end
 		node = node:parent()
 	end

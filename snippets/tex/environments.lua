@@ -178,12 +178,12 @@ autosnips = {
 	s(
 		{ trig = "--", hidden = true },
 		{ t("\\item") },
-		{ condition = pos.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
+		{ condition = conds_expand.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
 	),
 	s(
 		{ trig = "!-", name = "bullet point", dscr = "bullet point with custom text" },
 		fmta([[\item [<>]<>]], { i(1), i(0) }),
-		{ condition = pos.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
+		{ condition = conds_expand.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
 	),
 
 	s(
@@ -196,7 +196,7 @@ autosnips = {
 			]],
 			{ c(1, { t("*"), t(""), t("ed") }), i(2), rep(1) }
 		),
-		{ condition = pos.line_begin, show_condition = pos.line_begin }
+		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
 
 	s({ trig = "bfu", name = "function" }, {

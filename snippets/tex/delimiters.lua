@@ -1,7 +1,7 @@
 local autosnips = {}
 
+local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
-local pos = require("mySnippets.position")
 local get_visual = require("mySnippets.utils").get_visual
 
 local brackets = {
@@ -43,7 +43,7 @@ autosnips = {
 			]],
 			{ i(1, "x"), i(2, "1"), rep(1), i(3, "n") }
 		),
-	}, { condition = pos.line_begin * tex.in_math }),
+	}, { condition = conds_expand.line_begin * tex.in_math }),
 }
 
 return nil, autosnips
