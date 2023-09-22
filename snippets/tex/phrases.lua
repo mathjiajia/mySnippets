@@ -4,6 +4,10 @@ local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
 
+local phrase_snippet = require("mySnippets.utils").phrase_snippet
+
+local opts = { condition = tex.in_text, show_condition = tex.in_text }
+
 snips = {
 	s({ trig = "cf", name = "cross refrence" }, fmta([[\cite[<>]{<>}]], { i(1), i(2) }), {
 		condition = tex.in_text,
@@ -21,44 +25,31 @@ snips = {
 }
 
 autosnips = {
-	s(
-		{ trig = "qf", name = "Q-factorial" },
-		{ t("\\(\\mathbb{Q}\\)-factorial") },
-		{ condition = tex.in_text, show_condition = tex.in_text }
-	),
-	s(
-		{ trig = "bqf", name = "base point free" },
-		{ t("base point free") },
-		{ condition = tex.in_text, show_condition = tex.in_text }
-	),
+	s({ trig = "qf", name = "Q-factorial" }, { t("\\(\\mathbb{Q}\\)-factorial") }, opts),
+	s({ trig = "bqf", name = "base point free" }, { t("base point free") }, opts),
+	s({ trig = "cref", name = "\\cref{}" }, fmta([[\cref{<>}]], { i(1) }), opts),
+
 	s(
 		{ trig = "Tfae", name = "The following are equivalent" },
 		{ t("The following are equivalent") },
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
-
-	s({ trig = "([qr])c", name = "Cartier", regTrig = true }, {
-		f(function(_, snip)
-			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-Cartier"
-		end, {}),
-	}, { condition = tex.in_text, show_condition = tex.in_text }),
-
-	s({ trig = "([qr])d", name = "divisor", regTrig = true }, {
-		f(function(_, snip)
-			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-divisor"
-		end, {}),
-	}, { condition = tex.in_text, show_condition = tex.in_text }),
 	s({ trig = "([wW])log", name = "without loss of generality", regTrig = true }, {
 		f(function(_, snip)
 			return snip.captures[1] .. "ithout loss of generality"
 		end, {}),
 	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
 
-	s(
-		{ trig = "cref", name = "\\cref{}" },
-		fmta([[\cref{<>}]], { i(1) }),
-		{ condition = tex.in_text, show_condition = tex.in_text }
-	),
+	s({ trig = "([qr])c", name = "Cartier", regTrig = true }, {
+		f(function(_, snip)
+			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-Cartier"
+		end, {}),
+	}, opts),
+	s({ trig = "([qr])d", name = "divisor", regTrig = true }, {
+		f(function(_, snip)
+			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-divisor"
+		end, {}),
+	}, opts),
 }
 
 local phrase_specs = {
@@ -86,11 +77,6 @@ local auto_phrase_specs = {
 	lmm = "log minimal model",
 	tfae = "the following are equivalent",
 }
-
-local phrase_snippet = function(context, body)
-	context.dscr = context.trig
-	return s(context, t(body), { condition = tex.in_text, show_condition = tex.in_text })
-end
 
 for k, v in pairs(phrase_specs) do
 	table.insert(snips, phrase_snippet({ trig = k }, v))

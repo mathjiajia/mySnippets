@@ -21,6 +21,11 @@ local ALIGN_ENVIRONMENTS = {
 	["{flalign}"] = true,
 }
 
+local BULLET_ENVIRONMENTS = {
+	["{itemize}"] = true,
+	["{enumerate}"] = true,
+}
+
 ---get node under the cursor in insert mode (after trigger) for latex
 ---@return TSNode|nil
 local function get_node_at_cursor()
@@ -96,6 +101,23 @@ local function in_align()
 	return false
 end
 
+local function in_bullets()
+	local bufnr = api.nvim_get_current_buf()
+	local node = get_node_at_cursor()
+	while node do
+		if node:type() == "math_environment" then
+			local begin = node:child(0)
+			local names = begin and begin:field("name")
+
+			if names and names[1] and BULLET_ENVIRONMENTS[ts.get_node_text(names[1], bufnr):gsub("%*", "")] then
+				return true
+			end
+		end
+		node = node:parent()
+	end
+	return false
+end
+
 ---Check if cursor is in treesitter node of 'generic_command': '\xymatrix'
 ---@return boolean
 local function in_xymatrix()
@@ -116,6 +138,7 @@ end
 M.in_math = cond_obj.make_condition(in_math)
 M.in_text = cond_obj.make_condition(in_text)
 M.in_align = cond_obj.make_condition(in_align)
+M.in_bullets = cond_obj.make_condition(in_bullets)
 M.in_xymatrix = cond_obj.make_condition(in_xymatrix)
 
 return M

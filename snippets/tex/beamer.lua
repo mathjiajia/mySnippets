@@ -4,41 +4,38 @@ local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
 
+local opts = {
+	condition = conds_expand.line_begin * pos.in_beamer * tex.in_text,
+	show_condition = pos.line_begin * pos.in_beamer * tex.in_text,
+}
+
 autosnips = {
-	s({ trig = "bfr", name = "Beamer Frame Environment" }, {
-		t({ "\\begin{frame}", "\t\\frametitle{" }),
-		i(1, "frame title"),
-		t({ "}", "\t" }),
-		i(0),
-		t({ "", "\\end{frame}" }),
-	}, {
-		condition = conds_expand.line_begin * pos.in_beamer * tex.in_text,
-		show_condition = pos.line_begin * pos.in_beamer * tex.in_text,
-	}),
+	s(
+		{ trig = "bfr", name = "Beamer Frame Environment" },
+		fmta(
+			[[
+			\begin{frame}
+				\frametitle{<>}
+
+				<>
+			\end{frame}
+			]],
+			{ i(1, "frame title"), i(0) }
+		),
+		opts
+	),
 
 	s(
-		{ trig = "bcor", name = "Beamer Corollary Environment" },
-		{ t({ "\\begin{block}{Corollary}", "\t" }), i(0), t({ "", "\\end{block}" }) },
-		{
-			condition = conds_expand.line_begin * pos.in_beamer * tex.in_text,
-			show_condition = pos.line_begin * pos.in_beamer * tex.in_text,
-		}
-	),
-	s(
-		{ trig = "bdef", name = "Beamer Definition Environment" },
-		{ t({ "\\begin{block}{Definition}", "\t" }), i(0), t({ "", "\\end{block}" }) },
-		{
-			condition = conds_expand.line_begin * pos.in_beamer * tex.in_text,
-			show_condition = pos.line_begin * pos.in_beamer * tex.in_text,
-		}
-	),
-	s(
-		{ trig = "brem", name = "Beamer Remark Environment" },
-		{ t({ "\\begin{block}{Remark}", "\t" }), i(0), t({ "", "\\end{block}" }) },
-		{
-			condition = conds_expand.line_begin * pos.in_beamer * tex.in_text,
-			show_condition = pos.line_begin * pos.in_beamer * tex.in_text,
-		}
+		{ trig = "bbl", name = "Beamer block Environment" },
+		fmta(
+			[[
+			\begin{block}{<>}
+				<>
+			\\end{block}
+			]],
+			{ i(1), i(0) }
+		),
+		opts
 	),
 }
 
