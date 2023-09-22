@@ -80,7 +80,7 @@ autosnips = {
 	s({
 		trig = "(%a)(%d)",
 		name = "auto subscript 1",
-		dscr = "Subscript with a single number.",
+		desc = "Subscript with a single number.",
 		wordTrig = false,
 		regTrig = true,
 		hidden = true,
@@ -93,7 +93,7 @@ autosnips = {
 	s({
 		trig = "(%a)_(%d%d)",
 		name = "auto subscript 2",
-		dscr = "Subscript with two numbers.",
+		desc = "Subscript with two numbers.",
 		wordTrig = false,
 		regTrig = true,
 		hidden = true,
@@ -105,18 +105,18 @@ autosnips = {
 
 	s({ trig = "^-", name = "negative exponents", wordTrig = false, hidden = true }, fmta([[^{-<>}]], { i(1) }), opts),
 	s(
-		{ trig = "set", name = "set", dscr = "set" },
+		{ trig = "set", name = "set", desc = "set" },
 		fmta([[\{<>\}<>]], { c(1, { r(1, ""), sn(nil, { r(1, ""), t(" \\mid "), i(2) }) }), i(0) }),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 	s(
-		{ trig = "nnn", name = "bigcap", dscr = "bigcap" },
+		{ trig = "nnn", name = "bigcap", desc = "bigcap" },
 		fmta([[\bigcap<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
 
 	s(
-		{ trig = "uuu", name = "bigcup", dscr = "bigcup" },
+		{ trig = "uuu", name = "bigcup", desc = "bigcup" },
 		fmta([[\bigcup<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		{ condition = tex.in_math, show_condition = tex.in_math }
 	),
@@ -181,47 +181,47 @@ autosnips = {
 
 local single_command_math_specs = {
 	tt = {
-		context = { name = "text (math)", dscr = "text in math mode" },
+		context = { name = "text (math)", desc = "text in math mode" },
 		command = [[\text]],
 	},
 	sbf = {
-		context = { name = "symbf", dscr = "bold math text" },
+		context = { name = "symbf", desc = "bold math text" },
 		command = [[\symbf]],
 	},
 	syi = {
-		context = { name = "symit", dscr = "italic math text" },
+		context = { name = "symit", desc = "italic math text" },
 		command = [[\symit]],
 	},
 	udd = {
-		context = { name = "underline (math)", dscr = "underlined text in math mode" },
+		context = { name = "underline (math)", desc = "underlined text in math mode" },
 		command = [[\underline]],
 	},
 	conj = {
-		context = { name = "conjugate", dscr = "conjugate (overline)" },
+		context = { name = "conjugate", desc = "conjugate (overline)" },
 		command = [[\overline]],
 	},
 	rup = {
-		context = { name = "round up", dscr = "auto round up", wordTrig = false },
+		context = { name = "round up", desc = "auto round up", wordTrig = false },
 		command = [[\rup]],
 	},
 	["rdn"] = {
-		context = { name = "round down", dscr = "auto round down", wordTrig = false },
+		context = { name = "round down", desc = "auto round down", wordTrig = false },
 		command = [[\rdown]],
 	},
 	["__"] = {
-		context = { name = "subscript", dscr = "auto subscript", wordTrig = false },
+		context = { name = "subscript", desc = "auto subscript", wordTrig = false },
 		command = [[_]],
 	},
 	["^^"] = {
-		context = { name = "superscript", dscr = "auto superscript", wordTrig = false },
+		context = { name = "superscript", desc = "auto superscript", wordTrig = false },
 		command = [[^]],
 	},
 	sbt = {
-		context = { name = "substack", dscr = "substack for sums/products" },
+		context = { name = "substack", desc = "substack for sums/products" },
 		command = [[\substack]],
 	},
 	sq = {
-		context = { name = "sqrt", dscr = "sqrt" },
+		context = { name = "sqrt", desc = "sqrt" },
 		command = [[\sqrt]],
 		ext = { choice = true },
 	},

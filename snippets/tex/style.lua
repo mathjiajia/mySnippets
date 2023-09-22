@@ -5,17 +5,17 @@ local postfix_snippet = require("mySnippets.utils").postfix_snippet
 
 snips = {
 	s(
-		{ trig = "bf", name = "bold", dscr = "Insert bold text." },
+		{ trig = "bf", name = "bold", desc = "Insert bold text." },
 		{ t("\\textbf{"), i(1), t("}") },
 		{ condition = tex.in_text, show_condition = tex.in_text }
 	),
 	s(
-		{ trig = "it", name = "italic", dscr = "Insert italic text." },
+		{ trig = "it", name = "italic", desc = "Insert italic text." },
 		{ t("\\textit{"), i(1), t("}") },
 		{ condition = tex.in_text, show_condition = tex.in_text }
 	),
 	s(
-		{ trig = "em", name = "emphasize", dscr = "Insert emphasize text." },
+		{ trig = "em", name = "emphasize", desc = "Insert emphasize text." },
 		{ t("\\emph{"), i(1), t("}") },
 		{ condition = tex.in_text, show_condition = tex.in_text }
 	),
@@ -36,31 +36,31 @@ autosnips = {
 
 local postfix_math_specs = {
 	mbb = {
-		context = { name = "mathbb", dscr = "math blackboard bold" },
+		context = { name = "mathbb", desc = "math blackboard bold" },
 		command = { pre = [[\mathbb{]], post = [[}]] },
 	},
 	mcal = {
-		context = { name = "mathcal", dscr = "math calligraphic" },
+		context = { name = "mathcal", desc = "math calligraphic" },
 		command = { pre = [[\mathcal{]], post = [[}]] },
 	},
 	mscr = {
-		context = { name = "mathscr", dscr = "math script" },
+		context = { name = "mathscr", desc = "math script" },
 		command = { pre = [[\mathscr{]], post = [[}]] },
 	},
 	mfr = {
-		context = { name = "mathfrak", dscr = "mathfrak" },
+		context = { name = "mathfrak", desc = "mathfrak" },
 		command = { pre = [[\mathfrak{]], post = [[}]] },
 	},
 	hat = {
-		context = { name = "hat", dscr = "hat" },
+		context = { name = "hat", desc = "hat" },
 		command = { pre = [[\widehat{]], post = [[}]] },
 	},
 	bar = {
-		context = { name = "bar", dscr = "bar (overline)" },
+		context = { name = "bar", desc = "bar (overline)" },
 		command = { pre = [[\overline{]], post = [[}]] },
 	},
 	td = {
-		context = { name = "tilde", priority = 500, dscr = "tilde" },
+		context = { name = "tilde", priority = 500, desc = "tilde" },
 		command = { pre = [[\widetilde{]], post = [[}]] },
 	},
 }

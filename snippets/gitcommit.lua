@@ -14,7 +14,7 @@ local commit_specs = {
 
 local commit_snippet = function(context)
 	context.name = context.trig
-	context.dscr = context.trig
+	context.desc = context.trig
 	return s(
 		context,
 		fmta([[<>(<>): <>]], { t(context.trig), i(1, "scope"), i(0, "title") }),

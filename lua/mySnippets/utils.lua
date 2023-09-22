@@ -18,17 +18,17 @@ local pos = require("mySnippets.position")
 
 local env_opts = { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 
-local dynamic_postfix = function(_, parent, _, user_arg1, user_arg2)
+local dynamic_postfix = function(_, parent, _, arg1, arg2)
 	-- Generating functions for Matrix/Cases - thanks L3MON4D3
 	local capture = parent.snippet.env.POSTFIX_MATCH
 	if #capture > 0 then
-		return sn(nil, fmta([[<><><><>]], { t(user_arg1), t(capture), t(user_arg2), i(0) }))
+		return sn(nil, fmta([[<><><><>]], { t(arg1), t(capture), t(arg2), i(0) }))
 	else
 		local visual_placeholder = ""
 		if #parent.snippet.env.SELECT_RAW > 0 then
 			visual_placeholder = parent.snippet.env.SELECT_RAW
 		end
-		return sn(nil, fmta([[<><><><>]], { t(user_arg1), i(1, visual_placeholder), t(user_arg2), i(0) }))
+		return sn(nil, fmta([[<><><><>]], { t(arg1), i(1, visual_placeholder), t(arg2), i(0) }))
 	end
 end
 
@@ -41,36 +41,35 @@ M.get_visual = function(_, parent)
 end
 
 M.postfix_snippet = function(context, command, opts)
-	context.dscr = context.dscr
-	context.name = context.dscr
+	context.name = context.desc
 	context.docstring = command.pre .. [[(POSTFIX_MATCH|VISUAL|<1>)]] .. command.post
 	return postfix(context, { d(1, dynamic_postfix, {}, { user_args = { command.pre, command.post } }) }, opts)
 end
 
 M.symbol_snippet = function(context, command)
-	context.dscr = command
+	context.desc = command
 	context.name = context.name or command:gsub([[\]], "")
 	context.docstring = command .. [[{0}]]
 	context.wordTrig = false
 	context.hidden = true
-	return s(context, t(command), { opts = tex.in_math })
+	return s(context, t(command), { condition = tex.in_math })
 end
 
 M.operator_snippet = function(context)
 	context.name = context.trig
-	context.dscr = context.trig .. " with automatic backslash"
-	return s(context, t([[\]] .. context.trig), { condition = tex.in_math })
+	context.desc = context.trig .. " with automatic backslash"
+	return s(context, t([[\]] .. context.trig), { condition = tex.in_math, show_condition = tex.in_math })
 end
 
 M.phrase_snippet = function(context, body)
-	context.dscr = context.trig
+	context.desc = context.trig
 	return s(context, t(body), { condition = tex.in_text, show_condition = tex.in_text })
 end
 
 M.single_command_snippet = function(context, command, opts, ext)
 	opts = opts or {}
-	context.dscr = context.dscr or command
-	context.name = context.name or context.dscr
+	context.desc = context.desc or command
+	context.name = context.name or context.desc
 	local docstring, offset, cnode, lnode
 	if ext.choice == true then
 		docstring = "[" .. [[(<1>)?]] .. "]" .. [[{]] .. [[<2>]] .. [[}]] .. [[<0>]]
@@ -98,7 +97,7 @@ end
 
 M.env_snippet = function(context, env)
 	context.name = context.trig
-	context.dscr = context.trig .. " Environment"
+	context.desc = context.trig .. " Environment"
 	return s(
 		context,
 		fmta(
@@ -115,7 +114,7 @@ end
 
 M.labeled_env_snippet = function(context, env)
 	context.name = context.trig
-	context.dscr = "Labeled" .. context.trig .. " Environment"
+	context.desc = "Labeled" .. context.trig .. " Environment"
 	context.trig = "l" .. context.trig
 	return s(
 		context,
@@ -133,7 +132,7 @@ end
 
 M.sec_snippet = function(context, sec)
 	context.name = sec
-	context.dscr = sec
+	context.desc = sec
 	return s(
 		context,
 		fmta(

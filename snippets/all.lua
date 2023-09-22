@@ -58,34 +58,34 @@ end
 ---@param opts table merged with the snippet opts table
 local todo_snippet = function(context, aliases, opts)
 	opts = opts or {}
-
 	opts.ctype = opts.ctype or 1
+
 	local alias_string = table.concat(aliases, "|")
 	context.name = alias_string .. " comment"
-	context.dscr = alias_string .. " comment with a signature-mark"
+	context.desc = alias_string .. " comment with a signature-mark"
 	local comment_node = todo_snippet_nodes(aliases, opts)
 	return s(context, comment_node, opts)
 end
 
 local todo_snippet_specs = {
-	{ { trig = "todo" }, { "TODO" } },
-	{ { trig = "fix" }, { "FIX", "BUG", "ISSUE", "FIXIT" } },
-	{ { trig = "hack" }, { "HACK" } },
-	{ { trig = "warn" }, { "WARN", "WARNING", "XXX" } },
-	{ { trig = "perf" }, { "PERF", "PERFORMANCE", "OPTIM", "OPTIMIZE" } },
-	{ { trig = "note" }, { "NOTE", "INFO" } },
+	todo = { { "TODO" } },
+	fix = { { "FIX", "BUG", "ISSUE", "FIXIT" } },
+	hack = { { "HACK" } },
+	warn = { { "WARN", "WARNING", "XXX" } },
+	perf = { { "PERF", "PERFORMANCE", "OPTIM", "OPTIMIZE" } },
+	note = { { "NOTE", "INFO" } },
 
-	{ { trig = "todob" }, { "TODO" }, { ctype = 2 } },
-	{ { trig = "fixb" }, { "FIX", "BUG", "ISSUE", "FIXIT" }, { ctype = 2 } },
-	{ { trig = "hackb" }, { "HACK" }, { ctype = 2 } },
-	{ { trig = "warnb" }, { "WARN", "WARNING", "XXX" }, { ctype = 2 } },
-	{ { trig = "perfb" }, { "PERF", "PERFORMANCE", "OPTIM", "OPTIMIZE" }, { ctype = 2 } },
-	{ { trig = "noteb" }, { "NOTE", "INFO" }, { ctype = 2 } },
+	todob = { { "TODO" }, { ctype = 2 } },
+	fixb = { { "FIX", "BUG", "ISSUE", "FIXIT" }, { ctype = 2 } },
+	hackb = { { "HACK" }, { ctype = 2 } },
+	warnb = { { "WARN", "WARNING", "XXX" }, { ctype = 2 } },
+	perfb = { { "PERF", "PERFORMANCE", "OPTIM", "OPTIMIZE" }, { ctype = 2 } },
+	noteb = { { "NOTE", "INFO" }, { ctype = 2 } },
 }
 
 local todo_comment_snippets = {}
-for _, v in ipairs(todo_snippet_specs) do
-	table.insert(todo_comment_snippets, todo_snippet(v[1], v[2], v[3]))
+for k, v in pairs(todo_snippet_specs) do
+	table.insert(todo_comment_snippets, todo_snippet({ trig = k }, v[1], v[2]))
 end
 
 return todo_comment_snippets

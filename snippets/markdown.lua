@@ -4,7 +4,7 @@ local conds_expand = require("luasnip.extras.conditions.expand")
 local pos = require("mySnippets.position")
 
 snips = {
-	s({ trig = "#([2-6])", name = "Heading", dscr = "Add Heading", regTrig = true, hidden = true }, {
+	s({ trig = "#([2-6])", name = "Heading", desc = "Add Heading", regTrig = true, hidden = true }, {
 		f(function(_, snip)
 			return string.rep("#", tonumber(snip.captures[1], 10)) .. " "
 		end, {}),
@@ -40,7 +40,7 @@ snips = {
 	),
 
 	s(
-		{ trig = "link", name = "Markdown Links", dscr = "Insert a Link" },
+		{ trig = "link", name = "Markdown Links", desc = "Insert a Link" },
 		{ t("["), i(1, "title"), t("]("), i(2, "url"), t(")") }
 	),
 }

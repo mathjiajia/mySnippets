@@ -16,7 +16,7 @@ local brackets = {
 
 autosnips = {
 	s(
-		{ trig = "lr([aAbBcmp])", name = "left right", dscr = "left right delimiters", regTrig = true, hidden = true },
+		{ trig = "lr([aAbBcmp])", name = "left right", desc = "left right delimiters", regTrig = true, hidden = true },
 		fmta([[\left<> <>\right<><>]], {
 			f(function(_, snip)
 				local cap = snip.captures[1] or "p"

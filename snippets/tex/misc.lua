@@ -55,7 +55,7 @@ autosnips = {
 	}, { condition = tex.in_text }),
 
 	s(
-		{ trig = "mk", name = "inline math", dscr = "Insert inline Math Environment.", hidden = true },
+		{ trig = "mk", name = "inline math", desc = "Insert inline Math Environment.", hidden = true },
 		fmta([[\(<>\)]], { i(1) }),
 		{
 			condition = tex.in_text,
@@ -65,7 +65,7 @@ autosnips = {
 		}
 	),
 	s(
-		{ trig = "dm", name = "dispaly math", dscr = "Insert display Math Environment." },
+		{ trig = "dm", name = "dispaly math", desc = "Insert display Math Environment." },
 		fmta(
 			[[
 			\[
@@ -77,12 +77,12 @@ autosnips = {
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),
 	s(
-		{ trig = "pha", name = "sum", dscr = "Insert a sum notation.", hidden = true },
+		{ trig = "pha", name = "sum", desc = "Insert a sum notation.", hidden = true },
 		{ t("&\\phantom{\\;=\\;} ") },
 		{ condition = conds_expand.line_begin * tex.in_align }
 	),
 	s(
-		{ trig = "ni", name = "non-indented paragraph", dscr = "Insert non-indented paragraph." },
+		{ trig = "ni", name = "non-indented paragraph", desc = "Insert non-indented paragraph." },
 		{ t({ "\\noindent", "" }) },
 		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 	),

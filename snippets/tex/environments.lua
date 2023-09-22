@@ -55,7 +55,7 @@ snips = {
 		{
 			trig = "([bBpvV])mat_(%d+)x_(%d+)([ar])",
 			name = "[bBpvV]matrix",
-			dscr = "matrices",
+			desc = "matrices",
 			regTrig = true,
 			hidden = true,
 		},
@@ -88,7 +88,7 @@ snips = {
 
 autosnips = {
 	s(
-		{ trig = "beg", name = "begin/end", dscr = "begin/end environment (generic)" },
+		{ trig = "beg", name = "begin/end", desc = "begin/end environment (generic)" },
 		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
 		fmta(
 			[[
@@ -101,7 +101,7 @@ autosnips = {
 		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
 	),
 	s(
-		{ trig = "lprf", name = "Titled Proof", dscr = "Create a titled proof environment." },
+		{ trig = "lprf", name = "Titled Proof", desc = "Create a titled proof environment." },
 		fmta(
 			[[
 			\begin{proof}[Proof of \cref{<>}]
@@ -114,7 +114,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "(%d?)cases", name = "cases", dscr = "cases", regTrig = true, hidden = true },
+		{ trig = "(%d?)cases", name = "cases", desc = "cases", regTrig = true, hidden = true },
 		fmta(
 			[[
 			\begin{cases}
@@ -127,7 +127,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "xym", name = "xymatrix Environment", dscr = "Create a xymatrix environment." },
+		{ trig = "xym", name = "xymatrix Environment", desc = "Create a xymatrix environment." },
 		fmta(
 			[[
 			\[
@@ -141,9 +141,9 @@ autosnips = {
 		opts
 	),
 	s(
-		{ trig = "bit", name = "itemize", dscr = "bullet points (itemize)" },
+		{ trig = "bit", name = "itemize", desc = "bullet points (itemize)" },
 		fmta(
-			[[ 
+			[[
 			\begin{itemize}
 				\item <>
 			\end{itemize}
@@ -153,22 +153,16 @@ autosnips = {
 		opts
 	),
 	s(
-		{ trig = "ben", name = "enumerate", dscr = "numbered list (enumerate)" },
+		{ trig = "ben", name = "enumerate", desc = "numbered list (enumerate)" },
 		fmta(
-			[[ 
+			[[
 			\begin{enumerate}<>
 				\item <>
 			\end{enumerate}
 			]],
 			{
-				c(1, {
-					t(""),
-					sn(nil, fmta([[[label=<>] ]], { c(1, { t("(\\alph*)"), t("(\\roman*)"), i(1) }) })),
-				}),
-				c(2, {
-					i(0),
-					sn(nil, fmta([[[<>] <>]], { i(1), i(0) })),
-				}),
+				c(1, { t(""), sn(nil, fmta([[[label=<>] ]], { c(1, { t("(\\alph*)"), t("(\\roman*)"), i(1) }) })) }),
+				c(2, { i(0), sn(nil, fmta([[[<>] <>]], { i(1), i(0) })) }),
 			}
 		),
 		opts
@@ -177,17 +171,17 @@ autosnips = {
 	-- generate new bullet points
 	s(
 		{ trig = "--", hidden = true },
-		{ t("\\item") },
+		{ t("\\item ") },
 		{ condition = conds_expand.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
 	),
 	s(
-		{ trig = "!-", name = "bullet point", dscr = "bullet point with custom text" },
+		{ trig = "!-", name = "bullet point", desc = "bullet point with custom text" },
 		fmta([[\item [<>]<>]], { i(1), i(0) }),
 		{ condition = conds_expand.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
 	),
 
 	s(
-		{ trig = "bal", name = "align(|*|ed)", dscr = "align math" },
+		{ trig = "bal", name = "align(|*|ed)", desc = "align math" },
 		fmta(
 			[[
 			\begin{align<>}

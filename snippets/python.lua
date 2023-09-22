@@ -5,7 +5,7 @@ local pos = require("mySnippets.position")
 
 snips = {
 	s(
-		{ trig = "env", name = "python3 environment", dscr = "Declare py3 environment" },
+		{ trig = "env", name = "python3 environment", desc = "Declare py3 environment" },
 		{ t({ "#!/usr/bin/env python3", "" }) },
 		{
 			condition = pos.on_top * conds_expand.line_begin,

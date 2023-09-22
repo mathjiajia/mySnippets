@@ -2,79 +2,74 @@ local snips, autosnips = {}, {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
 
+local opts = { condition = conds_expand.line_begin }
+
 snips = {
-	s({ trig = "*([2-6])", name = "Heading", dscr = "Add Heading", regTrig = true, hidden = true }, {
+	s({
+		trig = "([%*>~%-])([2-6])",
+		name = "Heading, Quote, List",
+		desc = "Add Heading",
+		regTrig = true,
+		hidden = true,
+	}, {
 		f(function(_, snip)
-			return string.rep("*", tonumber(snip.captures[1], 10)) .. " "
+			return string.rep(snip.captures[1], tonumber(snip.captures[2], 10)) .. " "
 		end, {}),
-	}, { condition = conds_expand.line_begin }),
-
-	s({ trig = "q([2-6])", name = "Quote", dscr = "Add Quote", regTrig = true, hidden = true }, {
-		f(function(_, snip)
-			return string.rep(">", tonumber(snip.captures[1], 10)) .. " "
-		end, {}),
-	}, { condition = conds_expand.line_begin }),
-
-	s({ trig = "-([2-6])", name = "Unordered lists", dscr = "Add Unordered lists", regTrig = true, hidden = true }, {
-		f(function(_, snip)
-			return string.rep("-", tonumber(snip.captures[1], 10)) .. " "
-		end, {}),
-	}, { condition = conds_expand.line_begin }),
-
-	s({ trig = "~([2-6])", name = "Ordered lists", dscr = "Add Ordered lists", regTrig = true, hidden = true }, {
-		f(function(_, snip)
-			return string.rep("~", tonumber(snip.captures[1], 10)) .. " "
-		end, {}),
-	}, { condition = conds_expand.line_begin }),
+	}, opts),
 
 	s(
-		{ trig = "link", name = "Neorg Links", dscr = "Insert a Link" },
-		{ t("{"), i(1, "url"), t("}["), i(2, "title"), t("]") }
-	),
-	s(
-		{ trig = "code", name = "code block" },
-		{ t("@code "), i(1, "lang"), t({ "", "\t" }), i(0), t({ "", "@end" }) },
-		{ condition = conds_expand.line_begin }
-	),
-	s(
-		{ trig = "date", name = "date block" },
-		{ t({ "@date", "\t" }), i(0), t({ "", "@end" }) },
-		{ condition = conds_expand.line_begin }
-	),
-	s(
-		{ trig = "table", name = "table block" },
-		{ t({ "@table", "\t" }), i(0), t({ "", "@end" }) },
-		{ condition = conds_expand.line_begin }
-	),
-	s(
-		{ trig = "image", name = "image block" },
-		{ t({ "@image png svg jpeg jfif exif", "\t" }), i(0), t({ "", "@end" }) },
-		{ condition = conds_expand.line_begin }
-	),
-	s(
-		{ trig = "embed", name = "embed block" },
-		{ t({ "@embed", "\t" }), i(0), t({ "", "@end" }) },
-		{ condition = conds_expand.line_begin }
-	),
-	s(
-		{ trig = "math", name = "math block" },
-		{ t({ "@math", "\t" }), i(0), t({ "", "@end" }) },
-		{ condition = conds_expand.line_begin }
+		{ trig = "link", name = "Neorg Links", desc = "Insert a Link" },
+		fmta([[{<>}[<>]<>]], { i(1, "url"), i(2, "title"), i(0) })
 	),
 }
 
+local block_specs = {
+	code = true,
+	embed = true,
+	image = true,
+	date = false,
+	math = false,
+	table = false,
+}
+
+local function block_snippet(context, labeled)
+	context.name = context.trig
+	context.desc = context.trig .. " block"
+
+	if labeled then
+		return s(
+			context,
+			{ t("@"), t(context.name), t(" "), i(1), t({ "", "\t" }), i(0), t({ "", "@end" }) },
+			{ condition = conds_expand.line_begin }
+		)
+	else
+		return s(
+			context,
+			{ t("@"), t(context.name), t({ "", "\t" }), i(0), t({ "", "@end" }) },
+			{ condition = conds_expand.line_begin }
+		)
+	end
+end
+
+local block_snippets = {}
+for k, v in pairs(block_specs) do
+	table.insert(block_snippets, block_snippet({ trig = k }, v))
+end
+
+vim.list_extend(snips, block_snippets)
+
 autosnips = {
-	s({ trig = ";b", name = "bold" }, { t("*"), i(1), t("*") }),
-	s({ trig = ";i", name = "italic" }, { t("/"), i(1), t("/") }),
-	s({ trig = ";u", name = "underline" }, { t("_"), i(1), t("_") }),
-	s({ trig = ";s", name = "strikethrough" }, { t("-"), i(1), t("-") }),
-	s({ trig = ";|", name = "spoiler" }, { t("|"), i(1), t("|") }),
-	s({ trig = ";c", name = "inline code" }, { t("`"), i(1), t("`") }),
-	s({ trig = ";^", name = "subscript" }, { t("^"), i(1), t("^") }),
-	s({ trig = ";_", name = "subscript" }, { t(","), i(1), t(",") }),
-	s({ trig = "mk", name = "inline math" }, { t("$"), i(1), t("$") }),
-	s({ trig = ";v", name = "variable" }, { t("="), i(1), t("=") }),
-	s({ trig = ";+", name = "comment" }, { t("+"), i(1), t("+") }),
+	s({ trig = ";b", name = "bold" }, fmta([[*<>*<>]], { i(1), i(0) })),
+	s({ trig = ";i", name = "italic" }, fmta([[/<>/<>]], { i(1), i(0) })),
+	s({ trig = ";u", name = "underline" }, fmta([[_<>_<>]], { i(1), i(0) })),
+	s({ trig = ";s", name = "strikethrough" }, fmta([[-<>-<>]], { i(1), i(0) })),
+	s({ trig = ";|", name = "spoiler" }, fmta([[|<>|<>]], { i(1), i(0) })),
+	s({ trig = ";c", name = "inline code" }, fmta([[`<>`<>]], { i(1), i(0) })),
+	s({ trig = ";^", name = "subscript" }, fmta([[^<>^<>]], { i(1), i(0) })),
+	s({ trig = ";_", name = "subscript" }, fmta([[,<>,<>]], { i(1), i(0) })),
+	s({ trig = "mk", name = "inline math" }, fmta([[$<>$<>]], { i(1), i(0) })),
+	s({ trig = ";v", name = "variable" }, fmta([[=<>=<>]], { i(1), i(0) })),
+	s({ trig = ";+", name = "comment" }, fmta([[+<>+<>]], { i(1), i(0) })),
 }
 
 return snips, autosnips

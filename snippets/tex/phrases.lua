@@ -3,13 +3,20 @@ local snips, autosnips = {}, {}
 local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
-
 local phrase_snippet = require("mySnippets.utils").phrase_snippet
+
+local reference_snippet_table = {
+	a = "auto",
+	c = "c",
+	C = "C",
+	e = "eq",
+	r = "",
+}
 
 local opts = { condition = tex.in_text, show_condition = tex.in_text }
 
 snips = {
-	s({ trig = "cf", name = "cross refrence" }, fmta([[\cite[<>]{<>}]], { i(1), i(2) }), {
+	s({ trig = "cf", name = "cross refrence" }, fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) }), {
 		condition = tex.in_text,
 		show_condition = tex.in_text,
 		callbacks = {
@@ -27,7 +34,23 @@ snips = {
 autosnips = {
 	s({ trig = "qf", name = "Q-factorial" }, { t("\\(\\mathbb{Q}\\)-factorial") }, opts),
 	s({ trig = "bqf", name = "base point free" }, { t("base point free") }, opts),
-	s({ trig = "cref", name = "\\cref{}" }, fmta([[\cref{<>}]], { i(1) }), opts),
+
+	s(
+		{
+			trig = "([acCer])ref",
+			name = "(acC|eq)?ref",
+			desc = "add a reference (with autoref, cref, eqref)",
+			regTrig = true,
+			hidden = true,
+		},
+		fmta(
+			[[\<>ref{<>}<>]],
+			{ f(function(_, snip)
+				return reference_snippet_table[snip.captures[1]]
+			end), i(1), i(0) }
+		),
+		{ condition = tex.in_text, show_condition = tex.in_text }
+	),
 
 	s(
 		{ trig = "Tfae", name = "The following are equivalent" },

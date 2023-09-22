@@ -8,7 +8,7 @@ local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
 snips = {
 	s(
-		{ trig = "/", name = "fraction", dscr = "Insert a fraction notation.", wordTrig = false, hidden = true },
+		{ trig = "/", name = "fraction", desc = "Insert a fraction notation.", wordTrig = false, hidden = true },
 		fmta([[\frac{<>}{<>}<>]], { i(1), i(2), i(0) }),
 		opts
 	),
@@ -33,7 +33,7 @@ autosnips = {
 	}, opts),
 
 	s(
-		{ trig = "dint", name = "integral", dscr = "Insert integral notation.", hidden = true },
+		{ trig = "dint", name = "integral", desc = "Insert integral notation.", hidden = true },
 		fmta([[\int_{<>}^{<>} <>]], { i(1, "-\\infty"), i(2, "\\infty"), i(0) }),
 		opts
 	),
@@ -48,12 +48,12 @@ autosnips = {
 
 	-- fractions
 	s(
-		{ trig = "//", name = "fraction", dscr = "fraction (general)" },
+		{ trig = "//", name = "fraction", desc = "fraction (general)" },
 		fmta([[\frac{<>}{<>}<>]], { i(1), i(2), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "(%d+)/", name = "fraction", dscr = "auto fraction 1", regTrig = true, hidden = true },
+		{ trig = "(%d+)/", name = "fraction", desc = "auto fraction 1", regTrig = true, hidden = true },
 		fmta([[\frac{<>}{<>}<>]], { f(function(_, snip)
 			return snip.captures[1]
 		end), i(1), i(0) }),
@@ -61,7 +61,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "lim", name = "lim(sup|inf)", dscr = "lim(sup|inf)" },
+		{ trig = "lim", name = "lim(sup|inf)", desc = "lim(sup|inf)" },
 		fmta([[\lim<><><>]], {
 			c(1, { t(""), t("sup"), t("inf") }),
 			c(2, { t(""), fmta([[_{<> \to <>}]], { i(1, "n"), i(2, "\\infty") }) }),
@@ -70,37 +70,37 @@ autosnips = {
 		opts
 	),
 	s(
-		{ trig = "sum", name = "summation", dscr = "summation" },
+		{ trig = "sum", name = "summation", desc = "summation" },
 		fmta([[\sum<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "prod", name = "product", dscr = "product" },
+		{ trig = "prod", name = "product", desc = "product" },
 		fmta([[\prod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "cprod", name = "coproduct", dscr = "coproduct" },
+		{ trig = "cprod", name = "coproduct", desc = "coproduct" },
 		fmta([[\coprod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "set", name = "set", dscr = "set" },
+		{ trig = "set", name = "set", desc = "set" },
 		fmta([[\{<>\}<>]], { c(1, { r(1, ""), sn(nil, { r(1, ""), t(" \\mid "), i(2) }) }), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "nnn", name = "bigcap", dscr = "bigcap" },
+		{ trig = "nnn", name = "bigcap", desc = "bigcap" },
 		fmta([[\bigcap<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "uuu", name = "bigcup", dscr = "bigcup" },
+		{ trig = "uuu", name = "bigcup", desc = "bigcup" },
 		fmta([[\bigcup<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		opts
 	),
 	s(
-		{ trig = "bnc", name = "binomial", dscr = "binomial (nCR)" },
+		{ trig = "bnc", name = "binomial", desc = "binomial (nCR)" },
 		fmta([[\binom{<>}{<>}<>]], { i(1), i(2), i(0) }),
 		opts
 	),
