@@ -16,7 +16,15 @@ local brackets = {
 
 autosnips = {
 	s(
-		{ trig = "lr([aAbBcmp])", name = "left right", desc = "left right delimiters", regTrig = true, hidden = true },
+		{
+			trig = "lr([aAbBcmp])",
+			name = "left right",
+			desc = "left right delimiters",
+			regTrig = true,
+			hidden = true,
+			condition = tex.in_math,
+			show_condition = tex.in_math,
+		},
 		fmta([[\left<> <>\right<><>]], {
 			f(function(_, snip)
 				local cap = snip.captures[1] or "p"
@@ -28,11 +36,16 @@ autosnips = {
 				return brackets[cap][2]
 			end),
 			i(0),
-		}),
-		{ condition = tex.in_math, show_condition = tex.in_math }
+		})
 	),
 
-	s({ trig = "cvec", name = "column vector", hidden = true }, {
+	s(
+		{
+			trig = "cvec",
+			name = "column vector",
+			hidden = true,
+			condition = conds_expand.line_begin * tex.in_math,
+		},
 		fmta(
 			[[
 			\begin{pmatrix}
@@ -42,8 +55,8 @@ autosnips = {
 			\end{pmatrix}
 			]],
 			{ i(1, "x"), i(2, "1"), rep(1), i(3, "n") }
-		),
-	}, { condition = conds_expand.line_begin * tex.in_math }),
+		)
+	),
 }
 
 return nil, autosnips

@@ -8,10 +8,9 @@ local labeled_env_snippet = require("mySnippets.utils").labeled_env_snippet
 
 local opts = { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
 
--- Generating functions for Matrix/Cases
-local generate_matrix = function(_, snip)
-	local rows = tonumber(snip.captures[2])
-	local cols = tonumber(snip.captures[3])
+-- Generating function for LaTeX environments like matrix and cases
+local function generate_env(rows, cols, default_cols)
+	cols = cols or default_cols
 	local nodes = {}
 	local ins_indx = 1
 	for j = 1, rows do
@@ -24,28 +23,19 @@ local generate_matrix = function(_, snip)
 		end
 		table.insert(nodes, t({ "\\\\", "" }))
 	end
+	return nodes
+end
+
+local generate_matrix = function(_, snip)
+	local nodes = generate_env(tonumber(snip.captures[2]), tonumber(snip.captures[3]))
 	-- fix last node.
 	nodes[#nodes] = t("\\\\")
 	return sn(nil, nodes)
 end
 
--- update for cases
 local generate_cases = function(_, snip)
-	local rows = tonumber(snip.captures[1]) or 2
-	local cols = 2
-	local nodes = {}
-	local ins_indx = 1
-	for j = 1, rows do
-		table.insert(nodes, r(ins_indx, tostring(j) .. "x1", i(1)))
-		ins_indx = ins_indx + 1
-		for k = 2, cols do
-			table.insert(nodes, t(" & "))
-			table.insert(nodes, r(ins_indx, tostring(j) .. "x" .. tostring(k), i(1)))
-			ins_indx = ins_indx + 1
-		end
-		table.insert(nodes, t({ "\\\\", "" }))
-	end
-
+	local nodes = generate_env(tonumber(snip.captures[1]), 2)
+	-- fix last node.
 	table.remove(nodes, #nodes)
 	return sn(nil, nodes)
 end
@@ -58,6 +48,7 @@ snips = {
 			desc = "matrices",
 			regTrig = true,
 			hidden = true,
+			condition = tex.in_math,
 		},
 		fmta(
 			[[
@@ -81,15 +72,19 @@ snips = {
 					return snip.captures[1] .. "matrix"
 				end),
 			}
-		),
-		{ condition = tex.in_math }
+		)
 	),
 }
 
 autosnips = {
 	s(
-		{ trig = "beg", name = "begin/end", desc = "begin/end environment (generic)" },
-		{ t({ "\\begin{" }), i(1), t({ "}", "\t" }), i(0), t({ "", "\\end{" }), rep(1), t({ "}" }) },
+		{
+			trig = "beg",
+			name = "begin/end",
+			desc = "begin/end environment (generic)",
+			condition = conds_expand.line_begin,
+			show_condition = pos.line_begin,
+		},
 		fmta(
 			[[
 			\begin{<>}
@@ -97,8 +92,7 @@ autosnips = {
 			\end{<>}
 			]],
 			{ i(1), i(0), rep(1) }
-		),
-		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
+		)
 	),
 	s(
 		{ trig = "lprf", name = "Titled Proof", desc = "Create a titled proof environment." },
@@ -161,7 +155,13 @@ autosnips = {
 			\end{enumerate}
 			]],
 			{
-				c(1, { t(""), sn(nil, fmta([[[label=<>] ]], { c(1, { t("(\\alph*)"), t("(\\roman*)"), i(1) }) })) }),
+				c(1, {
+					t(""),
+					sn(
+						nil,
+						fmta([[[label=<>] ]], { c(1, { t("(\\arabic*)"), t("(\\alph*)"), t("(\\roman*)"), i(1) }) })
+					),
+				}),
 				c(2, { i(0), sn(nil, fmta([[[<>] <>]], { i(1), i(0) })) }),
 			}
 		),
@@ -169,19 +169,29 @@ autosnips = {
 	),
 
 	-- generate new bullet points
-	s(
-		{ trig = "--", hidden = true },
-		{ t("\\item ") },
-		{ condition = conds_expand.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
-	),
-	s(
-		{ trig = "!-", name = "bullet point", desc = "bullet point with custom text" },
-		fmta([[\item [<>]<>]], { i(1), i(0) }),
-		{ condition = conds_expand.line_begin * tex.in_bullets, show_condition = pos.line_begin * tex.in_bullets }
-	),
+	s({
+		trig = "--",
+		hidden = true,
+		condition = conds_expand.line_begin * tex.in_bullets,
+		show_condition = pos.line_begin * tex.in_bullets,
+	}, { t("\\item ") }),
+
+	s({
+		trig = "!-",
+		name = "bullet point",
+		desc = "bullet point with custom text",
+		condition = conds_expand.line_begin * tex.in_bullets,
+		show_condition = pos.line_begin * tex.in_bullets,
+	}, fmta([[\item [<>]<>]], { i(1), i(0) })),
 
 	s(
-		{ trig = "bal", name = "align(|*|ed)", desc = "align math" },
+		{
+			trig = "bal",
+			name = "align(|*|ed)",
+			desc = "align math",
+			condition = conds_expand.line_begin,
+			show_condition = pos.line_begin,
+		},
 		fmta(
 			[[
 			\begin{align<>}
@@ -189,8 +199,7 @@ autosnips = {
 			\end{align<>}
 			]],
 			{ c(1, { t("*"), t(""), t("ed") }), i(2), rep(1) }
-		),
-		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
+		)
 	),
 
 	s({ trig = "bfu", name = "function" }, {
@@ -210,6 +219,7 @@ local env_specs = {
 	bseq = "equation*",
 	proof = "proof",
 }
+
 local labeled_env_specs = {
 	thm = "theorem",
 	lem = "lemma",
@@ -224,10 +234,10 @@ env_specs = vim.tbl_extend("keep", env_specs, labeled_env_specs)
 local env_snippets = {}
 
 for k, v in pairs(env_specs) do
-	table.insert(env_snippets, env_snippet({ trig = k }, v))
+	table.insert(env_snippets, env_snippet(k, v))
 end
 for k, v in pairs(labeled_env_specs) do
-	table.insert(env_snippets, labeled_env_snippet({ trig = k }, v))
+	table.insert(env_snippets, labeled_env_snippet(k, v))
 end
 
 vim.list_extend(autosnips, env_snippets)

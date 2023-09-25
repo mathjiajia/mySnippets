@@ -1,8 +1,8 @@
 local snips, autosnips = {}, {}
 
 local tex = require("mySnippets.latex")
-
 local operator_snippet = require("mySnippets.utils").operator_snippet
+local sequence_snippet = require("mySnippets.utils").sequence_snippet
 
 local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
@@ -70,33 +70,8 @@ autosnips = {
 		opts
 	),
 	s(
-		{ trig = "sum", name = "summation", desc = "summation" },
-		fmta([[\sum<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
-		opts
-	),
-	s(
-		{ trig = "prod", name = "product", desc = "product" },
-		fmta([[\prod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
-		opts
-	),
-	s(
-		{ trig = "cprod", name = "coproduct", desc = "coproduct" },
-		fmta([[\coprod<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
-		opts
-	),
-	s(
 		{ trig = "set", name = "set", desc = "set" },
 		fmta([[\{<>\}<>]], { c(1, { r(1, ""), sn(nil, { r(1, ""), t(" \\mid "), i(2) }) }), i(0) }),
-		opts
-	),
-	s(
-		{ trig = "nnn", name = "bigcap", desc = "bigcap" },
-		fmta([[\bigcap<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
-		opts
-	),
-	s(
-		{ trig = "uuu", name = "bigcup", desc = "bigcup" },
-		fmta([[\bigcup<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
 		opts
 	),
 	s(
@@ -107,8 +82,8 @@ autosnips = {
 
 	s(
 		{ trig = "ses", name = "short exact sequence", hidden = true },
-		fmta(
-			[[<>\\longrightarrow <>\\longrightarrow <>\\longrightarrow <>\\longrightarrow <>]],
+		fmt(
+			[[{}\\longrightarrow {}\\longrightarrow {}\\longrightarrow {}\\longrightarrow {}]],
 			{ c(1, { t("0"), t("1") }), i(2), i(3), i(4), rep(1) }
 		),
 		opts
@@ -142,6 +117,14 @@ autosnips = {
 	),
 }
 
+local sequence_specs = {
+	sum = { "sum", "summation" },
+	prod = { "prod", "product" },
+	cprod = { "cprod", "coproduct" },
+	nnn = { "bigcap", "intersection" },
+	uuu = { "bigcup", "union" },
+}
+
 local operator_specs = {
 	"cod",
 	"coker",
@@ -171,10 +154,12 @@ local operator_specs = {
 	"star",
 }
 
-local operator_snippets = {}
-for _, v in ipairs(operator_specs) do
-	table.insert(operator_snippets, operator_snippet({ trig = v }))
+for k, v in pairs(sequence_specs) do
+	table.insert(autosnips, sequence_snippet(k, v[1], v[2]))
 end
-vim.list_extend(autosnips, operator_snippets)
+
+for _, v in ipairs(operator_specs) do
+	table.insert(autosnips, operator_snippet(v))
+end
 
 return snips, autosnips

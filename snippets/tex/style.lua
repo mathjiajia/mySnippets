@@ -52,15 +52,15 @@ local postfix_math_specs = {
 		command = { pre = [[\mathfrak{]], post = [[}]] },
 	},
 	hat = {
-		context = { name = "hat", desc = "hat" },
+		context = { name = "hat", desc = "hat", priority = 500 },
 		command = { pre = [[\widehat{]], post = [[}]] },
 	},
 	bar = {
-		context = { name = "bar", desc = "bar (overline)" },
+		context = { name = "bar", desc = "bar (overline)", priority = 500 },
 		command = { pre = [[\overline{]], post = [[}]] },
 	},
 	td = {
-		context = { name = "tilde", priority = 500, desc = "tilde" },
+		context = { name = "tilde", desc = "tilde", priority = 500 },
 		command = { pre = [[\widetilde{]], post = [[}]] },
 	},
 }

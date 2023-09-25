@@ -32,44 +32,34 @@ local block_specs = {
 	table = false,
 }
 
-local function block_snippet(context, labeled)
-	context.name = context.trig
-	context.desc = context.trig .. " block"
+local function block_snippet(trig, labeled)
+	local context = { trig = trig, name = trig, desc = trig .. " block" }
+	local prefix = { t("@"), t(trig) }
+	local postfix = { t({ "", "\t" }), i(0), t({ "", "@end" }) }
 
-	if labeled then
-		return s(
-			context,
-			{ t("@"), t(context.name), t(" "), i(1), t({ "", "\t" }), i(0), t({ "", "@end" }) },
-			{ condition = conds_expand.line_begin }
-		)
-	else
-		return s(
-			context,
-			{ t("@"), t(context.name), t({ "", "\t" }), i(0), t({ "", "@end" }) },
-			{ condition = conds_expand.line_begin }
-		)
-	end
+	vim.list_extend(prefix, labeled and { t(" "), i(1) } or {})
+	return s(context, vim.list_extend(prefix, postfix), opts)
 end
 
 local block_snippets = {}
 for k, v in pairs(block_specs) do
-	table.insert(block_snippets, block_snippet({ trig = k }, v))
+	table.insert(block_snippets, block_snippet(k, v))
 end
 
 vim.list_extend(snips, block_snippets)
 
 autosnips = {
-	s({ trig = ";b", name = "bold" }, fmta([[*<>*<>]], { i(1), i(0) })),
-	s({ trig = ";i", name = "italic" }, fmta([[/<>/<>]], { i(1), i(0) })),
-	s({ trig = ";u", name = "underline" }, fmta([[_<>_<>]], { i(1), i(0) })),
-	s({ trig = ";s", name = "strikethrough" }, fmta([[-<>-<>]], { i(1), i(0) })),
-	s({ trig = ";|", name = "spoiler" }, fmta([[|<>|<>]], { i(1), i(0) })),
-	s({ trig = ";c", name = "inline code" }, fmta([[`<>`<>]], { i(1), i(0) })),
-	s({ trig = ";^", name = "subscript" }, fmta([[^<>^<>]], { i(1), i(0) })),
-	s({ trig = ";_", name = "subscript" }, fmta([[,<>,<>]], { i(1), i(0) })),
-	s({ trig = "mk", name = "inline math" }, fmta([[$<>$<>]], { i(1), i(0) })),
-	s({ trig = ";v", name = "variable" }, fmta([[=<>=<>]], { i(1), i(0) })),
-	s({ trig = ";+", name = "comment" }, fmta([[+<>+<>]], { i(1), i(0) })),
+	s({ trig = ";b", name = "bold" }, fmt([[*{}*{}]], { i(1), i(0) })),
+	s({ trig = ";i", name = "italic" }, fmt([[/{}/{}]], { i(1), i(0) })),
+	s({ trig = ";u", name = "underline" }, fmt([[_{}_{}]], { i(1), i(0) })),
+	s({ trig = ";s", name = "strikethrough" }, fmt([[-{}-{}]], { i(1), i(0) })),
+	s({ trig = ";|", name = "spoiler" }, fmt([[|{}|{}]], { i(1), i(0) })),
+	s({ trig = ";c", name = "inline code" }, fmt([[`{}`{}]], { i(1), i(0) })),
+	s({ trig = ";^", name = "supscript" }, fmt([[^{}^{}]], { i(1), i(0) })),
+	s({ trig = ";_", name = "subscript" }, fmt([[,{},{}]], { i(1), i(0) })),
+	s({ trig = "mk", name = "inline math" }, fmt([[${}${}]], { i(1), i(0) })),
+	s({ trig = ";v", name = "variable" }, fmt([[={}={}]], { i(1), i(0) })),
+	s({ trig = ";+", name = "comment" }, fmt([[+{}+{}]], { i(1), i(0) })),
 }
 
 return snips, autosnips

@@ -16,19 +16,21 @@ local reference_snippet_table = {
 local opts = { condition = tex.in_text, show_condition = tex.in_text }
 
 snips = {
-	s({ trig = "cf", name = "cross refrence" }, fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) }), {
-		condition = tex.in_text,
-		show_condition = tex.in_text,
-		callbacks = {
-			[2] = {
-				[events.enter] = function()
-					require("telescope").extensions.bibtex.bibtex(
-						require("telescope.themes").get_dropdown({ previewer = false })
-					)
-				end,
+	s(
+		{ trig = "cf", name = "cross refrence", condition = tex.in_text, show_condition = tex.in_text },
+		fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) }),
+		{
+			callbacks = {
+				[2] = {
+					[events.enter] = function()
+						require("telescope").extensions.bibtex.bibtex(
+							require("telescope.themes").get_dropdown({ previewer = false })
+						)
+					end,
+				},
 			},
-		},
-	}),
+		}
+	),
 }
 
 autosnips = {
@@ -42,26 +44,35 @@ autosnips = {
 			desc = "add a reference (with autoref, cref, eqref)",
 			regTrig = true,
 			hidden = true,
+			condition = tex.in_text,
+			show_condition = tex.in_text,
 		},
 		fmta(
 			[[\<>ref{<>}<>]],
 			{ f(function(_, snip)
 				return reference_snippet_table[snip.captures[1]]
 			end), i(1), i(0) }
-		),
-		{ condition = tex.in_text, show_condition = tex.in_text }
+		)
 	),
 
-	s(
-		{ trig = "Tfae", name = "The following are equivalent" },
-		{ t("The following are equivalent") },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
-	s({ trig = "([wW])log", name = "without loss of generality", regTrig = true }, {
+	s({
+		trig = "Tfae",
+		name = "The following are equivalent",
+		condition = conds_expand.line_begin * tex.in_text,
+		show_condition = pos.line_begin * tex.in_text,
+	}, { t("The following are equivalent") }),
+
+	s({
+		trig = "([wW])log",
+		name = "without loss of generality",
+		regTrig = true,
+		condition = conds_expand.line_begin * tex.in_text,
+		show_condition = pos.line_begin * tex.in_text,
+	}, {
 		f(function(_, snip)
 			return snip.captures[1] .. "ithout loss of generality"
 		end, {}),
-	}, { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }),
+	}),
 
 	s({ trig = "([qr])c", name = "Cartier", regTrig = true }, {
 		f(function(_, snip)
@@ -102,10 +113,10 @@ local auto_phrase_specs = {
 }
 
 for k, v in pairs(phrase_specs) do
-	table.insert(snips, phrase_snippet({ trig = k }, v))
+	table.insert(snips, phrase_snippet(k, v))
 end
 for k, v in pairs(auto_phrase_specs) do
-	table.insert(autosnips, phrase_snippet({ trig = k }, v))
+	table.insert(autosnips, phrase_snippet(k, v))
 end
 
 return snips, autosnips

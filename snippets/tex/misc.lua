@@ -17,6 +17,10 @@ local function appended_space_after_insert()
 	})
 end
 
+local function surroundWithInlineMath(prefix, content, suffix)
+	return prefix .. "\\(" .. content .. "\\)" .. suffix
+end
+
 autosnips = {
 	s({
 		trig = "(%s)([b-zB-HJ-Z0-9])([,;.%-%)]?)%s+",
@@ -24,11 +28,12 @@ autosnips = {
 		wordTrig = false,
 		regTrig = true,
 		hidden = true,
+		condition = tex.in_text,
 	}, {
 		f(function(_, snip)
 			return snip.captures[1] .. "\\(" .. snip.captures[2] .. "\\)" .. snip.captures[3]
 		end, {}),
-	}, { condition = tex.in_text }),
+	}),
 
 	s({
 		trig = "(%s)([0-9]+[a-zA-Z]+)([,;.%)]?)%s+",
@@ -36,11 +41,12 @@ autosnips = {
 		wordTrig = false,
 		regTrig = true,
 		hidden = true,
+		condition = tex.in_text,
 	}, {
 		f(function(_, snip)
-			return snip.captures[1] .. "\\(" .. snip.captures[2] .. "\\)" .. snip.captures[3]
+			return surroundWithInlineMath(snip.captures[1], snip.captures[2], snip.captures[3])
 		end, {}),
-	}, { condition = tex.in_text }),
+	}),
 
 	s({
 		trig = "(%s)(%w[-_+=><]%w)([,;.%)]?)%s+",
@@ -50,42 +56,59 @@ autosnips = {
 		hidden = true,
 	}, {
 		f(function(_, snip)
-			return snip.captures[1] .. "\\(" .. snip.captures[2] .. "\\)" .. snip.captures[3]
+			return surroundWithInlineMath(snip.captures[1], snip.captures[2], snip.captures[3])
 		end, {}),
 	}, { condition = tex.in_text }),
 
 	s(
-		{ trig = "mk", name = "inline math", desc = "Insert inline Math Environment.", hidden = true },
-		fmta([[\(<>\)]], { i(1) }),
 		{
+			trig = "mk",
+			name = "inline math",
+			desc = "Insert inline Math Environment.",
+			hidden = true,
 			condition = tex.in_text,
+		},
+		fmt([[\({}\){}]], { i(1), i(0) }),
+		{
 			callbacks = {
-				[-1] = { [events.leave] = appended_space_after_insert },
+				[-1] = {
+					[events.leave] = appended_space_after_insert,
+				},
 			},
 		}
 	),
 	s(
-		{ trig = "dm", name = "dispaly math", desc = "Insert display Math Environment." },
-		fmta(
+		{
+			trig = "dm",
+			name = "dispaly math",
+			desc = "Insert display Math Environment.",
+			condition = conds_expand.line_begin * tex.in_text,
+			show_condition = pos.line_begin * tex.in_text,
+		},
+		fmt(
 			[[
 			\[
-				<>
-			\]
+				{}
+			\]{}
 			]],
-			{ i(1) }
-		),
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+			{ i(1), i(0) }
+		)
 	),
-	s(
-		{ trig = "pha", name = "sum", desc = "Insert a sum notation.", hidden = true },
-		{ t("&\\phantom{\\;=\\;} ") },
-		{ condition = conds_expand.line_begin * tex.in_align }
-	),
-	s(
-		{ trig = "ni", name = "non-indented paragraph", desc = "Insert non-indented paragraph." },
-		{ t({ "\\noindent", "" }) },
-		{ condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
-	),
+	s({
+		trig = "pha",
+		name = "sum",
+		desc = "Insert a sum notation.",
+		hidden = true,
+		condition = conds_expand.line_begin * tex.in_align,
+	}, { t("&\\phantom{\\;=\\;} ") }),
+
+	s({
+		trig = "ni",
+		name = "non-indented paragraph",
+		desc = "Insert non-indented paragraph.",
+		condition = conds_expand.line_begin * tex.in_text,
+		show_condition = pos.line_begin * tex.in_text,
+	}, { t({ "\\noindent", "" }) }),
 }
 
 return nil, autosnips

@@ -12,18 +12,19 @@ local commit_specs = {
 	"cleanup",
 }
 
-local commit_snippet = function(context)
-	context.name = context.trig
-	context.desc = context.trig
-	return s(
-		context,
-		fmta([[<>(<>): <>]], { t(context.trig), i(1, "scope"), i(0, "title") }),
-		{ condition = conds_expand.line_begin, show_condition = pos.line_begin }
-	)
+local commit_snippet = function(trig)
+	local context = {
+		trig = trig,
+		name = trig,
+		desc = "git commit " .. trig,
+		condition = conds_expand.line_begin,
+		show_condition = pos.line_begin,
+	}
+	return s(context, fmta([[<>(<>): <>]], { t(context.trig), i(1, "scope"), i(0, "title") }))
 end
 
 for _, v in ipairs(commit_specs) do
-	table.insert(snips, commit_snippet({ trig = v }))
+	table.insert(snips, commit_snippet(v))
 end
 
 return snips
