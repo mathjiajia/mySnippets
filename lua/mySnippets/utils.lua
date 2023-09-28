@@ -65,7 +65,7 @@ M.sequence_snippet = function(trig, cmd, desc)
 	}
 	return s(
 		context,
-		fmta([[\<><> <>"]], { t(cmd), c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) })
+		fmta([[\<><> <>]], { t(cmd), c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) })
 	)
 end
 

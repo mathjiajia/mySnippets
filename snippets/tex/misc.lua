@@ -96,8 +96,8 @@ autosnips = {
 	),
 	s({
 		trig = "pha",
-		name = "sum",
-		desc = "Insert a sum notation.",
+		name = "phantom",
+		desc = "create a space",
 		hidden = true,
 		condition = conds_expand.line_begin * tex.in_align,
 	}, { t("&\\phantom{\\;=\\;} ") }),
