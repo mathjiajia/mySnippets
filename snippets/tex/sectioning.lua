@@ -12,7 +12,7 @@ local sec_specs = {
 	ssub = "subsection*",
 }
 
-local sec_snippet = function(trig, sec)
+local function sec_snippet(trig, sec)
 	local context = {
 		trig = trig,
 		name = sec,

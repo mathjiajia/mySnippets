@@ -12,7 +12,7 @@ local commit_specs = {
 	"cleanup",
 }
 
-local commit_snippet = function(trig)
+local function commit_snippet(trig)
 	local context = {
 		trig = trig,
 		name = trig,

@@ -3,7 +3,6 @@ local snips, autosnips = {}, {}
 local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
-local phrase_snippet = require("mySnippets.utils").phrase_snippet
 
 local reference_snippet_table = {
 	a = "auto",
@@ -14,10 +13,23 @@ local reference_snippet_table = {
 }
 
 local opts = { condition = tex.in_text, show_condition = tex.in_text }
+local opts2 = {
+	condition = conds_expand.line_begin * tex.in_text,
+	show_condition = pos.line_begin * tex.in_text,
+}
+
+local function phrase_snippet(trig, body)
+	return s({ trig = trig, desc = trig }, t(body), opts)
+end
 
 snips = {
 	s(
-		{ trig = "cf", name = "cross refrence", condition = tex.in_text, show_condition = tex.in_text },
+		{
+			trig = "cf",
+			name = "cross refrence",
+			condition = tex.in_text,
+			show_condition = tex.in_text,
+		},
 		fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) }),
 		{
 			callbacks = {
@@ -44,35 +56,30 @@ autosnips = {
 			desc = "add a reference (with autoref, cref, eqref)",
 			regTrig = true,
 			hidden = true,
-			condition = tex.in_text,
-			show_condition = tex.in_text,
 		},
 		fmta(
 			[[\<>ref{<>}<>]],
 			{ f(function(_, snip)
 				return reference_snippet_table[snip.captures[1]]
 			end), i(1), i(0) }
-		)
+		),
+		opts
 	),
 
 	s({
 		trig = "Tfae",
 		name = "The following are equivalent",
-		condition = conds_expand.line_begin * tex.in_text,
-		show_condition = pos.line_begin * tex.in_text,
-	}, { t("The following are equivalent") }),
+	}, { t("The following are equivalent") }, opts2),
 
 	s({
 		trig = "([wW])log",
 		name = "without loss of generality",
 		regTrig = true,
-		condition = conds_expand.line_begin * tex.in_text,
-		show_condition = pos.line_begin * tex.in_text,
 	}, {
 		f(function(_, snip)
 			return snip.captures[1] .. "ithout loss of generality"
 		end, {}),
-	}),
+	}, opts2),
 
 	s({ trig = "([qr])c", name = "Cartier", regTrig = true }, {
 		f(function(_, snip)

@@ -5,25 +5,25 @@ local ts = vim.treesitter
 local cond_obj = require("luasnip.extras.conditions")
 
 local MATH_NODES = {
-	displayed_equation = true,
-	inline_formula = true,
-	math_environment = true,
+	"displayed_equation",
+	"inline_formula",
+	"math_environment",
 }
 
-local ALIGN_ENVIRONMENTS = {
-	["{multline}"] = true,
-	["{eqnarray}"] = true,
-	["{align}"] = true,
-	["{array}"] = true,
-	["{split}"] = true,
-	["{alignat}"] = true,
-	["{gather}"] = true,
-	["{flalign}"] = true,
+local ALIGN_ENVS = {
+	"multline",
+	"eqnarray",
+	"align",
+	"array",
+	"split",
+	"alignat",
+	"gather",
+	"flalign",
 }
 
-local BULLET_ENVIRONMENTS = {
-	["{itemize}"] = true,
-	["{enumerate}"] = true,
+local BULLET_ENVS = {
+	"itemize",
+	"enumerate",
 }
 
 ---get node under the cursor in insert mode (after trigger) for latex
@@ -59,7 +59,7 @@ local function in_text()
 	while node do
 		if node:type() == "text_mode" then
 			return true
-		elseif MATH_NODES[node:type()] then
+		elseif vim.list_contains(MATH_NODES, node:type()) then
 			return false
 		end
 		node = node:parent()
@@ -74,7 +74,7 @@ local function in_math()
 	while node do
 		if node:type() == "text_mode" then
 			return false
-		elseif MATH_NODES[node:type()] then
+		elseif vim.list_contains(MATH_NODES, node:type()) then
 			return true
 		end
 		node = node:parent()
@@ -93,7 +93,11 @@ local function in_align()
 			---@diagnostic disable-next-line: undefined-field
 			local names = begin and begin:field("name")
 
-			if names and names[1] and ALIGN_ENVIRONMENTS[ts.get_node_text(names[1], bufnr):gsub("%*", "")] then
+			if
+				names
+				and names[1]
+				and vim.list_contains(ALIGN_ENVS, ts.get_node_text(names[1], bufnr):gsub("{(%w+)%s*%*?}", "%1"))
+			then
 				return true
 			end
 		end
@@ -111,7 +115,11 @@ local function in_bullets()
 			---@diagnostic disable-next-line: undefined-field
 			local names = begin and begin:field("name")
 
-			if names and names[1] and BULLET_ENVIRONMENTS[ts.get_node_text(names[1], bufnr)] then
+			if
+				names
+				and names[1]
+				and vim.list_contains(BULLET_ENVS, ts.get_node_text(names[1], bufnr):gsub("{(%w+)}", "%1"))
+			then
 				return true
 			end
 		end

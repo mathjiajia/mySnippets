@@ -1,10 +1,45 @@
 local autosnips = {}
 
 local tex = require("mySnippets.latex")
-local symbol_snippet = require("mySnippets.utils").symbol_snippet
-local single_command_snippet = require("mySnippets.utils").single_command_snippet
 
 local opts = { condition = tex.in_math }
+
+local function symbol_snippet(context, cmd)
+	context.desc = cmd
+	context.name = context.name or cmd:gsub([[\]], "")
+	context.docstring = cmd .. [[{0}]]
+	context.wordTrig = false
+	context.hidden = true
+	return s(context, t(cmd), opts)
+end
+
+local function single_command_snippet(context, cmd, ext)
+	context.desc = context.desc or cmd
+	context.name = context.name or context.desc
+	local docstring, offset, cnode, lnode
+	if ext.choice == true then
+		docstring = "[" .. [[(<1>)?]] .. "]" .. [[{]] .. [[<2>]] .. [[}]] .. [[<0>]]
+		offset = 1
+		cnode = c(1, { t(""), sn(nil, { t("["), i(1, "opt"), t("]") }) })
+	else
+		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[<0>]]
+	end
+	if ext.label == true then
+		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[\label{(]] .. ext.short .. [[:<2>)?}]] .. [[<0>]]
+		ext.short = ext.short or cmd
+		lnode = c(2 + (offset or 0), {
+			t(""),
+			sn(nil, fmta([[\label{<>:<>}]], { t(ext.short), i(1) })),
+		})
+	end
+	context.docstring = context.docstring or (cmd .. docstring)
+	-- stype = ext.stype or s
+	return s(
+		context,
+		fmta(cmd .. [[<>{<>}<><>]], { cnode or t(""), i(1 + (offset or 0)), (lnode or t("")), i(0) }),
+		opts
+	)
+end
 
 autosnips = {
 	s({ trig = "rmap", name = "rational map arrow", wordTrig = false, hidden = true }, {
@@ -105,20 +140,20 @@ autosnips = {
 
 	s({ trig = "^-", name = "negative exponents", wordTrig = false, hidden = true }, fmta([[^{-<>}]], { i(1) }), opts),
 	s(
-		{ trig = "set", name = "set", desc = "set" },
+		{ trig = "set", name = "set", desc = "set", hidden = true },
 		fmta([[\{<>\}<>]], { c(1, { r(1, ""), sn(nil, { r(1, ""), t(" \\mid "), i(2) }) }), i(0) }),
-		{ condition = tex.in_math, show_condition = tex.in_math }
+		opts
 	),
 	s(
-		{ trig = "nnn", name = "bigcap", desc = "bigcap" },
+		{ trig = "nnn", name = "bigcap", desc = "bigcap", hidden = true },
 		fmta([[\bigcap<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
-		{ condition = tex.in_math, show_condition = tex.in_math }
+		opts
 	),
 
 	s(
-		{ trig = "uuu", name = "bigcup", desc = "bigcup" },
+		{ trig = "uuu", name = "bigcup", desc = "bigcup", hidden = true },
 		fmta([[\bigcup<> <>]], { c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }), i(0) }),
-		{ condition = tex.in_math, show_condition = tex.in_math }
+		opts
 	),
 	-- s(
 	-- 	{ trig = "<|", name = "triangleleft <|", wordTrig = false, hidden = true },
@@ -153,6 +188,17 @@ autosnips = {
 		{ f(function(_, snip)
 			return "\\sim_{\\mathbb{" .. string.upper(snip.captures[1]) .. "}} "
 		end, {}) },
+		opts
+	),
+
+	s(
+		{ trig = "^^", name = "auto supscript", wordTrig = false, hidden = true },
+		fmta([[^{<>}<>]], { i(1), i(0) }),
+		opts
+	),
+	s(
+		{ trig = "__", name = "auto subscript", wordTrig = false, hidden = true },
+		fmta([[_{<>}<>]], { i(1), i(0) }),
 		opts
 	),
 
@@ -192,29 +238,10 @@ local single_command_math_specs = {
 		context = { name = "symit", desc = "italic math text" },
 		cmd = [[\symit]],
 	},
-	udd = {
-		context = { name = "underline (math)", desc = "underlined text in math mode" },
-		cmd = [[\underline]],
-	},
-	conj = {
-		context = { name = "conjugate", desc = "conjugate (overline)" },
-		cmd = [[\overline]],
-	},
-	rup = {
-		context = { name = "round up", desc = "auto round up", wordTrig = false },
-		cmd = [[\rup]],
-	},
-	["rdn"] = {
-		context = { name = "round down", desc = "auto round down", wordTrig = false },
-		cmd = [[\rdown]],
-	},
-	["__"] = {
-		context = { name = "subscript", desc = "auto subscript", wordTrig = false },
-		cmd = [[_]],
-	},
-	["^^"] = {
-		context = { name = "superscript", desc = "auto superscript", wordTrig = false },
-		cmd = [[^]],
+	sq = {
+		context = { name = "sqrt", desc = "sqrt" },
+		cmd = [[\sqrt]],
+		ext = { choice = true },
 	},
 	hat = {
 		context = { name = "hat", desc = "wide hat" },
@@ -228,32 +255,43 @@ local single_command_math_specs = {
 		context = { name = "tilde", desc = "wide tilde" },
 		cmd = [[\widetilde]],
 	},
+	abs = {
+		context = { name = "abs", desc = "absolute value" },
+		cmd = [[\abs]],
+	},
+	udd = {
+		context = { name = "underline (math)", desc = "underlined text in math mode" },
+		cmd = [[\underline]],
+	},
 	sbt = {
 		context = { name = "substack", desc = "substack for sums/products" },
 		cmd = [[\substack]],
 	},
-	sq = {
-		context = { name = "sqrt", desc = "sqrt" },
-		cmd = [[\sqrt]],
-		ext = { choice = true },
+	rup = {
+		context = { name = "round up", desc = "auto round up", wordTrig = false },
+		cmd = [[\rup]],
+	},
+	rdn = {
+		context = { name = "round down", desc = "auto round down", wordTrig = false },
+		cmd = [[\rdown]],
 	},
 }
 
 local symbol_specs = {
 	-- logic
-	inn = { context = { name = "∈" }, cmd = [[\in]] },
-	["!in"] = { context = { name = "∉" }, cmd = [[\not\in]] },
+	inn = { context = { name = "∈" }, cmd = [[\in ]] },
+	["!in"] = { context = { name = "∉" }, cmd = [[\not\in ]] },
 	[";A"] = { context = { name = "∀" }, cmd = [[\forall]] },
 	[";E"] = { context = { name = "∃" }, cmd = [[\exists]] },
 	-- operators
-	["!="] = { context = { name = "!=" }, cmd = [[\neq]] },
-	["<="] = { context = { name = "≤" }, cmd = [[\leq]] },
-	[">="] = { context = { name = "≥" }, cmd = [[\geq]] },
-	["<<"] = { context = { name = "<<" }, cmd = [[\ll]] },
-	[">>"] = { context = { name = ">>" }, cmd = [[\gg]] },
-	["~~"] = { context = { name = "~" }, cmd = [[\sim]] },
-	["~="] = { context = { name = "≃" }, cmd = [[\simeq]] },
-	["=~"] = { context = { name = "≅" }, cmd = [[\cong]] },
+	["!="] = { context = { name = "!=" }, cmd = [[\neq ]] },
+	["<="] = { context = { name = "≤" }, cmd = [[\leq ]] },
+	[">="] = { context = { name = "≥" }, cmd = [[\geq ]] },
+	["<<"] = { context = { name = "<<" }, cmd = [[\ll ]] },
+	[">>"] = { context = { name = ">>" }, cmd = [[\gg ]] },
+	["~~"] = { context = { name = "~" }, cmd = [[\sim ]] },
+	["~="] = { context = { name = "≃" }, cmd = [[\simeq ]] },
+	["=~"] = { context = { name = "≅" }, cmd = [[\cong ]] },
 	["::"] = { context = { name = ":" }, cmd = [[\colon ]] },
 	[":="] = { context = { name = "≔" }, cmd = [[\coloneqq ]] },
 	["**"] = { context = { name = "*" }, cmd = [[^{*}]] },
@@ -311,19 +349,12 @@ local symbol_snippets = {}
 for k, v in pairs(single_command_math_specs) do
 	table.insert(
 		symbol_snippets,
-		single_command_snippet(
-			vim.tbl_deep_extend("keep", { trig = k, condition = tex.in_math }, v.context),
-			v.cmd,
-			v.ext or {}
-		)
+		single_command_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.cmd, v.ext or {})
 	)
 end
 
 for k, v in pairs(symbol_specs) do
-	table.insert(
-		symbol_snippets,
-		symbol_snippet(vim.tbl_deep_extend("keep", { trig = k, condition = tex.in_math }, v.context), v.cmd)
-	)
+	table.insert(symbol_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.cmd))
 end
 vim.list_extend(autosnips, symbol_snippets)
 

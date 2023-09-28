@@ -1,17 +1,33 @@
 local snips, autosnips = {}, {}
 
 local tex = require("mySnippets.latex")
-local operator_snippet = require("mySnippets.utils").operator_snippet
-local sequence_snippet = require("mySnippets.utils").sequence_snippet
 
 local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
-snips = {
-	s(
-		{ trig = "/", name = "fraction", desc = "Insert a fraction notation.", wordTrig = false, hidden = true },
-		fmta([[\frac{<>}{<>}<>]], { i(1), i(2), i(0) }),
+local function operator_snippet(trig)
+	return s({ trig = trig, name = trig }, t([[\]] .. trig), opts)
+end
+
+local function sequence_snippet(trig, cmd, desc)
+	return s(
+		{ trig = trig, name = desc, desc = desc },
+		fmta([[\<><><>]], {
+			t(cmd),
+			c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }),
+			i(0),
+		}),
 		opts
-	),
+	)
+end
+
+snips = {
+	s({
+		trig = "/",
+		name = "fraction",
+		desc = "Insert a fraction notation.",
+		wordTrig = false,
+		hidden = true,
+	}, fmta([[\frac{<>}{<>}<>]], { i(1), i(2), i(0) }), opts),
 }
 
 autosnips = {
@@ -139,7 +155,6 @@ local operator_specs = {
 	"csc",
 	"sec",
 	"log",
-	"abs",
 	"ast",
 	"deg",
 	"det",

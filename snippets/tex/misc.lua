@@ -4,6 +4,9 @@ local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
 
+local opts = { condition = tex.in_text }
+local opts2 = { condition = tex.in_text }
+
 local function appended_space_after_insert()
 	vim.api.nvim_create_autocmd("InsertCharPre", {
 		callback = function()
@@ -28,12 +31,11 @@ autosnips = {
 		wordTrig = false,
 		regTrig = true,
 		hidden = true,
-		condition = tex.in_text,
 	}, {
 		f(function(_, snip)
 			return snip.captures[1] .. "\\(" .. snip.captures[2] .. "\\)" .. snip.captures[3]
 		end, {}),
-	}),
+	}, opts),
 
 	s({
 		trig = "(%s)([0-9]+[a-zA-Z]+)([,;.%)]?)%s+",
@@ -41,12 +43,11 @@ autosnips = {
 		wordTrig = false,
 		regTrig = true,
 		hidden = true,
-		condition = tex.in_text,
 	}, {
 		f(function(_, snip)
 			return surroundWithInlineMath(snip.captures[1], snip.captures[2], snip.captures[3])
 		end, {}),
-	}),
+	}, opts),
 
 	s({
 		trig = "(%s)(%w[-_+=><]%w)([,;.%)]?)%s+",
@@ -58,7 +59,7 @@ autosnips = {
 		f(function(_, snip)
 			return surroundWithInlineMath(snip.captures[1], snip.captures[2], snip.captures[3])
 		end, {}),
-	}, { condition = tex.in_text }),
+	}, opts),
 
 	s(
 		{
@@ -82,8 +83,6 @@ autosnips = {
 			trig = "dm",
 			name = "dispaly math",
 			desc = "Insert display Math Environment.",
-			condition = conds_expand.line_begin * tex.in_text,
-			show_condition = pos.line_begin * tex.in_text,
 		},
 		fmt(
 			[[
@@ -92,7 +91,8 @@ autosnips = {
 			\]{}
 			]],
 			{ i(1), i(0) }
-		)
+		),
+		opts2
 	),
 	s({
 		trig = "pha",
@@ -106,9 +106,7 @@ autosnips = {
 		trig = "ni",
 		name = "non-indented paragraph",
 		desc = "Insert non-indented paragraph.",
-		condition = conds_expand.line_begin * tex.in_text,
-		show_condition = pos.line_begin * tex.in_text,
-	}, { t({ "\\noindent", "" }) }),
+	}, { t({ "\\noindent", "" }) }, opts2),
 }
 
 return nil, autosnips

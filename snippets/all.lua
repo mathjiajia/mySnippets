@@ -1,14 +1,12 @@
 local username = vim.env.USER:gsub("^%l", string.upper)
 
-local calculate_comment_string = require("Comment.ft").calculate
-local utils = require("Comment.utils")
-
 --- Get the comment string { beg,end } table
 ---@param ctype integer 1 for `line`-comment and 2 for `block`-comment
 ---@return table comment_strings { begcstring, endcstring }
-local get_cstring = function(ctype)
-	local cstring = calculate_comment_string({ ctype = ctype, range = utils.get_region() }) or vim.bo.commentstring
-	local left, right = utils.unwrap_cstr(cstring)
+local function get_cstring(ctype)
+	local range = require("Comment.utils").get_region()
+	local cstring = require("Comment.ft").calculate({ ctype = ctype, range = range }) or vim.bo.commentstring
+	local left, right = require("Comment.utils").unwrap_cstr(cstring)
 	return { left, right }
 end
 
@@ -28,7 +26,7 @@ local marks = {
 	end,
 }
 
-local todo_snippet_nodes = function(aliases, opts)
+local function todo_snippet_nodes(aliases, opts)
 	local aliases_nodes = vim.tbl_map(function(alias)
 		return i(nil, alias) -- generate choices for [name-of-comment]
 	end, aliases)
@@ -56,7 +54,7 @@ end
 ---@param trig string
 ---@param aliases string[] of aliases for the todo comment (ex.: {FIX, ISSUE, FIXIT, BUG})
 ---@param opts table merged with the snippet opts table
-local todo_snippet = function(trig, aliases, opts)
+local function todo_snippet(trig, aliases, opts)
 	opts = opts or {}
 	opts.ctype = opts.ctype or 1
 

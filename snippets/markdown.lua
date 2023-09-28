@@ -37,6 +37,7 @@ snips = {
 			categories: ["{}"]
 			series: ["{}"]
 			---
+			{}
 			]],
 			{ i(1), p(os.date, "%Y-%m-%dT%H:%M:%S+0800"), i(2), i(3), i(4), i(0) }
 		),

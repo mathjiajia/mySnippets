@@ -3,10 +3,11 @@ local snips, autosnips = {}, {}
 local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 local pos = require("mySnippets.position")
-local env_snippet = require("mySnippets.utils").env_snippet
-local labeled_env_snippet = require("mySnippets.utils").labeled_env_snippet
 
-local opts = { condition = conds_expand.line_begin * tex.in_text, show_condition = pos.line_begin * tex.in_text }
+local opts = {
+	condition = conds_expand.line_begin * tex.in_text,
+	show_condition = pos.line_begin * tex.in_text,
+}
 
 -- Generating function for LaTeX environments like matrix and cases
 local function generate_env(rows, cols, default_cols)
@@ -38,6 +39,46 @@ local generate_cases = function(_, snip)
 	-- fix last node.
 	table.remove(nodes, #nodes)
 	return sn(nil, nodes)
+end
+
+local function env_snippet(trig, env)
+	local context = {
+		trig = trig,
+		name = trig,
+		desc = trig .. " Environment",
+	}
+	return s(
+		context,
+		fmta(
+			[[
+			\begin{<>}
+				<>
+			\end{<>}
+			]],
+			{ t(env), i(0), t(env) }
+		),
+		opts
+	)
+end
+
+local function labeled_env_snippet(trig, env)
+	local context = {
+		trig = "l" .. trig,
+		name = trig,
+		desc = "Labeled" .. trig .. " Environment",
+	}
+	return s(
+		context,
+		fmta(
+			[[
+			\begin{<>}[<>]\label{<>:<>}
+				<>
+			\end{<>}
+			]],
+			{ t(env), i(1), t(trig), l(l._1:gsub("[^%w]+", "_"):gsub("_$", ""):lower(), 1), i(0), t(env) }
+		),
+		opts
+	)
 end
 
 snips = {
@@ -128,9 +169,9 @@ autosnips = {
 				\xymatrix{
 					<> \\
 				}
-			\]
+			\]<>
 			]],
-			{ i(1) }
+			{ i(1), i(0) }
 		),
 		opts
 	),
