@@ -7,15 +7,16 @@ Example (with [lazy.nvim][lazy]):
 ```lua
 {
     "L3MON4D3/LuaSnip",
-    dependencies = { "mathjiajia/mysnippets" },
+    dependencies = {
+        "mathjiajia/mysnippets",
+        config = true,
+    },
     config = function()
         require("luasnip").setup({
             update_events = "TextChanged,TextChangedI",
             enable_autosnippets = true,
         })
-        require("luasnip.loaders.from_lua").lazy_load({
-            paths = vim.fn.stdpath("data") .. "/lazy/mySnippets/snippets",
-        })
+        -- other configuration
     end,
 }
 ```
