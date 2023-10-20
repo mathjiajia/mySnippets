@@ -191,15 +191,16 @@ autosnips = {
 		opts
 	),
 
+	-- HACK: <Jia> do not use condition since it cannot be triggered
 	s(
 		{ trig = "^^", name = "auto supscript", wordTrig = false, hidden = true },
-		fmta([[^{<>}<>]], { i(1), i(0) }),
-		opts
+		fmta([[^{<>}<>]], { i(1), i(0) })
+		-- opts
 	),
 	s(
 		{ trig = "__", name = "auto subscript", wordTrig = false, hidden = true },
-		fmta([[_{<>}<>]], { i(1), i(0) }),
-		opts
+		fmta([[_{<>}<>]], { i(1), i(0) })
+		-- opts
 	),
 
 	s(

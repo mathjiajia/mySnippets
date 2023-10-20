@@ -23,5 +23,12 @@ Example (with [lazy.nvim][lazy]):
 
 ## mathematics
 
+## Acknowledgements
+
+Inspired by
+
+- [luasnip-latex-snippets.nvim](https://github.com/evesdropper/luasnip-latex-snippets.nvim)
+- [latex-snippets](https://github.com/gillescastel/latex-snippets)
+
 [lazy]: https://github.com/folke/lazy.nvim
 [luasnip]: https://github.com/L3MON4D3/LuaSnip

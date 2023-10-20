@@ -90,7 +90,6 @@ local function in_align()
 	while node do
 		if node:type() == "math_environment" then
 			local begin = node:child(0)
-			---@diagnostic disable-next-line: undefined-field
 			local names = begin and begin:field("name")
 
 			if
@@ -112,7 +111,6 @@ local function in_bullets()
 	while node do
 		if node:type() == "generic_environment" then
 			local begin = node:child(0)
-			---@diagnostic disable-next-line: undefined-field
 			local names = begin and begin:field("name")
 
 			if
