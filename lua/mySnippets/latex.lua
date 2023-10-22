@@ -1,49 +1,40 @@
 local M = {}
 
-local api = vim.api
-local ts = vim.treesitter
+local get_node_text = vim.treesitter.get_node_text
 local cond_obj = require("luasnip.extras.conditions")
 
 local MATH_NODES = {
-	"displayed_equation",
-	"inline_formula",
-	"math_environment",
+	displayed_equation = true,
+	inline_formula = true,
+	math_environment = true,
 }
 
 local ALIGN_ENVS = {
-	"multline",
-	"eqnarray",
-	"align",
-	"array",
-	"split",
-	"alignat",
-	"gather",
-	"flalign",
+	multline = true,
+	eqnarray = true,
+	align = true,
+	array = true,
+	split = true,
+	alignat = true,
+	gather = true,
+	flalign = true,
 }
 
 local BULLET_ENVS = {
-	"itemize",
-	"enumerate",
+	itemize = true,
+	enumerate = true,
 }
-
----get node under the cursor in insert mode (after trigger) for latex
----@return TSNode|nil
-local function get_node_at_cursor()
-	local cursor = api.nvim_win_get_cursor(0)
-	return ts.get_node({ bufnr = 0, pos = { cursor[1] - 1, cursor[2] - 1 } })
-end
 
 ---Check if cursor is in treesitter node of 'math_environment': 'tikzcd'
 ---@return boolean
 -- local function in_tikzcd()
--- 	local buf = api.nvim_get_current_buf()
--- 	local node = get_node_at_cursor()
+-- 	local node = vim.treesitter.get_node()
 -- 	while node do
 -- 		if node:type() == "generic_environment" then
 -- 			local begin = node:child(0)
 -- 			local names = begin and begin:field("name")
 --
--- 			if names and names[1] and ts.get_node_text(names[1], buf) == "tikzcd" then
+-- 			if names and names[1] and get_node_text(names[1], 0) == "tikzcd" then
 -- 				return true
 -- 			end
 -- 		end
@@ -52,29 +43,14 @@ end
 -- 	return false
 -- end
 
----Check if cursor is in treesitter node of 'text'
----@return boolean
-local function in_text()
-	local node = get_node_at_cursor()
-	while node do
-		if node:type() == "text_mode" then
-			return true
-		elseif vim.list_contains(MATH_NODES, node:type()) then
-			return false
-		end
-		node = node:parent()
-	end
-	return true
-end
-
 ---Check if cursor is in treesitter node of 'math'
 ---@return boolean
 local function in_math()
-	local node = get_node_at_cursor()
+	local node = vim.treesitter.get_node()
 	while node do
 		if node:type() == "text_mode" then
 			return false
-		elseif vim.list_contains(MATH_NODES, node:type()) then
+		elseif MATH_NODES[node:type()] then
 			return true
 		end
 		node = node:parent()
@@ -82,21 +58,22 @@ local function in_math()
 	return false
 end
 
+---Check if cursor is in treesitter node of 'text'
+---@return boolean
+local function in_text()
+	return not M.in_math()
+end
+
 ---Check if cursor is in treesitter node of 'math_environment': 'align'
 ---@return boolean
 local function in_align()
-	local bufnr = api.nvim_get_current_buf()
-	local node = get_node_at_cursor()
+	local node = vim.treesitter.get_node()
 	while node do
 		if node:type() == "math_environment" then
 			local begin = node:child(0)
 			local names = begin and begin:field("name")
 
-			if
-				names
-				and names[1]
-				and vim.list_contains(ALIGN_ENVS, ts.get_node_text(names[1], bufnr):gsub("{(%w+)%s*%*?}", "%1"))
-			then
+			if names and names[1] and ALIGN_ENVS[get_node_text(names[1], 0):gsub("{(%w+)%s*%*?}", "%1")] then
 				return true
 			end
 		end
@@ -106,18 +83,13 @@ local function in_align()
 end
 
 local function in_bullets()
-	local bufnr = api.nvim_get_current_buf()
-	local node = get_node_at_cursor()
+	local node = vim.treesitter.get_node()
 	while node do
 		if node:type() == "generic_environment" then
 			local begin = node:child(0)
 			local names = begin and begin:field("name")
 
-			if
-				names
-				and names[1]
-				and vim.list_contains(BULLET_ENVS, ts.get_node_text(names[1], bufnr):gsub("{(%w+)}", "%1"))
-			then
+			if names and names[1] and BULLET_ENVS[get_node_text(names[1], 0):gsub("{(%w+)}", "%1")] then
 				return true
 			end
 		end
@@ -129,12 +101,11 @@ end
 ---Check if cursor is in treesitter node of 'generic_command': '\xymatrix'
 ---@return boolean
 local function in_xymatrix()
-	local bufnr = api.nvim_get_current_buf()
-	local node = get_node_at_cursor()
+	local node = vim.treesitter.get_node()
 	while node do
 		if node:type() == "generic_command" then
 			local names = node:child(0)
-			if names and ts.get_node_text(names, bufnr) == "\\xymatrix" then
+			if names and get_node_text(names, 0) == "\\xymatrix" then
 				return true
 			end
 		end
