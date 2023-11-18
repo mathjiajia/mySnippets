@@ -2,7 +2,6 @@ local autosnips = {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
-local pos = require("mySnippets.position")
 
 local opts = { condition = tex.in_text }
 local opts2 = { condition = tex.in_text }
