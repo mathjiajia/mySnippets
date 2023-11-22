@@ -99,7 +99,7 @@ autosnips = {
 	s(
 		{ trig = "ses", name = "short exact sequence", hidden = true },
 		fmt(
-			[[{}\\longrightarrow {}\\longrightarrow {}\\longrightarrow {}\\longrightarrow {}]],
+			[[{}\longrightarrow {}\longrightarrow {}\longrightarrow {}\longrightarrow {}]],
 			{ c(1, { t("0"), t("1") }), i(2), i(3), i(4), rep(1) }
 		),
 		opts
