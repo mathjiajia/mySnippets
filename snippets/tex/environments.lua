@@ -243,20 +243,40 @@ autosnips = {
 		)
 	),
 
-	s({ trig = "bfu", name = "function" }, {
+	s(
+		{
+			trig = "bfu",
+			name = "function",
+			condition = conds_expand.line_begin,
+			show_condition = pos.line_begin,
+		},
 		fmta(
 			[[
-			\\begin{equation*}
+			\begin{equation*}
 				<>\colon <>\longrightarrow <>, \quad <>\longmapsto <>(<>)=<>
 			\end{equation*}
 			]],
 			{ i(1), i(2), i(3), i(4), rep(1), rep(4), i(0) }
-		),
-	}, opts),
+		)
+	),
+
+	s({
+		trig = "beq",
+		desc = "labeled_equation",
+		condition = conds_expand.line_begin,
+		show_condition = pos.line_begin,
+	}, { fmta(
+		[[
+			\begin{equation}\label{eq:<>}
+				<>
+			\end{equation}
+			]],
+		{ i(2), i(1) }
+	) }),
 }
 
 local env_specs = {
-	beq = "equation",
+	-- beq = "equation",
 	bseq = "equation*",
 	proof = "proof",
 }
@@ -270,6 +290,7 @@ local labeled_env_specs = {
 	rem = "remark",
 	conj = "conjecture",
 }
+
 env_specs = vim.tbl_extend("keep", env_specs, labeled_env_specs)
 
 local env_snippets = {}
