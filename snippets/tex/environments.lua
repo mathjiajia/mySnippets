@@ -260,19 +260,22 @@ autosnips = {
 		)
 	),
 
-	s({
-		trig = "beq",
-		desc = "labeled_equation",
-		condition = conds_expand.line_begin,
-		show_condition = pos.line_begin,
-	}, { fmta(
-		[[
-			\begin{equation}\label{eq:<>}
-				<>
-			\end{equation}
-			]],
-		{ i(2), i(1) }
-	) }),
+	s(
+		{
+			trig = "beq",
+			desc = "labeled_equation",
+			condition = conds_expand.line_begin,
+			show_condition = pos.line_begin,
+		},
+		fmta(
+			[[
+		\begin{equation}\label{eq:<>}
+			<>
+		\end{equation}
+		]],
+			{ i(2), i(1) }
+		)
+	),
 }
 
 local env_specs = {
