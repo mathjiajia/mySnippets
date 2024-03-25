@@ -167,6 +167,8 @@ local operator_specs = {
 	"min",
 	"perp",
 	"star",
+	"Gr",
+	"Quot",
 }
 
 for k, v in pairs(sequence_specs) do

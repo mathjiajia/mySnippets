@@ -2,7 +2,7 @@ local autosnips = {}
 
 local tex = require("mySnippets.latex")
 
-local opts = { condition = tex.in_math }
+local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
 local function symbol_snippet(context, cmd)
 	context.desc = cmd
@@ -317,12 +317,6 @@ local greek_specs = {
 	[";Y"] = { context = { name = "Ψ" }, command = [[\Psi]] },
 }
 
-local greek_snippets = {}
-for k, v in pairs(greek_specs) do
-	table.insert(greek_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command))
-end
-vim.list_extend(autosnips, greek_snippets)
-
 local symbol_specs = {
 	-- logic
 	inn = { context = { name = "∈" }, cmd = [[\in ]] },
@@ -396,6 +390,13 @@ local symbol_specs = {
 	-- ymm = { context = { name = "y_m" }, cmd = [[y_{m}]] },
 	-- ynn = { context = { name = "y_n" }, cmd = [[y_{n}]] },
 }
+
+local greek_snippets = {}
+
+for k, v in pairs(greek_specs) do
+	table.insert(greek_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command))
+end
+vim.list_extend(autosnips, greek_snippets)
 
 local symbol_snippets = {}
 
