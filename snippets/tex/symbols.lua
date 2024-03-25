@@ -278,6 +278,51 @@ local single_command_math_specs = {
 	},
 }
 
+local greek_specs = {
+	[";a"] = { context = { name = "α" }, command = [[\alpha]] },
+	[";b"] = { context = { name = "β" }, command = [[\beta]] },
+	[";c"] = { context = { name = "χ" }, command = [[\chi]] },
+	[";d"] = { context = { name = "δ" }, command = [[\delta]] },
+	[";e"] = { context = { name = "ε" }, command = [[\epsilon]] },
+	[";ve"] = { context = { name = "ε" }, command = [[\varepsilon]] },
+	[";f"] = { context = { name = "φ" }, command = [[\phi]] },
+	[";vf"] = { context = { name = "φ" }, command = [[\varphi]] },
+	[";g"] = { context = { name = "γ" }, command = [[\gamma]] },
+	[";h"] = { context = { name = "θ" }, command = [[\eta]] },
+	[";i"] = { context = { name = "ι" }, command = [[\iota]] },
+	[";k"] = { context = { name = "κ" }, command = [[\kappa]] },
+	[";l"] = { context = { name = "λ" }, command = [[\lambda]] },
+	[";m"] = { context = { name = "μ" }, command = [[\mu]] },
+	[";n"] = { context = { name = "ν" }, command = [[\nu]] },
+	[";p"] = { context = { name = "π" }, command = [[\pi]] },
+	[";q"] = { context = { name = "θ" }, command = [[\theta]] },
+	[";r"] = { context = { name = "ρ" }, command = [[\rho]] },
+	[";s"] = { context = { name = "σ" }, command = [[\sigma]] },
+	[";t"] = { context = { name = "τ" }, command = [[\tau]] },
+	[";w"] = { context = { name = "ω" }, command = [[\omega]] },
+	[";u"] = { context = { name = "υ" }, command = [[\upsilon]] },
+	[";x"] = { context = { name = "ξ" }, command = [[\xi]] },
+	[";y"] = { context = { name = "ψ" }, command = [[\psi]] },
+	[";z"] = { context = { name = "ζ" }, command = [[\zeta]] },
+	[";D"] = { context = { name = "Δ" }, command = [[\Delta]] },
+	[";F"] = { context = { name = "Φ" }, command = [[\Phi]] },
+	[";G"] = { context = { name = "Γ" }, command = [[\Gamma]] },
+	[";L"] = { context = { name = "Λ" }, command = [[\Lambda]] },
+	[";P"] = { context = { name = "Π" }, command = [[\Pi]] },
+	[";Q"] = { context = { name = "Θ" }, command = [[\Theta]] },
+	[";S"] = { context = { name = "Σ" }, command = [[\Sigma]] },
+	[";U"] = { context = { name = "Υ" }, command = [[\Upsilon]] },
+	[";W"] = { context = { name = "Ω" }, command = [[\Omega]] },
+	[";X"] = { context = { name = "Ξ" }, command = [[\Xi]] },
+	[";Y"] = { context = { name = "Ψ" }, command = [[\Psi]] },
+}
+
+local greek_snippets = {}
+for k, v in pairs(greek_specs) do
+	table.insert(greek_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command))
+end
+vim.list_extend(autosnips, greek_snippets)
+
 local symbol_specs = {
 	-- logic
 	inn = { context = { name = "∈" }, cmd = [[\in ]] },
@@ -295,6 +340,7 @@ local symbol_specs = {
 	["=~"] = { context = { name = "≅" }, cmd = [[\cong ]] },
 	["::"] = { context = { name = ":" }, cmd = [[\colon ]] },
 	[":="] = { context = { name = "≔" }, cmd = [[\coloneqq ]] },
+	["=:"] = { context = { name = "≔" }, cmd = [[\eqqcolon ]] },
 	["**"] = { context = { name = "*" }, cmd = [[^{*}]] },
 	["..."] = { context = { name = "·" }, cmd = [[\dots]] },
 	["||"] = { context = { name = "|" }, cmd = [[\mid ]] },
@@ -305,6 +351,11 @@ local symbol_specs = {
 	nabl = { context = { name = "∇" }, cmd = [[\\nabla]] },
 	[";="] = { context = { name = "≡" }, cmd = [[\equiv ]] },
 	[";-"] = { context = { name = "\\" }, cmd = [[\setminus ]] },
+	[";6"] = { context = { name = "∂" }, cmd = [[\partial]] },
+	[";8"] = { context = { name = "∞" }, cmd = [[\infty]] },
+	[";."] = { context = { name = "·" }, cmd = [[\cdot]] },
+	[";<"] = { context = { name = "⟨" }, cmd = [[\langle]] },
+	[";>"] = { context = { name = "⟩" }, cmd = [[\rangle]] },
 	-- sets
 	AA = { context = { name = "𝔸" }, cmd = [[\mathbb{A}]] },
 	CC = { context = { name = "ℂ" }, cmd = [[\mathbb{C}]] },
@@ -324,6 +375,7 @@ local symbol_specs = {
 	qc = { context = { name = "⊇" }, cmd = [[\supseteq ]] },
 	Nn = { context = { name = "∩" }, cmd = [[\cap ]] },
 	UU = { context = { name = "∪" }, cmd = [[\cup]] },
+	[";0"] = { context = { name = "∅" }, cmd = [[\emptyset]] },
 	-- arrows
 	["=>"] = { context = { name = "⇒" }, cmd = [[\implies]] },
 	["=<"] = { context = { name = "⇐" }, cmd = [[\impliedby]] },

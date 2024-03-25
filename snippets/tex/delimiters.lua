@@ -5,6 +5,11 @@ local tex = require("mySnippets.latex")
 
 local brackets = {
 	a = { "\\langle", "\\rangle" },
+	m = { "|", "|" },
+	v = { "\\Vert", "\\Vert" },
+}
+local lrbrackets = {
+	a = { "\\langle", "\\rangle" },
 	A = { "Angle", "Angle" },
 	b = { "brack", "brack" },
 	B = { "Brack", "Brack" },
@@ -24,6 +29,29 @@ end
 autosnips = {
 	s(
 		{
+			trig = "bk([aAbBcm])",
+			name = "brackets",
+			desc = "brackets delimiters",
+			regTrig = true,
+			hidden = true,
+			condition = tex.in_math,
+			show_condition = tex.in_math,
+		},
+		fmta([[<> <><><>]], {
+			f(function(_, snip)
+				local cap = snip.captures[1] or "p"
+				return brackets[cap][1]
+			end),
+			d(1, get_visual),
+			f(function(_, snip)
+				local cap = snip.captures[1] or "p"
+				return brackets[cap][2]
+			end),
+			i(0),
+		})
+	),
+	s(
+		{
 			trig = "lr([aAbBcmp])",
 			name = "left right",
 			desc = "left right delimiters",
@@ -35,12 +63,12 @@ autosnips = {
 		fmta([[\left<> <>\right<><>]], {
 			f(function(_, snip)
 				local cap = snip.captures[1] or "p"
-				return brackets[cap][1]
+				return lrbrackets[cap][1]
 			end),
 			d(1, get_visual),
 			f(function(_, snip)
 				local cap = snip.captures[1] or "p"
-				return brackets[cap][2]
+				return lrbrackets[cap][2]
 			end),
 			i(0),
 		})
