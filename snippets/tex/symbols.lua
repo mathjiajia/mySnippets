@@ -350,7 +350,7 @@ local symbol_specs = {
 	nvs = { context = { name = "-1" }, cmd = [[^{-1}]] },
 	nabl = { context = { name = "∇" }, cmd = [[\\nabla]] },
 	[";="] = { context = { name = "≡" }, cmd = [[\equiv ]] },
-	[";-"] = { context = { name = "\\" }, cmd = [[\setminus ]] },
+	[";-"] = { context = { name = "∖" }, cmd = [[\setminus ]] },
 	[";6"] = { context = { name = "∂" }, cmd = [[\partial]] },
 	[";8"] = { context = { name = "∞" }, cmd = [[\infty]] },
 	[";."] = { context = { name = "·" }, cmd = [[\cdot]] },
