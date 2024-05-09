@@ -186,7 +186,7 @@ autosnips = {
 	s(
 		{ trig = "([qr])le", name = "linearly equivalent", wordTrig = false, regTrig = true, hidden = true },
 		{ f(function(_, snip)
-			return "\\sim_{\\mathbb{" .. string.upper(snip.captures[1]) .. "}} "
+			return "\\sim_{\\mathbb{" .. string.upper(snip.captures[1]) .. "}}"
 		end, {}) },
 		opts
 	),
