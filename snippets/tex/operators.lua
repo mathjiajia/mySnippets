@@ -4,10 +4,6 @@ local tex = require("mySnippets.latex")
 
 local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
-local function operator_snippet(trig)
-	return s({ trig = trig, name = trig }, t([[\]] .. trig), opts)
-end
-
 local function sequence_snippet(trig, cmd, desc)
 	return s(
 		{ trig = trig, name = desc, desc = desc },
@@ -16,6 +12,23 @@ local function sequence_snippet(trig, cmd, desc)
 			c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }),
 			i(0),
 		}),
+		opts
+	)
+end
+
+local function auto_backslash_snippet(trig)
+	return s(
+		{
+			trig = "(?<!\\\\)" .. "(" .. trig .. ")",
+			name = trig,
+			desc = trig .. "with automatic backslash",
+			trigEngine = "ecma",
+			docstring = [[\]] .. trig,
+			hidden = true,
+		},
+		fmta([[\<><>]], { f(function(_, snip)
+			return snip.captures[1]
+		end), i(0) }),
 		opts
 	)
 end
@@ -176,7 +189,7 @@ for k, v in pairs(sequence_specs) do
 end
 
 for _, v in ipairs(operator_specs) do
-	table.insert(autosnips, operator_snippet(v))
+	table.insert(autosnips, auto_backslash_snippet(v))
 end
 
 return snips, autosnips
