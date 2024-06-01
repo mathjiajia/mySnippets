@@ -7,9 +7,14 @@ local opts = { condition = tex.in_math, show_condition = tex.in_math }
 local function symbol_snippet(context, cmd)
 	context.desc = cmd
 	context.name = context.name or cmd:gsub([[\]], "")
-	context.docstring = cmd .. [[{0}]]
+	context.docstring = (cmd .. [[{0}]])
 	context.wordTrig = false
-	context.hidden = true
+	local j, _ = string.find(cmd, context.trig)
+	if j == 2 then -- command always starts with backslash
+		context.trigEngine = "ecma"
+		context.trig = "(?<!\\\\)" .. "(" .. context.trig .. ")"
+		context.hidden = true
+	end
 	return s(context, t(cmd), opts)
 end
 
