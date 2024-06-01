@@ -6,7 +6,7 @@ local pos = require("mySnippets.position")
 local opts = { condition = conds_expand.line_begin, show_condition = pos.line_begin }
 
 snips = {
-	s({ trig = "#([2-6])", name = "Heading", desc = "Add Heading", regTrig = true, hidden = true }, {
+	s({ trig = "#([2-6])", name = "Heading", desc = "Add Heading", trigEngine = "pattern", hidden = true }, {
 		f(function(_, snip)
 			return string.rep("#", tonumber(snip.captures[1], 10)) .. " "
 		end, {}),

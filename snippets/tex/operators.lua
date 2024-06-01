@@ -45,7 +45,7 @@ snips = {
 
 autosnips = {
 	s(
-		{ trig = "([hH])_(%d)(%u)", name = "cohomology-d", regTrig = true, hidden = true },
+		{ trig = "([hH])_(%d)(%u)", name = "cohomology-d", trigEngine = "pattern", hidden = true },
 		fmta([[<><>)]], {
 			f(function(_, snip)
 				return snip.captures[1] .. "^{" .. snip.captures[2] .. "}(" .. snip.captures[3] .. ","
@@ -55,7 +55,7 @@ autosnips = {
 		opts
 	),
 
-	s({ trig = "(%a)p(%d)", name = "x[n+1]", regTrig = true, hidden = true }, {
+	s({ trig = "(%a)p(%d)", name = "x[n+1]", trigEngine = "pattern", hidden = true }, {
 		f(function(_, snip)
 			return snip.captures[1] .. "_{n+" .. snip.captures[2] .. "}"
 		end, {}),
@@ -68,7 +68,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "(%w)//", name = "fraction with a single numerator", regTrig = true, hidden = true },
+		{ trig = "(%w)//", name = "fraction with a single numerator", trigEngine = "pattern", hidden = true },
 		fmta([[\frac{<>}{<>}<>]], { f(function(_, snip)
 			return snip.captures[1]
 		end), i(1), i(0) }),
@@ -82,7 +82,7 @@ autosnips = {
 		opts
 	),
 	s(
-		{ trig = "(%d+)/", name = "fraction", desc = "auto fraction 1", regTrig = true, hidden = true },
+		{ trig = "(%d+)/", name = "fraction", desc = "auto fraction 1", trigEngine = "pattern", hidden = true },
 		fmta([[\frac{<>}{<>}<>]], { f(function(_, snip)
 			return snip.captures[1]
 		end), i(1), i(0) }),
@@ -119,7 +119,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "([hH])([i-npq])(%u)", name = "cohomology-a", regTrig = true, hidden = true },
+		{ trig = "([hH])([i-npq])(%u)", name = "cohomology-a", trigEngine = "pattern", hidden = true },
 		fmta([[<><>)]], {
 			f(function(_, snip)
 				return snip.captures[1] .. "^{" .. snip.captures[2] .. "}(" .. snip.captures[3] .. ","

@@ -54,7 +54,7 @@ autosnips = {
 			trig = "([acC])ref",
 			name = "(acC)?ref",
 			desc = "add a reference (with autoref, cref)",
-			regTrig = true,
+			trigEngine = "pattern",
 			hidden = true,
 		},
 		fmta(
@@ -67,7 +67,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "eqref", desc = "add a reference with eqref", regTrig = true, hidden = true },
+		{ trig = "eqref", desc = "add a reference with eqref", trigEngine = "pattern", hidden = true },
 		fmta([[\eqref{eq:<>}<>]], { i(1), i(0) }),
 		{
 			condition = tex.in_text,
@@ -90,19 +90,19 @@ autosnips = {
 	s({
 		trig = "([wW])log",
 		name = "without loss of generality",
-		regTrig = true,
+		trigEngine = "pattern",
 	}, {
 		f(function(_, snip)
 			return snip.captures[1] .. "ithout loss of generality"
 		end, {}),
 	}, opts2),
 
-	s({ trig = "([qr])c", name = "Cartier", regTrig = true }, {
+	s({ trig = "([qr])c", name = "Cartier", trigEngine = "pattern" }, {
 		f(function(_, snip)
 			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-Cartier"
 		end, {}),
 	}, opts),
-	s({ trig = "([qr])d", name = "divisor", regTrig = true }, {
+	s({ trig = "([qr])d", name = "divisor", trigEngine = "pattern" }, {
 		f(function(_, snip)
 			return "\\(\\mathbb{" .. string.upper(snip.captures[1]) .. "}\\)-divisor"
 		end, {}),

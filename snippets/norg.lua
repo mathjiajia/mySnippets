@@ -9,7 +9,7 @@ snips = {
 		trig = "([%*>~%-])([2-6])",
 		name = "Heading, Quote, List",
 		desc = "Add Heading",
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)

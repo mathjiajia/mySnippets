@@ -38,7 +38,7 @@ autosnips = {
 		{ condition = tex.in_math }
 	),
 	-- s(
-	-- 	{ trig = '[^\\]"', name = 'Quotation', regTrig = true },
+	-- 	{ trig = '[^\\]"', name = "Quotation", trigEngine = "pattern" },
 	-- 	{ t('``'), i(1), t "''" },
 	-- 	{ condition = tex.in_text }
 	-- ),

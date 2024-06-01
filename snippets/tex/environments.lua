@@ -87,7 +87,7 @@ snips = {
 			trig = "([bBpvV])mat_(%d+)x_(%d+)([ar])",
 			name = "[bBpvV]matrix",
 			desc = "matrices",
-			regTrig = true,
+			trigEngine = "pattern",
 			hidden = true,
 			condition = tex.in_math,
 		},
@@ -149,7 +149,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "(%d?)cases", name = "cases", desc = "cases", regTrig = true, hidden = true },
+		{ trig = "(%d?)cases", name = "cases", desc = "cases", trigEngine = "pattern", hidden = true },
 		fmta(
 			[[
 			\begin{cases}

@@ -70,35 +70,35 @@ autosnips = {
 	s({ trig = "\\varpii", name = "\\varpi_i", hidden = true }, { t("\\varpi_{i}") }, opts),
 	s({ trig = "\\varphii", name = "\\varphi_i", hidden = true }, { t("\\varphi_{i}") }, opts),
 	s(
-		{ trig = "\\([xX])ii", name = "\\xi_{i}", regTrig = true, hidden = true },
+		{ trig = "\\([xX])ii", name = "\\xi_{i}", trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return string.format("\\%si_{i}", snip.captures[1])
 		end, {}) },
 		opts
 	),
 	s(
-		{ trig = "\\([pP])ii", name = "\\pi_{i}", regTrig = true, hidden = true },
+		{ trig = "\\([pP])ii", name = "\\pi_{i}", trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return string.format("\\%si_{i}", snip.captures[1])
 		end, {}) },
 		opts
 	),
 	s(
-		{ trig = "\\([pP])hii", name = "\\phi_{i}", regTrig = true, hidden = true },
+		{ trig = "\\([pP])hii", name = "\\phi_{i}", trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return string.format("\\%shi_{i}", snip.captures[1])
 		end, {}) },
 		opts
 	),
 	s(
-		{ trig = "\\([cC])hii", name = "\\chi_{i}", regTrig = true, hidden = true },
+		{ trig = "\\([cC])hii", name = "\\chi_{i}", trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return string.format("\\%shi_{i}", snip.captures[1])
 		end, {}) },
 		opts
 	),
 	s(
-		{ trig = "\\([pP])sii", name = "\\psi_{i}", regTrig = true, hidden = true },
+		{ trig = "\\([pP])sii", name = "\\psi_{i}", trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return string.format("\\%ssi_{i}", snip.captures[1])
 		end, {}) },
@@ -109,7 +109,7 @@ autosnips = {
 		trig = "O([A-NP-Za-z])",
 		name = "local ring, structure sheaf",
 		wordTrig = false,
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)
@@ -122,7 +122,7 @@ autosnips = {
 		name = "auto subscript 1",
 		desc = "Subscript with a single number.",
 		wordTrig = false,
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)
@@ -135,7 +135,7 @@ autosnips = {
 		name = "auto subscript 2",
 		desc = "Subscript with two numbers.",
 		wordTrig = false,
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)
@@ -173,7 +173,7 @@ autosnips = {
 
 	s({ trig = "MK", name = "Mori-Kleiman cone", hidden = true }, { t("\\cNE("), i(1), t(")") }, opts),
 	s(
-		{ trig = "([QRZ])P", name = "positive", wordTrig = false, regTrig = true, hidden = true },
+		{ trig = "([QRZ])P", name = "positive", wordTrig = false, trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return "\\mathbb{" .. snip.captures[1] .. "}^{>0}"
 		end, {}) },
@@ -181,7 +181,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "([QRZ])N", name = "negative", wordTrig = false, regTrig = true, hidden = true },
+		{ trig = "([QRZ])N", name = "negative", wordTrig = false, trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return "\\mathbb{" .. snip.captures[1] .. "}^{<0}"
 		end, {}) },
@@ -189,7 +189,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "([qr])le", name = "linearly equivalent", wordTrig = false, regTrig = true, hidden = true },
+		{ trig = "([qr])le", name = "linearly equivalent", wordTrig = false, trigEngine = "pattern", hidden = true },
 		{ f(function(_, snip)
 			return "\\sim_{\\mathbb{" .. string.upper(snip.captures[1]) .. "}}"
 		end, {}) },
@@ -219,12 +219,12 @@ autosnips = {
 		{ condition = tex.in_xymatrix }
 	),
 
-	s({ trig = "(%a)ii", name = "alph i", wordTrig = false, regTrig = true, hidden = true }, {
+	s({ trig = "(%a)ii", name = "alph i", wordTrig = false, trigEngine = "pattern", hidden = true }, {
 		f(function(_, snip)
 			return snip.captures[1] .. "_{i}"
 		end, {}),
 	}, opts),
-	s({ trig = "(%a)jj", name = "alph j", wordTrig = false, regTrig = true, hidden = true }, {
+	s({ trig = "(%a)jj", name = "alph j", wordTrig = false, trigEngine = "pattern", hidden = true }, {
 		f(function(_, snip)
 			return snip.captures[1] .. "_{j}"
 		end, {}),

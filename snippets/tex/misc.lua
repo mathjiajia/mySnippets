@@ -28,7 +28,7 @@ autosnips = {
 		trig = "(%s)([b-zB-HJ-Z0-9])([,;.%-%)]?)%s+",
 		name = "single-letter variable",
 		wordTrig = false,
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)
@@ -40,7 +40,7 @@ autosnips = {
 		trig = "(%s)([0-9]+[a-zA-Z]+)([,;.%)]?)%s+",
 		name = "surround word starting with number",
 		wordTrig = false,
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)
@@ -52,7 +52,7 @@ autosnips = {
 		trig = "(%s)(%w[-_+=><]%w)([,;.%)]?)%s+",
 		name = "surround i+1",
 		wordTrig = false,
-		regTrig = true,
+		trigEngine = "pattern",
 		hidden = true,
 	}, {
 		f(function(_, snip)
