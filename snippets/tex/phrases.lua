@@ -6,10 +6,8 @@ local pos = require("mySnippets.position")
 
 local reference_snippet_table = {
 	a = "auto",
-	c = "c",
-	C = "C",
-	e = "eq",
 	r = "",
+	z = "zc",
 }
 
 local opts = { condition = tex.in_text, show_condition = tex.in_text }
@@ -30,10 +28,10 @@ snips = {
 			condition = tex.in_text,
 			show_condition = tex.in_text,
 		},
-		fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) }),
+		fmta([[\cite[<>]{<>}<>]], { i(2), i(1), i(0) }),
 		{
 			callbacks = {
-				[2] = {
+				[1] = {
 					[events.enter] = function()
 						require("telescope").extensions.bibtex.bibtex(
 							require("telescope.themes").get_dropdown({ previewer = false })
@@ -46,28 +44,27 @@ snips = {
 }
 
 autosnips = {
-	s({ trig = "qf", name = "Q-factorial" }, { t("\\(\\mathbb{Q}\\)-factorial") }, opts),
-	s({ trig = "bqf", name = "base point free" }, { t("base point free") }, opts),
+	s({ trig = "alab", name = "label", dscr = "add a label" }, fmta([[\zlabel{<>:<>}<>]], { i(1), i(2), i(0) })),
 
 	s(
 		{
-			trig = "([acC])ref",
-			name = "(acC)?ref",
-			desc = "add a reference (with autoref, cref)",
+			trig = "([arz])ref",
+			name = "(arz)?ref",
+			desc = "add a reference (with autoref, zcref)",
 			trigEngine = "pattern",
 			hidden = true,
 		},
 		fmta(
-			[[\<>ref{<>}<>]],
+			[[\<>ref{<>:<>}<>]],
 			{ f(function(_, snip)
 				return reference_snippet_table[snip.captures[1]]
-			end), i(1), i(0) }
+			end), i(1), i(2), i(0) }
 		),
 		opts
 	),
 
 	s(
-		{ trig = "eqref", desc = "add a reference with eqref", trigEngine = "pattern", hidden = true },
+		{ trig = "eqref", desc = "add a reference with eqref", hidden = true },
 		fmta([[\eqref{eq:<>}<>]], { i(1), i(0) }),
 		{
 			condition = tex.in_text,
@@ -133,6 +130,8 @@ local auto_phrase_specs = {
 	mfs = "Mori fibre space",
 	snc = "simple normal crossing",
 	lmm = "log minimal model",
+	bqf = "base point free",
+	qf = "\\(\\mathbb{Q}\\)-factorial",
 	tfae = "the following are equivalent",
 }
 

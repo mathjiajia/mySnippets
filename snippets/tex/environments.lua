@@ -71,7 +71,7 @@ local function labeled_env_snippet(trig, env)
 		context,
 		fmta(
 			[[
-			\begin{<>}[<>]\label{<>:<>}
+			\begin{<>}[<>]\zlabel{<>:<>}
 				<>
 			\end{<>}
 			]],
@@ -139,7 +139,7 @@ autosnips = {
 		{ trig = "lprf", name = "Titled Proof", desc = "Create a titled proof environment." },
 		fmta(
 			[[
-			\begin{proof}[Proof of \cref{<>}]
+			\begin{proof}[Proof of \zcref{<>}]
 				<>
 			\end{proof}
 			]],
@@ -269,10 +269,10 @@ autosnips = {
 		},
 		fmta(
 			[[
-		\begin{equation}\label{eq:<>}
-			<>
-		\end{equation}
-		]],
+			\begin{equation}\zlabel{eq:<>}
+				<>
+			\end{equation}
+			]],
 			{ i(2), i(1) }
 		)
 	),

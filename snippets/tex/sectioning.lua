@@ -24,7 +24,7 @@ local function sec_snippet(trig, sec)
 		context,
 		fmta(
 			[[
-			\<>{<>}\label{<>:<>}
+			\<>{<>}\zlabel{<>:<>}
 
 			<>
 			]],

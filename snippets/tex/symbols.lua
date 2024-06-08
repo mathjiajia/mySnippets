@@ -30,11 +30,11 @@ local function single_command_snippet(context, cmd, ext)
 		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[<0>]]
 	end
 	if ext.label == true then
-		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[\label{(]] .. ext.short .. [[:<2>)?}]] .. [[<0>]]
+		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[\zlabel{(]] .. ext.short .. [[:<2>)?}]] .. [[<0>]]
 		ext.short = ext.short or cmd
 		lnode = c(2 + (offset or 0), {
 			t(""),
-			sn(nil, fmta([[\label{<>:<>}]], { t(ext.short), i(1) })),
+			sn(nil, fmta([[\zlabel{<>:<>}]], { t(ext.short), i(1) })),
 		})
 	end
 	context.docstring = context.docstring or (cmd .. docstring)
