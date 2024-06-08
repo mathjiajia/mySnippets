@@ -4,7 +4,6 @@ local conds_expand = require("luasnip.extras.conditions.expand")
 local tex = require("mySnippets.latex")
 
 local opts = { condition = tex.in_text }
-local opts2 = { condition = tex.in_text }
 
 local function appended_space_after_insert()
 	vim.api.nvim_create_autocmd("InsertCharPre", {
@@ -91,7 +90,7 @@ autosnips = {
 			]],
 			{ i(1), i(0) }
 		),
-		opts2
+		opts
 	),
 	s({
 		trig = "pha",
@@ -105,7 +104,7 @@ autosnips = {
 		trig = "ni",
 		name = "non-indented paragraph",
 		desc = "Insert non-indented paragraph.",
-	}, { t({ "\\noindent", "" }) }, opts2),
+	}, { t({ "\\noindent", "" }) }, opts),
 }
 
 return nil, autosnips

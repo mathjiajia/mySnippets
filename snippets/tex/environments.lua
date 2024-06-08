@@ -285,13 +285,13 @@ local env_specs = {
 }
 
 local labeled_env_specs = {
-	thm = "theorem",
-	lem = "lemma",
-	def = "definition",
-	prop = "proposition",
-	cor = "corollary",
-	rem = "remark",
 	conj = "conjecture",
+	cor = "corollary",
+	def = "definition",
+	lem = "lemma",
+	prop = "proposition",
+	rem = "remark",
+	thm = "theorem",
 }
 
 env_specs = vim.tbl_extend("keep", env_specs, labeled_env_specs)
