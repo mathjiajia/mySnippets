@@ -344,7 +344,7 @@ local symbol_specs = {
 	["..."] = { context = { name = "·" }, cmd = [[\dots]] },
 	["||"] = { context = { name = "|" }, cmd = [[\mid ]] },
 	xx = { context = { name = "×" }, cmd = [[\times]] },
-	["o+"] = { context = { name = "⊕" }, cmd = [[\oplus ]] },
+	op = { context = { name = "⊕" }, cmd = [[\oplus]] },
 	ox = { context = { name = "⊗" }, cmd = [[\otimes]] },
 	nvs = { context = { name = "-1" }, cmd = [[^{-1}]] },
 	nabl = { context = { name = "∇" }, cmd = [[\\nabla]] },
