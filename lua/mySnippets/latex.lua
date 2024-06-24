@@ -19,8 +19,8 @@ local MATH_IGNORE = {
 }
 
 local MATH_IGNORE_COMMANDS = {
-	["\\SI"] = true,
-	["\\tag"] = true,
+	SI = true,
+	tag = true,
 }
 
 local ALIGN_ENVS = {
