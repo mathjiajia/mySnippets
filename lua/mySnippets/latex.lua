@@ -40,15 +40,17 @@ end
 local function get_environment(node)
 	local node_text = vim.treesitter.get_node_text(node, 0)
 	local first_line = vim.split(node_text, "\n")[1]
-	return first_line:match("\\begin{([^}]+)}")
+	local env_name = first_line:match("\\begin{([^}]+)}"):gsub("%*$", "")
+	return env_name
 end
 
 ---@param node TSNode
 ---@return string|nil
 local function get_command(node)
-	local command = node:named_child(0)
-	if command then
-		return vim.treesitter.get_node_text(command, 0)
+	local cmd = node:named_child(0)
+	if cmd then
+		local cmd_name = vim.treesitter.get_node_text(cmd, 0):gsub("^\\", "")
+		return cmd_name
 	end
 end
 
@@ -57,10 +59,8 @@ end
 -- local function in_tikzcd()
 -- 	local node = vim.treesitter.get_node()
 -- 	while node do
--- 		if node:type() == "generic_environment" then
--- 			if get_environment(node) == "tikzcd" then
--- 				return true
--- 			end
+-- 		if node:type() == "generic_environment" and get_environment(node) == "tikzcd" then
+-- 			return true
 -- 		end
 -- 		node = node:parent()
 -- 	end
@@ -93,7 +93,7 @@ end
 local function in_align()
 	local node = get_node()
 	while node do
-		if node:type() == "math_environment" and ALIGN_ENVS[get_environment(node):gsub("%*$", "")] then
+		if node:type() == "math_environment" and ALIGN_ENVS[get_environment(node)] then
 			return true
 		end
 		node = node:parent()
