@@ -8,6 +8,17 @@ local MATH_NODES = {
 	math_environment = true,
 }
 
+local MATH_IGNORE = {
+	text_mode = true,
+	label_definition = true,
+	label_reference = true,
+}
+
+local MATH_IGNORE_COMMANDS = {
+	["\\SI"] = true,
+	["\\tag"] = true,
+}
+
 local ALIGN_ENVS = {
 	multline = true,
 	eqnarray = true,
@@ -58,10 +69,12 @@ end
 local function in_math()
 	local node = get_node()
 	while node do
-		if node:type() == "text_mode" then
+		if MATH_IGNORE[node:type()] then
 			return false
 		elseif MATH_NODES[node:type()] then
 			return true
+		elseif node:type() == "generic_command" and MATH_IGNORE_COMMANDS[get_command(node)] then
+			return false
 		end
 		node = node:parent()
 	end
