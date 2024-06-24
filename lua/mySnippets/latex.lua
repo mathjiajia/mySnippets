@@ -1,6 +1,5 @@
 local M = {}
 
-local get_node_text = vim.treesitter.get_node_text
 local cond_obj = require("luasnip.extras.conditions")
 
 local MATH_NODES = {
@@ -54,19 +53,6 @@ local function get_command(node)
 	end
 end
 
----Check if cursor is in treesitter node of 'math_environment': 'tikzcd'
----@return boolean
--- local function in_tikzcd()
--- 	local node = vim.treesitter.get_node()
--- 	while node do
--- 		if node:type() == "generic_environment" and get_environment(node) == "tikzcd" then
--- 			return true
--- 		end
--- 		node = node:parent()
--- 	end
--- 	return false
--- end
-
 ---Check if cursor is in treesitter node of 'math'
 ---@return boolean
 local function in_math()
@@ -112,6 +98,19 @@ local function in_bullets()
 	return false
 end
 
+---Check if cursor is in treesitter node of 'math_environment': 'tikzcd'
+---@return boolean
+-- local function in_tikzcd()
+-- 	local node = vim.treesitter.get_node()
+-- 	while node do
+-- 		if node:type() == "generic_environment" and get_environment(node) == "tikzcd" then
+-- 			return true
+-- 		end
+-- 		node = node:parent()
+-- 	end
+-- 	return false
+-- end
+
 ---Check if cursor is in treesitter node of 'generic_command': '\xymatrix'
 ---@return boolean
 local function in_xymatrix()
@@ -129,6 +128,7 @@ M.in_math = cond_obj.make_condition(in_math)
 M.in_text = cond_obj.make_condition(in_text)
 M.in_align = cond_obj.make_condition(in_align)
 M.in_bullets = cond_obj.make_condition(in_bullets)
+-- M.in_tikzcd = cond_obj.make_condition(in_tikzcd)
 M.in_xymatrix = cond_obj.make_condition(in_xymatrix)
 
 return M
