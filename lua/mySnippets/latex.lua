@@ -8,6 +8,10 @@ local MATH_NODES = {
 	math_environment = true,
 }
 
+local MATH_ENVIRONMENTS = {
+	aligned = true,
+}
+
 local MATH_IGNORE = {
 	text_mode = true,
 	label_definition = true,
@@ -75,6 +79,8 @@ local function in_math()
 			return true
 		elseif node:type() == "generic_command" and MATH_IGNORE_COMMANDS[get_command(node)] then
 			return false
+		elseif node:type() == "generic_environment" and MATH_ENVIRONMENTS[get_environment(node)] then
+			return true
 		end
 		node = node:parent()
 	end
