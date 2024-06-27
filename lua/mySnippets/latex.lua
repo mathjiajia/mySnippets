@@ -54,8 +54,10 @@ end
 local function get_environment(node)
 	local node_text = vim.treesitter.get_node_text(node, 0)
 	local first_line = vim.split(node_text, "\n")[1]
-	local env_name = first_line:match("\\begin{([^}]+)}"):gsub("%*$", "")
-	return env_name
+	if first_line then
+		local env_name = first_line:match("\\begin{([^}]+)}"):gsub("%*$", "")
+		return env_name
+	end
 end
 
 ---@param node TSNode
