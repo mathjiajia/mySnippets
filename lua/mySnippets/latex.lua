@@ -54,10 +54,8 @@ end
 local function get_environment(node)
 	local node_text = vim.treesitter.get_node_text(node, 0)
 	local first_line = vim.split(node_text, "\n")[1]
-	if first_line then
-		local env_name = first_line:match("\\begin{([^}]+)}"):gsub("%*$", "")
-		return env_name
-	end
+	local env_name = first_line:match("\\begin{([^*}]+)%*?}")
+	return env_name
 end
 
 ---@param node TSNode
@@ -65,7 +63,7 @@ end
 local function get_command(node)
 	local cmd = node:named_child(0)
 	if cmd then
-		local cmd_name = vim.treesitter.get_node_text(cmd, 0):gsub("^\\", "")
+		local cmd_name = vim.treesitter.get_node_text(cmd, 0)
 		return cmd_name
 	end
 end
