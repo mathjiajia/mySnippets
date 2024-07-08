@@ -63,7 +63,7 @@ end
 local function get_command(node)
 	local cmd = node:named_child(0)
 	if cmd then
-		local cmd_name = vim.treesitter.get_node_text(cmd, 0)
+		local cmd_name = vim.treesitter.get_node_text(cmd, 0):gsub("^\\", "")
 		return cmd_name
 	end
 end
