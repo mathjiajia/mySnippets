@@ -165,11 +165,11 @@ autosnips = {
 		{ trig = "xym", name = "xymatrix Environment", desc = "Create a xymatrix environment." },
 		fmta(
 			[[
-			\[
+			\begin{equation*}
 				\xymatrix{
 					<> \\
 				}
-			\]<>
+			\end{equation*}<>
 			]],
 			{ i(1), i(0) }
 		),
