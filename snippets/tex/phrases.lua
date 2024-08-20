@@ -109,6 +109,7 @@ autosnips = {
 local phrase_specs = {
 	-- cf = "cf.~",
 	klt = "Kawamata log terminal",
+	resp = "resp.\\ ",
 	ses = "short exact sequence",
 }
 
@@ -127,7 +128,6 @@ local auto_phrase_specs = {
 	nc = "\\((-1)\\)-curve",
 	pef = "pseudo-effective",
 	qf = "\\(\\mathbb{Q}\\)-factorial",
-	resp = "resp.\\ ",
 	snc = "simple normal crossing",
 	stt = "such that",
 	tfae = "the following are equivalent",
