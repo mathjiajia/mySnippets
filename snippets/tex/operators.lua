@@ -6,7 +6,12 @@ local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
 local function sequence_snippet(trig, cmd, desc)
 	return s(
-		{ trig = trig, name = desc, desc = desc },
+		{
+			trig = "(?<!\\\\)" .. "(" .. trig .. ")",
+			name = desc,
+			desc = desc .. "with automatic backslash",
+			trigEngine = "ecma",
+		},
 		fmta([[\<><><>]], {
 			t(cmd),
 			c(1, { fmta([[_{<>}^{<>}]], { i(1, "i=0"), i(2, "\\infty") }), t("") }),
