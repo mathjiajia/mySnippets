@@ -152,7 +152,7 @@ autosnips = {
 }
 
 local sequence_specs = {
-	cprod = { "cprod", "coproduct" },
+	cprod = { "coprod", "coproduct" },
 	prod = { "prod", "product" },
 	nnn = { "bigcap", "intersection" },
 	sum = { "sum", "summation" },
