@@ -2,22 +2,12 @@ local M = {}
 
 local cond_obj = require("luasnip.extras.conditions")
 
-local MATH_IGNORE = { "text_mode", "label_definition", "label_reference" }
+local MATH_IGNORE = { "label_definition", "label_reference", "text_mode" }
 local MATH_NODES = { "displayed_equation", "inline_formula", "math_environment" }
 local MATH_ENVIRONMENTS = { "aligned" }
-local MATH_IGNORE_COMMANDS = { "SI", "tag" }
+local MATH_IGNORE_COMMANDS = { "SI", "tag", "textbf", "textit" }
 
-local ALIGN_ENVS = {
-	"multline",
-	"eqnarray",
-	"align",
-	"array",
-	"split",
-	"alignat",
-	"gather",
-	"flalign",
-}
-
+local ALIGN_ENVS = { "multline", "eqnarray", "align", "array", "split", "alignat", "gather", "flalign" }
 local BULLET_ENVS = { "itemize", "enumerate" }
 
 ---An insert mode implementation of `vim.treesitter`'s `get_node`
