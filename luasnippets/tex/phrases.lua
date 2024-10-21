@@ -23,7 +23,8 @@ end
 snips = {
 	s(
 		{ trig = "cf", name = "cross refrence", condition = tex.in_text, show_condition = tex.in_text },
-		fmta([[\cite[<>]{<>}<>]], { i(2), i(1), i(0) })({
+		fmta([[\cite[<>]{<>}<>]], { i(2), i(1), i(0) }),
+		{
 			callbacks = {
 				[2] = {
 					[events.enter] = function()
@@ -33,7 +34,7 @@ snips = {
 					end,
 				},
 			},
-		})
+		}
 	),
 }
 
