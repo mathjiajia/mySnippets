@@ -23,18 +23,18 @@ end
 snips = {
 	s(
 		{ trig = "cf", name = "cross refrence", condition = tex.in_text, show_condition = tex.in_text },
-		fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) })
-		-- {
-		-- 	callbacks = {
-		-- 		[1] = {
-		-- 			[events.enter] = function()
-		-- 				require("telescope").extensions.bibtex.bibtex(
-		-- 					require("telescope.themes").get_dropdown({ previewer = false })
-		-- 				)
-		-- 			end,
-		-- 		},
-		-- 	},
-		-- }
+		fmta([[\cite[<>]{<>}<>]], { i(2), i(1), i(0) }),
+		{
+			callbacks = {
+				[1] = {
+					[events.enter] = function()
+						require("telescope").extensions.bibtex.bibtex(
+							require("telescope.themes").get_dropdown({ previewer = false })
+						)
+					end,
+				},
+			},
+		}
 	),
 }
 
