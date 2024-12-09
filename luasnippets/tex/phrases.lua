@@ -67,7 +67,7 @@ autosnips = {
 			callbacks = {
 				[1] = {
 					[events.enter] = function()
-						require("cmp").complete()
+						require("cmp").mapping.complete()
 					end,
 				},
 			},
