@@ -16,8 +16,8 @@ local BULLET_ENVS = { "itemize", "enumerate" }
 local function get_node_insert_mode(opts)
 	opts = opts or {}
 	local ins_curs = vim.api.nvim_win_get_cursor(0)
-	ins_curs[1] = ins_curs[1] - 1
-	ins_curs[2] = ins_curs[2] - 1
+	ins_curs[1] = math.max(ins_curs[1] - 1, 0)
+	ins_curs[2] = math.max(ins_curs[2] - 1, 0)
 	opts.pos = ins_curs
 	return vim.treesitter.get_node(opts)
 end
