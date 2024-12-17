@@ -67,7 +67,7 @@ autosnips = {
 			callbacks = {
 				[1] = {
 					[events.enter] = function()
-						require("cmp").mapping.complete()
+						require("blink.cmp").show({ providers = { "lsp" } })
 					end,
 				},
 			},
