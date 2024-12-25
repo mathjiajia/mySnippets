@@ -1,7 +1,7 @@
 local M = {}
 
 local api = vim.api
-local mkcond = require("luasnip.extras.conditions").make_condition
+local mkcond = require("mySnippets.condition").make_condition
 
 ---Check if cursor is in treesitter capture
 ---@param capture string

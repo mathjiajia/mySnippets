@@ -1,6 +1,6 @@
 local M = {}
 
-local mkcond = require("luasnip.extras.conditions").make_condition
+local mkcond = require("mySnippets.condition").make_condition
 
 local MATH_IGNORE = { "label_definition", "label_reference", "text_mode" }
 local MATH_NODES = { "displayed_equation", "inline_formula", "math_environment" }
