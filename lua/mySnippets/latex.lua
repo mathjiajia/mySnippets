@@ -1,6 +1,6 @@
 local M = {}
 
-local cond_obj = require("luasnip.extras.conditions")
+local mkcond = require("luasnip.extras.conditions").make_condition
 
 local MATH_IGNORE = { "label_definition", "label_reference", "text_mode" }
 local MATH_NODES = { "displayed_equation", "inline_formula", "math_environment" }
@@ -138,11 +138,11 @@ local function in_xymatrix()
 	return math_xym
 end
 
-M.in_math = cond_obj.make_condition(in_math)
-M.in_text = cond_obj.make_condition(in_text)
-M.in_align = cond_obj.make_condition(in_align)
-M.in_bullets = cond_obj.make_condition(in_bullets)
+M.in_math = mkcond(in_math)
+M.in_text = mkcond(in_text)
+M.in_align = mkcond(in_align)
+M.in_bullets = mkcond(in_bullets)
 -- M.in_tikzcd = cond_obj.make_condition(in_tikzcd)
-M.in_xymatrix = cond_obj.make_condition(in_xymatrix)
+M.in_xymatrix = mkcond(in_xymatrix)
 
 return M
