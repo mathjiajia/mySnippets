@@ -1,7 +1,7 @@
 local M = {}
 
 local api = vim.api
-local cond_obj = require("luasnip.extras.conditions")
+local mkcond = require("luasnip.extras.conditions").make_condition
 
 ---Check if cursor is in the beginning of a line
 ---@return boolean
@@ -31,8 +31,8 @@ local function in_beamer()
 	return false
 end
 
-M.line_begin = cond_obj.make_condition(line_begin)
-M.on_top = cond_obj.make_condition(on_top)
-M.in_beamer = cond_obj.make_condition(in_beamer)
+M.line_begin = mkcond(line_begin)
+M.on_top = mkcond(on_top)
+M.in_beamer = mkcond(in_beamer)
 
 return M
