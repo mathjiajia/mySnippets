@@ -63,7 +63,7 @@ local function in_math()
 		then
 			in_mathzone = true
 		end
-		ancestor_node = ancestor_node:child_containing_descendant(cursor_node)
+		ancestor_node = ancestor_node:child_with_descendant(cursor_node)
 	end
 	return in_mathzone
 end
@@ -87,7 +87,7 @@ local function in_align()
 		then
 			math_align = true
 		end
-		ancestor_node = ancestor_node:child_containing_descendant(cursor_node)
+		ancestor_node = ancestor_node:child_with_descendant(cursor_node)
 	end
 	return math_align
 end
@@ -103,7 +103,7 @@ local function in_bullets()
 		then
 			math_bullets = true
 		end
-		ancestor_node = ancestor_node:child_containing_descendant(cursor_node)
+		ancestor_node = ancestor_node:child_with_descendant(cursor_node)
 	end
 	return math_bullets
 end
@@ -118,7 +118,7 @@ end
 -- 		if ancestor_node:type() == "generic_environment" and get_environment(ancestor_node) == "tikzcd" then
 -- 			math_tikz = true
 -- 		end
--- 		ancestor_node = ancestor_node:child_containing_descendant(cursor_node)
+-- 		ancestor_node = ancestor_node:child_with_descendant(cursor_node)
 -- 	end
 -- 	return math_tikz
 -- end
@@ -133,7 +133,7 @@ local function in_xymatrix()
 		if ancestor_node:type() == "generic_command" and get_command(ancestor_node) == "xymatrix" then
 			math_xym = true
 		end
-		ancestor_node = ancestor_node:child_containing_descendant(cursor_node)
+		ancestor_node = ancestor_node:child_with_descendant(cursor_node)
 	end
 	return math_xym
 end
