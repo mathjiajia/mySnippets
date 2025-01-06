@@ -117,6 +117,7 @@ local auto_phrase_specs = {
 	ggg = "generically globally generated",
 	iee = "i.e., ",
 	iff = "if and only if ",
+	lci = "local complete intersection",
 	lmm = "log minimal model",
 	mfs = "Mori fibre space",
 	nbhd = "neighbourhood",
