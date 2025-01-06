@@ -21,25 +21,20 @@ local function phrase_snippet(trig, body)
 end
 
 snips = {
-	s(
-		{ trig = "cf", name = "cross refrence", condition = tex.in_text, show_condition = tex.in_text },
-		fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) })
-		-- {
-		-- 	callbacks = {
-		-- 		[1] = {
-		-- 			[events.enter] = function()
-		-- 				require("telescope").extensions.bibtex.bibtex(
-		-- 					require("telescope.themes").get_dropdown({ previewer = false })
-		-- 				)
-		-- 			end,
-		-- 		},
-		-- 	},
-		-- }
-	),
+	s({
+		trig = "cf",
+		name = "cross refrence",
+		condition = tex.in_text,
+		show_condition = tex.in_text,
+	}, fmta([[\cite[<>]{<>}<>]], { i(1), i(2), i(0) })),
 }
 
 autosnips = {
-	s({ trig = "alab", name = "label", dscr = "add a label" }, fmta([[\zlabel{<>:<>}<>]], { i(1), i(2), i(0) })),
+	s({
+		trig = "alab",
+		name = "label",
+		dscr = "add a label",
+	}, fmta([[\zlabel{<>:<>}<>]], { i(1), i(2), i(0) })),
 
 	s(
 		{
