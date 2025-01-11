@@ -1,7 +1,7 @@
 local M = {}
 
 local api = vim.api
-local mkcond = require("mySnippets.conditions").make_condition
+local mkcond = require("luasnip.extras.conditions").make_condition
 
 ---Check if cursor is in the beginning of a line
 ---@return boolean
