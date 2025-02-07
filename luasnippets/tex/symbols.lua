@@ -396,25 +396,34 @@ local symbol_specs = {
 	-- ynn = { context = { name = "y_n" }, cmd = [[y_{n}]] },
 }
 
+local function merge_context(trig, context)
+	return vim.tbl_deep_extend("keep", { trig = trig }, context)
+end
+
+-- ==========================================
+-- Greek Letter Snippets
+-- ==========================================
 local greek_snippets = {}
 
 for k, v in pairs(greek_specs) do
-	table.insert(greek_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.command))
+	table.insert(greek_snippets, symbol_snippet(merge_context(k, v.context), v.command))
 end
+
 vim.list_extend(autosnips, greek_snippets)
 
+-- ==========================================
+-- math symbol Snippets
+-- ==========================================
 local symbol_snippets = {}
 
 for k, v in pairs(single_command_math_specs) do
-	table.insert(
-		symbol_snippets,
-		single_command_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.cmd, v.ext or {})
-	)
+	table.insert(symbol_snippets, single_command_snippet(merge_context(k, v.context), v.cmd, v.ext or {}))
 end
 
 for k, v in pairs(symbol_specs) do
-	table.insert(symbol_snippets, symbol_snippet(vim.tbl_deep_extend("keep", { trig = k }, v.context), v.cmd))
+	table.insert(symbol_snippets, symbol_snippet(merge_context(k, v.context), v.cmd))
 end
+
 vim.list_extend(autosnips, symbol_snippets)
 
 return nil, autosnips

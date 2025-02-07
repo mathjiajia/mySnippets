@@ -4,10 +4,14 @@ local tex = require("mySnippets.latex")
 
 local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
+local function auto_trigger(trig)
+	return "(?<!\\\\)" .. "(" .. trig .. ")"
+end
+
 local function sequence_snippet(trig, cmd, desc)
 	return s(
 		{
-			trig = "(?<!\\\\)" .. "(" .. trig .. ")",
+			trig = auto_trigger(trig),
 			name = desc,
 			desc = desc .. "with automatic backslash",
 			trigEngine = "ecma",
@@ -24,7 +28,7 @@ end
 local function auto_backslash_snippet(trig)
 	return s(
 		{
-			trig = "(?<!\\\\)" .. "(" .. trig .. ")",
+			trig = auto_trigger(trig),
 			name = trig,
 			desc = trig .. "with automatic backslash",
 			trigEngine = "ecma",

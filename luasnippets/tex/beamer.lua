@@ -30,7 +30,7 @@ autosnips = {
 			[[
 			\begin{block}{<>}
 				<>
-			\\end{block}
+			\end{block}
 			]],
 			{ i(1), i(0) }
 		),

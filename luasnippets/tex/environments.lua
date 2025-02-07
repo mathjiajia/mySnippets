@@ -42,11 +42,7 @@ local generate_cases = function(_, snip)
 end
 
 local function env_snippet(trig, env)
-	local context = {
-		trig = trig,
-		name = trig,
-		desc = trig .. " Environment",
-	}
+	local context = { trig = trig, name = trig, desc = trig .. " Environment" }
 	return s(
 		context,
 		fmta(
@@ -62,11 +58,7 @@ local function env_snippet(trig, env)
 end
 
 local function labeled_env_snippet(trig, env)
-	local context = {
-		trig = "l" .. trig,
-		name = trig,
-		desc = "Labeled" .. trig .. " Environment",
-	}
+	local context = { trig = trig, name = trig, desc = "Labeled" .. trig .. " Environment" }
 	return s(
 		context,
 		fmta(
@@ -282,9 +274,6 @@ local env_specs = {
 	-- beq = "equation",
 	bseq = "equation*",
 	proof = "proof",
-}
-
-local labeled_env_specs = {
 	conj = "conjecture",
 	cor = "corollary",
 	dfn = "definition",
@@ -294,7 +283,15 @@ local labeled_env_specs = {
 	thm = "theorem",
 }
 
-env_specs = vim.tbl_extend("keep", env_specs, labeled_env_specs)
+local labeled_env_specs = {
+	lconj = "conjecture",
+	lcor = "corollary",
+	ldfn = "definition",
+	llem = "lemma",
+	lprop = "proposition",
+	lrem = "remark",
+	lthm = "theorem",
+}
 
 local env_snippets = {}
 
