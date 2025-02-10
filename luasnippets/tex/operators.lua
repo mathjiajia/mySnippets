@@ -99,7 +99,7 @@ autosnips = {
 	),
 
 	s(
-		{ trig = "lim", name = "lim(sup|inf)", desc = "lim(sup|inf)" },
+		{ trig = auto_trigger("lim"), name = "lim(sup|inf)", desc = "lim(sup|inf)", trigEngine = "ecma" },
 		fmta([[\lim<><><>]], {
 			c(1, { t(""), t("sup"), t("inf") }),
 			c(2, { t(""), fmta([[_{<> \to <>}]], { i(1, "n"), i(2, "\\infty") }) }),
