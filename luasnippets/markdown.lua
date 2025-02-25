@@ -1,7 +1,7 @@
 local snips, autosnips = {}, {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
-local pos = require("mySnippets.position")
+local pos = require("math-snippets.position")
 
 local opts = { condition = conds_expand.line_begin, show_condition = pos.line_begin }
 

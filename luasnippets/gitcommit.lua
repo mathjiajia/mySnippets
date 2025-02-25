@@ -1,7 +1,7 @@
 local snips = {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
-local pos = require("mySnippets.position")
+local pos = require("math-snippets.position")
 
 local commit_specs = {
 	"feat",

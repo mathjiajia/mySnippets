@@ -1,4 +1,4 @@
-# mySnippets
+# nvim-math-snippets
 
 A collection of snippets for [LuaSnips][luasnip].
 
@@ -7,15 +7,13 @@ Example (with [lazy.nvim][lazy]):
 ```lua
 {
     "L3MON4D3/LuaSnip",
-    dependencies = {
-        "mathjiajia/mysnippets",
-        config = true,
-    },
+    dependencies = { "mathjiajia/nvim-math-snippets" },
     config = function()
         require("luasnip").setup({
             update_events = "TextChanged,TextChangedI",
             enable_autosnippets = true,
         })
+        require("luasnip.loaders.from_lua").lazy_load({})
         -- other configuration
     end,
 }

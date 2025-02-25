@@ -1,8 +1,8 @@
 local autosnips = {}
 
 local conds_expand = require("luasnip.extras.conditions.expand")
-local tex = require("mySnippets.latex")
-local pos = require("mySnippets.position")
+local tex = require("math-snippets.latex")
+local pos = require("math-snippets.position")
 
 local opts = {
 	condition = conds_expand.line_begin * pos.in_beamer * tex.in_text,

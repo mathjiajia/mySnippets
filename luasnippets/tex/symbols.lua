@@ -1,6 +1,6 @@
 local autosnips = {}
 
-local tex = require("mySnippets.latex")
+local tex = require("math-snippets.latex")
 
 local opts = { condition = tex.in_math, show_condition = tex.in_math }
 
